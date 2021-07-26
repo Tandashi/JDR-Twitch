@@ -10,7 +10,9 @@
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"]
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@styles/*": ["sass/*"]
     }
   },
   "include": ["src/**/*"]

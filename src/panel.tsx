@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Panel from '@components/panel/index';
+import Panel from '@pages/panel';
 
 ReactDOM.render(<Panel />, document.getElementById('root'));
