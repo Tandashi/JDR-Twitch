@@ -1,4 +1,4 @@
-export default interface SongData {
+export default interface ISongData {
   title: string;
   artist: string;
   original_source?: string;

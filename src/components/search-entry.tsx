@@ -1,10 +1,10 @@
 import React from 'react';
 
 import '@styles/components/search-entry.sass';
-import SongData from 'src/models/songdata';
+import ISongData from 'src/models/songdata';
 
 interface Props {
-  songdata: SongData;
+  songdata: ISongData;
 }
 
 export default class SearchEntry extends React.Component<Props> {

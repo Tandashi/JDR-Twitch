@@ -10,6 +10,8 @@
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
+      "@models/*": ["src/models/*"],
+      "@services/*": ["src/services/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["sass/*"]
