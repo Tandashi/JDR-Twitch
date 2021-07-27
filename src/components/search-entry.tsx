@@ -28,11 +28,10 @@ export default class SearchEntry extends React.Component<Props> {
 
   public render(): JSX.Element {
     return (
-      <div className={'search-entry search-entry-background'}>
-        <div className={'search-entry-image'}>
-          <img src={this.props.songdata.img_url} />
-        </div>
-        <div>
+      <div className={'flex flex-row flex-nowrap search-entry search-entry-background rounded'}>
+        <img className={'flex-20p rounded-l min-w-0'} src={this.props.songdata.img_url} />
+
+        <div className={'flex-grow-4 flex flex-col justify-center items-start pl-2'}>
           <p className={'search-entry-text search-entry-title'}>{this.getTitle()}</p>
           <p className={'search-entry-text search-entry-artist'}>{this.getArtist()}</p>
         </div>

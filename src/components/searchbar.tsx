@@ -38,7 +38,7 @@ export default class SearchBar extends React.Component<Props, State> {
         </span>
 
         <input
-          className={'flex-1 pl-1 pr-4 rounded-r bg-transparent'}
+          className={'flex-1 pr-4 rounded-r bg-transparent'}
           spellCheck={false}
           value={this.state.value}
           onChange={this.handleChange}

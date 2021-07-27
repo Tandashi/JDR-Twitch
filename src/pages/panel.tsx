@@ -7,7 +7,7 @@ import SearchBar from '@components/searchbar';
 export default class Panel extends React.Component {
   public render(): JSX.Element {
     return (
-      <div className={'panel'}>
+      <div className={'panel flex flex-col space-y-2 h-full w-full p-3'}>
         <SearchBar onChange={(e) => console.log(e.target.value)} />
         <SearchEntry
           songdata={{
