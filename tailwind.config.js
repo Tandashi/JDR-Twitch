@@ -5,7 +5,7 @@ module.exports = {
       auto: '1 1 auto',
       initial: '0 1 auto',
       none: 'none',
-      '20p': '1 1 20%',
+      '80': '1 1 80%'
     },
     flexGrow: {
       '0': 0,
