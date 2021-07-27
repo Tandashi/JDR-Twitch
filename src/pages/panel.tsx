@@ -17,6 +17,8 @@ interface State {
 }
 
 export default class Panel extends React.Component<Props, State> {
+  private songlistRef: React.RefObject<HTMLDivElement>;
+
   constructor(props: Props) {
     super(props);
 
@@ -26,11 +28,14 @@ export default class Panel extends React.Component<Props, State> {
       filteredSongs: [],
     };
 
+    this.songlistRef = React.createRef();
+
     this.filterSongs = this.filterSongs.bind(this);
   }
 
   filterSongs(event: ChangeEvent<HTMLInputElement>): void {
     const filteredSongs = FilterService.filterSongs(this.state.songs, event.target.value);
+    this.songlistRef.current.scrollTo(0, 0);
     this.setState({
       filteredSongs,
     });
@@ -40,7 +45,6 @@ export default class Panel extends React.Component<Props, State> {
     const response = await ESBService.loadSongs();
 
     if (response.code === 200) {
-      console.log(response);
       this.setState({ songs: response.data, filteredSongs: response.data });
     }
   }
@@ -54,7 +58,7 @@ export default class Panel extends React.Component<Props, State> {
       <div className={'panel flex flex-col h-full w-full space-y-2 p-2 overflow-hidden'}>
         <SearchBar onChange={debounce(this.filterSongs, 300)} />
 
-        <div id={'songlist'} className={'overflow-auto'}>
+        <div id={'songlist'} ref={this.songlistRef} className={'overflow-auto'}>
           <div className={'pr-2 space-y-2 overflow-auto'}>
             {this.state.filteredSongs.map((song) => {
               return <SearchEntry songdata={song} />;
