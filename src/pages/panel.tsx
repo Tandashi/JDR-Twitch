@@ -8,6 +8,7 @@ import SearchBar from '@components/searchbar';
 import ISongData from '@models/songdata';
 import ESBService from '@services/esb-service';
 import FilterService from '@services/filter-service';
+import SongList from '@components/songlist';
 
 interface Props {}
 interface State {
@@ -57,14 +58,7 @@ export default class Panel extends React.Component<Props, State> {
     return (
       <div className={'panel flex flex-col h-full w-full space-y-2 p-2 overflow-hidden'}>
         <SearchBar onChange={debounce(this.filterSongs, 300)} />
-
-        <div id={'songlist'} ref={this.songlistRef} className={'overflow-auto'}>
-          <div className={'pr-2 space-y-2 overflow-auto'}>
-            {this.state.filteredSongs.map((song) => {
-              return <SearchEntry songdata={song} />;
-            })}
-          </div>
-        </div>
+        <SongList songdata={this.state.filteredSongs} ref={this.songlistRef} />
       </div>
     );
   }
