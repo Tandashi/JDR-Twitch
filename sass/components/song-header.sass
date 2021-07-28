@@ -1,0 +1,22 @@
+@import '../colors/song-header'
+@import '../mixins/font'
+
+.song-header
+  position: relative
+  min-width: 285px
+  min-height: 60px
+
+.song-header-background
+  background: $song-header-background
+
+.song-header-title
+  @include default-font-style
+
+  font-size: 20px
+  line-height: 26px
+
+.song-header-artist
+  @include default-font-style
+
+  font-size: 14px
+  line-height: 20px
