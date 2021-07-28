@@ -1,0 +1,28 @@
+@import '../colors/rating-point'
+
+.rating-point
+  position: relative
+  padding-top: 100%
+
+  &.rating-point-active
+    background-color: $rating-point-active-color
+
+  &.rating-point-inactive
+    background-color: $rating-point-inactive-color
+
+  &.rating-point-unkown
+    background-color: transparent
+
+
+  &.rating-point-active, &.rating-point-inactive
+    svg
+      display: none
+
+  svg
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 100%
+
+    fill: $rating-point-unknown-color
