@@ -1,18 +1,18 @@
+@import '../colors/searchbar'
+@import '../mixins/font'
+
 .searchbar
   position: relative
   min-width: 298px
   min-height: 35px
 
-  background: rgba(255, 255, 255, 0.3)
+  background: $searchbarBackground
 
   input
-    font-family: Roboto
-    font-style: normal
-    font-weight: normal
-    font-size: 16px
-    line-height: 19px
+    @include defaultFontStyle
 
-    color: #F3F3F3
+    font-size: 16px
+    line-height: 20px
 
   input:focus
     outline: none
