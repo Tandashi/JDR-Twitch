@@ -1,7 +1,7 @@
 import React from 'react';
 
-import '@styles/components/search-entry.sass';
-import ISongData from 'src/models/songdata';
+import '@styles/components/search/search-entry.sass';
+import ISongData from '@models/songdata';
 
 interface Props {
   songdata: ISongData;

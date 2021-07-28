@@ -1,6 +1,6 @@
 import React, { ChangeEvent, ChangeEventHandler } from 'react';
 
-import '@styles/components/searchbar.sass';
+import '@styles/components/search/searchbar.sass';
 
 interface Props {
   onChange: ChangeEventHandler<HTMLInputElement>;

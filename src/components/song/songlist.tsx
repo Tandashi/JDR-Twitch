@@ -1,8 +1,8 @@
 import React from 'react';
 
-import '@styles/components/songlist.sass';
+import '@styles/components/song/songlist.sass';
 import ISongData from '@models/songdata';
-import SearchEntry from '@components/search-entry';
+import SearchEntry from '@components/search/search-entry';
 
 interface Props {
   songdata: ISongData[];
