@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '@styles/components/rating-point.sass';
+import '@styles/components/rating/rating-point.sass';
 
 export enum RatingPointStatus {
   ACTIVE = 'active',
@@ -17,8 +17,12 @@ export default class RatingPoint extends React.Component<Props> {
     const status = this.props.status.toString();
 
     return (
-      <div className={`rating-point rounded-full w-full rating-point-${status}`}>
-        <svg xmlns={'http://www.w3.org/2000/svg'} className={'h-full w-full'} viewBox={'0 0 973.1 973.1'}>
+      <div className={`rating-point rating-point-${status} h-full w-auto`}>
+        <svg xmlns={'http://www.w3.org/2000/svg'} className={'rating-point-circle'} viewBox={'0 0 100 100'}>
+          <circle cx={'50'} cy={'50'} r={'50'} />
+        </svg>
+
+        <svg xmlns={'http://www.w3.org/2000/svg'} className={'rating-point-questionmark'} viewBox={'0 0 973.1 973.1'}>
           <path
             d={
               'M502.29 788.199h-47c-33.1 0-60 26.9-60 60v64.9c0 33.1 26.9 60 60 60h47c33.101 0 60-26.9 60-60v-64.9C562.29 815 535.391 788.199 502.29 788.199z'

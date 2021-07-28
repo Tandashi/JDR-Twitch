@@ -1,0 +1,24 @@
+@import '../../colors/rating'
+@import '../../mixins/font'
+
+.rating-display
+  background: $rating-display-background
+
+  .rating-point
+    width: 20px
+    height: 20px
+
+  &.rating-display-left
+    border-radius: 5px 0px 0px 5px
+
+  &.rating-display-middle
+    order-radius: 0px
+
+  &.rating-display-right
+    border-radius: 0px 5px 5px 0px
+
+.rating-display-text
+  @include default-font-style
+
+  font-size: 14px
+  line-height: 20px

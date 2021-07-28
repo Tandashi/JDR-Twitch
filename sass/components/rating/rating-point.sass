@@ -1,0 +1,29 @@
+@import '../../colors/rating'
+
+.rating-point
+  position: relative
+
+  &.rating-point-active
+    fill: $rating-point-active-color
+
+    .rating-point-questionmark
+      display: none
+
+  &.rating-point-inactive
+    fill: $rating-point-inactive-color
+
+    .rating-point-questionmark
+      display: none
+
+  &.rating-point-unkown
+    fill: $rating-point-unknown-color
+
+    .rating-point-circle
+      display: none
+
+  svg
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 100%
