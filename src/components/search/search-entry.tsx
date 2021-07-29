@@ -12,7 +12,7 @@ export default class SearchEntry extends React.Component<Props> {
   public render(): JSX.Element {
     return (
       <div
-        className={'search-entry search-entry-background select-none flex flex-row flex-nowrap rounded'}
+        className={'search-entry search-entry-background flex flex-row flex-nowrap rounded'}
         onClick={() => this.props.onClick()}
       >
         <img className={'flex-shrink flex-20 rounded-l min-w-0'} draggable={false} src={this.props.songdata.img_url} />

@@ -80,7 +80,7 @@ export default class Panel extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <div className={'panel h-full w-full p-2 overflow-hidden'}>
+      <div className={'panel h-full w-full p-2 overflow-hidden select-none'}>
         <div className={'h-full w-full flex flex-col space-y-2 overflow-hidden'}>
           <SearchBar onChange={debounce(this.filterSongs, 300)} />
           <SongList onSelect={this.handleSongSelect} songdata={this.state.filteredSongs} ref={this.songlistRef} />
