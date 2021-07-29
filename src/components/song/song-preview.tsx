@@ -10,11 +10,21 @@ interface Props {
 
 export default class SongPreview extends React.Component<Props> {
   public render(): JSX.Element {
-    return this.props.songdata.preview_video_url ? (
-      <video autoPlay={true} muted={true} src={this.props.songdata.preview_video_url} />
-    ) : (
-      <div className={'self-center'}>
-        <p className={'song-preview-text'}>No preview available :(</p>
+    return (
+      <div className={'song-preview flex h-full rounded-lg justify-center'}>
+        {this.props.songdata.preview_video_url ? (
+          <div className={'self-center justify-self-center'}>
+            <video
+              className={'rounded-lg'}
+              loop={true}
+              autoPlay={true}
+              muted={true}
+              src={this.props.songdata.preview_video_url}
+            />
+          </div>
+        ) : (
+          <p className={'song-preview-text flex-1 self-center text-center'}>No preview available :(</p>
+        )}
       </div>
     );
   }

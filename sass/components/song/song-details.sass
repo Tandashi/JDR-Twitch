@@ -1,0 +1,24 @@
+@import '../../colors/song/song-details'
+@import '../../mixins/font'
+
+.song-details
+  background: $song-details-background
+
+  .song-details-button
+    min-height: 30px
+
+    background: $song-details-button-background
+
+    &:hover
+      background: darken($song-details-button-background, 10)
+
+
+  .song-details-back
+    min-width: 90px
+
+  .song-details-request
+    min-width: 180px
+
+    p
+      @include default-font-style
+      

@@ -3,18 +3,25 @@ import debounce from 'lodash.debounce';
 
 import '@styles/panel.sass';
 
-import SearchEntry from '@components/search-entry';
-import SearchBar from '@components/searchbar';
+import SearchBar from '@components/search/searchbar';
 import ISongData from '@models/songdata';
 import ESBService from '@services/esb-service';
 import FilterService from '@services/filter-service';
-import SongList from '@components/songlist';
+import SongList from '@components/song/songlist';
+import Overlay, { OverlayDirection } from '@components/overlay';
+import RatingDisplay, { RatingDisplayPosition } from '@components/rating/rating-display';
+import SongHeader from '@components/song/song-header';
+import SongStats from '@components/song/song-stats';
+import SongPreview from '@components/song/song-preview';
+import SongDetails from '@components/song/song-details';
 
 interface Props {}
 interface State {
   loadingFromAPI: boolean;
   songs: ISongData[];
   filteredSongs: ISongData[];
+  selectedSong?: ISongData;
+  showDetails: boolean;
 }
 
 export default class Panel extends React.Component<Props, State> {
@@ -27,11 +34,15 @@ export default class Panel extends React.Component<Props, State> {
       loadingFromAPI: true,
       songs: [],
       filteredSongs: [],
+      selectedSong: undefined,
+      showDetails: false,
     };
 
     this.songlistRef = React.createRef();
 
     this.filterSongs = this.filterSongs.bind(this);
+    this.handleSongSelect = this.handleSongSelect.bind(this);
+    this.handleDetailsBack = this.handleDetailsBack.bind(this);
   }
 
   filterSongs(event: ChangeEvent<HTMLInputElement>): void {
@@ -39,6 +50,19 @@ export default class Panel extends React.Component<Props, State> {
     this.songlistRef.current.scrollTo(0, 0);
     this.setState({
       filteredSongs,
+    });
+  }
+
+  handleSongSelect(song: ISongData): void {
+    this.setState({
+      showDetails: true,
+      selectedSong: song,
+    });
+  }
+
+  handleDetailsBack(): void {
+    this.setState({
+      showDetails: false,
     });
   }
 
@@ -56,9 +80,16 @@ export default class Panel extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <div className={'panel flex flex-col h-full w-full space-y-2 p-2 overflow-hidden'}>
-        <SearchBar onChange={debounce(this.filterSongs, 300)} />
-        <SongList songdata={this.state.filteredSongs} ref={this.songlistRef} />
+      <div className={'panel h-full w-full p-2 overflow-hidden'}>
+        <div className={'h-full w-full flex flex-col space-y-2 overflow-hidden'}>
+          <SearchBar onChange={debounce(this.filterSongs, 300)} />
+          <SongList onSelect={this.handleSongSelect} songdata={this.state.filteredSongs} ref={this.songlistRef} />
+        </div>
+        <Overlay direction={OverlayDirection.RIGHT} isOpen={this.state.showDetails ? true : false}>
+          {this.state.selectedSong ? (
+            <SongDetails songdata={this.state.selectedSong} onBack={this.handleDetailsBack} />
+          ) : undefined}
+        </Overlay>
       </div>
     );
   }
