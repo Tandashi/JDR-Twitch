@@ -13,7 +13,7 @@ import autoprefixer from 'autoprefixer';
 import tailwindcss from 'tailwindcss';
 
 export default {
-  input: ['src/panel.tsx'],
+  input: ['src/viewer.tsx'],
   output: {
     dir: 'dist/',
     format: 'iife'

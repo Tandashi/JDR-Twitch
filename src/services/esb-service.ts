@@ -11,8 +11,10 @@ interface ESBResponse<T> {
 }
 
 export default class ESBService {
+  private static EBS_URL = 'https://jd.tandashi.de/api/v1/songdata';
+
   public static async loadSongs(): Promise<ESBResponse<ISongData[]>> {
-    const response = await axios.get<ESBResponse<ISongData[]>>('http://localhost:3000/api/v1/songdata');
+    const response = await axios.get<ESBResponse<ISongData[]>>(this.EBS_URL);
     return response.data;
   }
 }

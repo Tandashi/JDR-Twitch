@@ -9,10 +9,6 @@ import ESBService from '@services/esb-service';
 import FilterService from '@services/filter-service';
 import SongList from '@components/song/songlist';
 import Overlay, { OverlayDirection } from '@components/overlay';
-import RatingDisplay, { RatingDisplayPosition } from '@components/rating/rating-display';
-import SongHeader from '@components/song/song-header';
-import SongStats from '@components/song/song-stats';
-import SongPreview from '@components/song/song-preview';
 import SongDetails from '@components/song/song-details';
 
 interface Props {}
