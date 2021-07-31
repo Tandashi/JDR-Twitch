@@ -27,11 +27,17 @@ export default class ESBService {
       throw Error('Not Authorized');
     }
 
-    const response = await axios.post<ESBResponse<any>>(`${config.ebs.baseUrl}/api/v1/queue/${songId}`, undefined, {
-      headers: {
-        Authorization: `Bearer ${auth.token}`,
+    const response = await axios.post<ESBResponse<any>>(
+      `${config.ebs.baseUrl}/api/v1/queue`,
+      {
+        id: songId,
       },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      }
+    );
     return response.data;
   }
 }
