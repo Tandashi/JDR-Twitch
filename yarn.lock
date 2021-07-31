@@ -183,6 +183,11 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
+"@types/twitch-ext@^1.24.2":
+  version "1.24.2"
+  resolved "https://registry.yarnpkg.com/@types/twitch-ext/-/twitch-ext-1.24.2.tgz#516104e05be34d063ee7a731fb0645bbc989fdd7"
+  integrity sha512-Tsl3teTv/7AbgTZ48z/bMmozufB/rYV/oQP2TNzB6YfeaFwHEF4y0aJwZhMFP8khhTw2wSjdPdcNk3yNmQIUlw==
+
 acorn-node@^1.6.1:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/acorn-node/-/acorn-node-1.8.2.tgz#114c95d64539e53dede23de8b9d96df7c7ae2af8"

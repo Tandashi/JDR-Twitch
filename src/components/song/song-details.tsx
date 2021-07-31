@@ -7,6 +7,7 @@ import SongPreview from '@components/song/song-preview';
 import SongStats from '@components/song/song-stats';
 
 import '@styles/components/song/song-details.sass';
+import ESBService from '@services/esb-service';
 
 interface Props {
   songdata: ISongData;
@@ -48,7 +49,14 @@ export default class SongDetails extends React.Component<Props> {
             className={'song-details-button song-details-request flex-80 rounded-lg flex items-center text-center'}
             onClick={() => {}}
           >
-            <p className={'flex-1'}>Request Song</p>
+            <p
+              className={'flex-1'}
+              onClick={() => {
+                ESBService.requestSong(this.props.songdata.id);
+              }}
+            >
+              Request Song
+            </p>
           </div>
         </div>
       </div>

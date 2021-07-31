@@ -1,4 +1,5 @@
 export default interface ISongData {
+  id: string;
   title: string;
   artist: string;
   original_source?: string;
