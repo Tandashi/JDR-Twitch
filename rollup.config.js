@@ -6,6 +6,7 @@ import replace from '@rollup/plugin-replace';
 import typescript from 'rollup-plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve as rollupNodeResolve } from '@rollup/plugin-node-resolve';
+import { terser } from 'rollup-plugin-terser';
 import rollupJSON from 'rollup-plugin-json';
 
 import postcss from 'rollup-plugin-postcss';
@@ -16,7 +17,8 @@ export default {
   input: ['src/viewer.tsx'],
   output: {
     dir: 'dist/',
-    format: 'iife'
+    format: 'iife',
+    plugins: []
   },
   plugins: [
     alias({
