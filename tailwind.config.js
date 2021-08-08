@@ -6,6 +6,8 @@ module.exports = {
       initial: '0 1 auto',
       none: 'none',
       '20': '1 1 20%',
+      '30': '1 1 30%',
+      '70': '1 1 70%',
       '80': '1 1 80%'
     },
     flexGrow: {

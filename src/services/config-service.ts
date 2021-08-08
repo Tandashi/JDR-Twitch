@@ -34,7 +34,6 @@ export default class ConfigService {
   }
 
   public static setConfig(config: Config): void {
-    console.log(config);
     const instance = this.getInstance();
     instance.config = config;
   }

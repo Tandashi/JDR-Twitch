@@ -13,41 +13,47 @@ import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
 import tailwindcss from 'tailwindcss';
 
-export default {
-  input: ['src/viewer.tsx'],
-  output: {
-    dir: 'dist/',
-    format: 'iife',
-    plugins: []
-  },
-  plugins: [
-    alias({
-      entries: {
-        '@models': path.resolve(__dirname, 'src/models'),
-        '@services': path.resolve(__dirname, 'src/services'),
-        '@components': path.resolve(__dirname, 'src/components'),
-        '@pages': path.resolve(__dirname, 'src/pages'),
-        "@styles": path.resolve(__dirname, 'sass'),
-      }
-    }),
-    rollupNodeResolve({ jsnext: true, preferBuiltins: true, browser: true }),
-    rollupJSON(),
-    commonjs(),
-    replace({
-      preventAssignment: true,
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
-    postcss({
-      plugins: [
-        tailwindcss,
-        autoprefixer
-      ]
-    }),
-    typescript(),
-    copy({
-      targets: [
-        { src: 'public/*.html', dest: 'dist/' }
-      ]
-    })
-  ]
+function compile(input) {
+  return {
+    input: [input],
+    output: {
+      dir: 'dist/',
+      format: 'iife'
+    },
+    plugins: [
+      alias({
+        entries: {
+          '@models': path.resolve(__dirname, 'src/models'),
+          '@services': path.resolve(__dirname, 'src/services'),
+          '@components': path.resolve(__dirname, 'src/components'),
+          '@pages': path.resolve(__dirname, 'src/pages'),
+          "@styles": path.resolve(__dirname, 'sass'),
+        }
+      }),
+      rollupNodeResolve({ jsnext: true, preferBuiltins: true, browser: true }),
+      rollupJSON(),
+      commonjs(),
+      replace({
+        preventAssignment: true,
+        'process.env.NODE_ENV': JSON.stringify('production')
+      }),
+      postcss({
+        plugins: [
+          tailwindcss,
+          autoprefixer
+        ]
+      }),
+      typescript(),
+      copy({
+        targets: [
+          { src: 'public/*.html', dest: 'dist/' }
+        ]
+      })
+    ]
+  }
 }
+
+export default [
+  compile('src/viewer.tsx'),
+  compile('src/configuration.tsx'),
+]

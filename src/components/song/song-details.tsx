@@ -1,5 +1,7 @@
+import { AxiosError } from 'axios';
 import React from 'react';
 
+import { Result } from '@models/result';
 import ISongData from '@models/songdata';
 import IQueue from '@models/queue';
 
@@ -10,7 +12,6 @@ import SongPreview from '@components/song/song-preview';
 import SongStats from '@components/song/song-stats';
 
 import '@styles/components/song/song-details.sass';
-import { AxiosError } from 'axios';
 
 type DisplayType =
   | {
@@ -46,8 +47,7 @@ export default class SongDetails extends React.Component<Props, State> {
     };
 
     this.clearMessage = this.clearMessage.bind(this);
-    this.handleSuccess = this.handleSuccess.bind(this);
-    this.handleError = this.handleError.bind(this);
+    this.handleRequest = this.handleRequest.bind(this);
   }
 
   componentWillUnmount(): void {
@@ -62,28 +62,36 @@ export default class SongDetails extends React.Component<Props, State> {
     });
   }
 
-  private handleSuccess(response: ESBResponse<IQueue>): void {
-    if (response.code === 200) {
-      this.setState({
-        timeout: setTimeout(this.clearMessage, 2000),
-        displayType: {
-          type: 'success',
-          message: 'Song added successfully',
-        },
-      });
-    }
-  }
+  private handleRequest(response: Result<ESBResponse<IQueue>>): void {
+    console.log('Handling Request');
 
-  private handleError(err: AxiosError<ESBResponse<IQueue>>): void {
-    if (err.response.data.code !== 200) {
-      this.setState({
+    if (response.type === 'error') {
+      return this.setState({
         timeout: setTimeout(this.clearMessage, 2000),
         displayType: {
           type: 'error',
-          message: err.response.data.error.message,
+          message: 'An internal error occured :(',
         },
       });
     }
+
+    if (response.data.code !== 200) {
+      return this.setState({
+        timeout: setTimeout(this.clearMessage, 2000),
+        displayType: {
+          type: 'error',
+          message: response.data.error.message,
+        },
+      });
+    }
+
+    return this.setState({
+      timeout: setTimeout(this.clearMessage, 2000),
+      displayType: {
+        type: 'success',
+        message: 'Song added successfully',
+      },
+    });
   }
 
   public render(): JSX.Element {
@@ -123,7 +131,7 @@ export default class SongDetails extends React.Component<Props, State> {
             <p
               className={'flex-1'}
               onClick={() => {
-                ESBService.requestSong(this.props.songdata.id).then(this.handleSuccess).catch(this.handleError);
+                ESBService.requestSong(this.props.songdata.id).then(this.handleRequest);
               }}
             >
               Request Song

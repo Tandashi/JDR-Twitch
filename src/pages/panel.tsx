@@ -20,7 +20,7 @@ interface State {
   showDetails: boolean;
 }
 
-export default class Panel extends React.Component<Props, State> {
+export default class PanelPage extends React.Component<Props, State> {
   private songlistRef: React.RefObject<HTMLDivElement>;
 
   constructor(props: Props) {
@@ -63,10 +63,12 @@ export default class Panel extends React.Component<Props, State> {
   }
 
   async loadSongs(): Promise<void> {
-    const response = await ESBService.loadSongs();
+    const responseResult = await ESBService.loadFilteredSongs(false);
 
-    if (response.code === 200) {
-      this.setState({ songs: response.data, filteredSongs: response.data });
+    if (responseResult.type === 'success') {
+      if (responseResult.data.code === 200) {
+        this.setState({ songs: responseResult.data.data, filteredSongs: responseResult.data.data });
+      }
     }
   }
 

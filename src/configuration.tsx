@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Panel from '@pages/panel';
-
+import Configuration from '@pages/configuration';
 import ConfigService from '@services/config-service';
+
+import '@styles/configuration.sass';
 
 window.Twitch.ext.onAuthorized((auth) => {
   const config = ConfigService.getConfig();
@@ -14,5 +15,5 @@ window.Twitch.ext.onAuthorized((auth) => {
     },
   });
 
-  ReactDOM.render(<Panel />, document.getElementById('root'));
+  ReactDOM.render(<Configuration />, document.getElementById('root'));
 });
