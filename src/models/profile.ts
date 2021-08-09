@@ -5,6 +5,7 @@ export default interface IProfile {
   banlist: ISongData[];
   configuration: {
     song: {
+      game: string;
       unlimited: boolean;
     };
   };

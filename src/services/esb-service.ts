@@ -6,6 +6,7 @@ import ConfigService from '@services/config-service';
 import IQueue from '@models/queue';
 import IStreamerConfiguration from '@models/streamer-configuration';
 import IProfile from '@models/profile';
+import IStreamerData from '@models/streamerdata';
 
 interface ESBDataResponse<T> {
   code: 200;
@@ -104,8 +105,8 @@ export default class ESBService {
     return Success(requestResult.data);
   }
 
-  public static async getConfiguration(): Promise<Result<ESBResponse<IStreamerConfiguration>, Errors>> {
-    const requestResult = await this.sendAuthroizedRequest<IStreamerConfiguration>('/api/v1/configuration', {
+  public static async getStreamerData(): Promise<Result<ESBResponse<IStreamerData>, Errors>> {
+    const requestResult = await this.sendAuthroizedRequest<IStreamerData>('/api/v1/streamerdata', {
       method: 'get',
     });
 
@@ -116,7 +117,11 @@ export default class ESBService {
     return Success(requestResult.data);
   }
 
-  public static async updateProfile(ids: string[], unlimited: boolean): Promise<Result<ESBResponse<IProfile>, Errors>> {
+  public static async updateProfile(
+    ids: string[],
+    game: string,
+    unlimited: boolean
+  ): Promise<Result<ESBResponse<IProfile>, Errors>> {
     const requestResult = await this.sendAuthroizedRequest<IProfile>('/api/v1/profile', {
       method: 'patch',
       data: {
@@ -124,6 +129,7 @@ export default class ESBService {
         ids: ids,
         configuration: {
           song: {
+            game: game,
             unlimited: unlimited,
           },
         },
@@ -161,30 +167,29 @@ export default class ESBService {
 
     return Success(requestResult.data);
   }
-  /*
 
-  public static async updateConfiguration(): Promise<ESBResponse<IStreamerConfiguration>> {
-    const config = ConfigService.getConfig();
+  public static async getGames(): Promise<Result<ESBResponse<string[]>, Errors>> {
+    const requestResult = await this.sendAuthroizedRequest<string[]>('/api/v1/games', {
+      method: 'get',
+    });
 
-    const auth = config.twitch.auth;
-    if (!auth) {
-      throw Error('Not Authorized');
+    if (requestResult.type === 'error') {
+      return requestResult;
     }
 
-    const response = await axios.patch<ESBResponse<IStreamerConfiguration>>(
-      `${config.ebs.baseUrl}/api/v1/configuration`,
-      {
-        chatIntegration: {
-          enabled: true,
-        },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      }
-    );
+    return Success(requestResult.data);
+  }
 
-    return response.data;
-  }*/
+  public static async regenerateSecret(): Promise<Result<ESBResponse<boolean>, Errors>> {
+    const requestResult = await this.sendAuthroizedRequest<boolean>('/api/v1/streamerdata/secret', {
+      method: 'patch',
+      data: {},
+    });
+
+    if (requestResult.type === 'error') {
+      return requestResult;
+    }
+
+    return Success(requestResult.data);
+  }
 }
