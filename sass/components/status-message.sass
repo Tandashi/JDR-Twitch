@@ -1,0 +1,24 @@
+@import '../mixins/font'
+
+.status-message
+    position: absolute
+
+    top: 40%
+
+    z-index: 2
+
+    &.status-message-error
+      .status-message-content
+        background: 	rgba(219, 109, 109, 0.95)
+
+    &.status-message-success
+      .status-message-content
+        background: rgba(168, 202, 104, 0.95)
+
+    .status-message-content
+      position: relative
+
+      top: -40%
+
+      p
+        @include default-font-style

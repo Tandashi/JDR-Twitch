@@ -56,5 +56,5 @@ function compile(input) {
 export default [
   compile('src/viewer.tsx'),
   compile('src/configuration.tsx'),
-  compile('src/queue.tsx'),
+  compile('src/live-config.tsx'),
 ]

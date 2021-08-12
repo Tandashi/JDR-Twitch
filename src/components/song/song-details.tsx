@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import React from 'react';
 
 import { Result } from '@models/result';
@@ -10,21 +9,9 @@ import ESBService, { ESBResponse } from '@services/esb-service';
 import SongHeader from '@components/song/song-header';
 import SongPreview from '@components/song/song-preview';
 import SongStats from '@components/song/song-stats';
+import StatusMessage, { StatusMessageDisplayType } from '@components/status-message';
 
 import '@styles/components/song/song-details.sass';
-
-type DisplayType =
-  | {
-      type: 'success';
-      message: string;
-    }
-  | {
-      type: 'none';
-    }
-  | {
-      type: 'error';
-      message: string;
-    };
 
 interface Props {
   songdata: ISongData;
@@ -32,7 +19,7 @@ interface Props {
 }
 
 interface State {
-  displayType: DisplayType;
+  displayType: StatusMessageDisplayType;
   timeout?: NodeJS.Timeout;
 }
 
@@ -139,37 +126,7 @@ export default class SongDetails extends React.Component<Props, State> {
           </div>
         </div>
 
-        {this.state.displayType.type !== 'none' && (
-          <div
-            className={`status-message status-message-${this.state.displayType.type} flex items-center justify-center px-4 w-full`}
-          >
-            <div className={'status-message-content flex flex-col items-center rounded p-4 space-y-2'}>
-              <div className={'icon'}>
-                <svg
-                  xmlns={'http://www.w3.org/2000/svg'}
-                  className={'h-12 w-12'}
-                  fill={'none'}
-                  viewBox={'0 0 24 24'}
-                  stroke={'#fff'}
-                >
-                  <path
-                    strokeLinecap={'round'}
-                    strokeLinejoin={'round'}
-                    strokeWidth={1}
-                    d={
-                      this.state.displayType.type === 'error'
-                        ? // Error
-                          'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
-                        : // Success
-                          'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-                    }
-                  />
-                </svg>
-              </div>
-              <p className={'message text-center'}>{this.state.displayType.message}</p>
-            </div>
-          </div>
-        )}
+        <StatusMessage displayType={this.state.displayType} />
       </div>
     );
   }

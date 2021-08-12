@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Queue from '@pages/queue';
+import LiveConfig from '@pages/live-config';
 import ConfigService from '@services/config-service';
 
 const config = ConfigService.getConfig();
@@ -12,4 +12,4 @@ ConfigService.setConfig({
   },
 });
 
-ReactDOM.render(<Queue />, document.getElementById('root'));
+ReactDOM.render(<LiveConfig />, document.getElementById('root'));

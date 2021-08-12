@@ -155,6 +155,34 @@ export default class ESBService {
     return Success(requestResult.data);
   }
 
+  public static async setQueueStatus(enabled: boolean): Promise<Result<ESBResponse<IQueue>, Errors>> {
+    const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue', {
+      method: 'patch',
+      data: {
+        enabled: enabled,
+      },
+    });
+
+    if (requestResult.type === 'error') {
+      return requestResult;
+    }
+
+    return Success(requestResult.data);
+  }
+
+  public static async clearQueue(): Promise<Result<ESBResponse<IQueue>, Errors>> {
+    const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue/clear', {
+      method: 'post',
+      data: {},
+    });
+
+    if (requestResult.type === 'error') {
+      return requestResult;
+    }
+
+    return Success(requestResult.data);
+  }
+
   public static async getQueueWithSecret(): Promise<Result<ESBResponse<IQueue>, Errors>> {
     const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue', {
       method: 'get',

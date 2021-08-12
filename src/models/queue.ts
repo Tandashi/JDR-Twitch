@@ -1,5 +1,5 @@
 export default interface IQueue {
-  channelId: number;
+  enabled: boolean;
   entries: {
     title: string;
     fromChat: boolean;

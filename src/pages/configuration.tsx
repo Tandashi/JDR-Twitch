@@ -10,6 +10,8 @@ import FilterService from '@services/filter-service';
 import BanlistOverview from '@components/banlist/banlist-overview';
 import Select from '@components/form/select';
 import IStreamerData from '@models/streamerdata';
+import StatusMessage, { StatusMessageDisplayType } from '@components/status-message';
+import { Result } from '@models/result';
 
 interface Props {}
 
@@ -20,6 +22,11 @@ interface State {
   games: string[];
 
   streamerData?: IStreamerData;
+
+  statusMessage: {
+    timeout?: NodeJS.Timeout;
+    displayType: StatusMessageDisplayType;
+  };
 
   configuration: {
     chatIntegration: {
@@ -46,6 +53,12 @@ export default class ConfigurationPage extends React.Component<Props, State> {
       filteredSongs: [],
       games: [],
       streamerData: undefined,
+
+      statusMessage: {
+        displayType: {
+          type: 'none',
+        },
+      },
       configuration: {
         chatIntegration: {
           enabled: false,
@@ -66,12 +79,17 @@ export default class ConfigurationPage extends React.Component<Props, State> {
     this.handleBanToggle = this.handleBanToggle.bind(this);
     this.saveConfiguration = this.saveConfiguration.bind(this);
     this.handleGameSelect = this.handleGameSelect.bind(this);
+    this.clearMessage = this.clearMessage.bind(this);
   }
 
   async componentDidMount(): Promise<void> {
     await this.loadSongs();
     await this.loadConfiguration();
     await this.loadGames();
+  }
+
+  componentWillUnmount(): void {
+    clearTimeout(this.state.statusMessage.timeout);
   }
 
   async loadGames(): Promise<void> {
@@ -135,10 +153,15 @@ export default class ConfigurationPage extends React.Component<Props, State> {
   }
 
   async handleToggleUnlimited(): Promise<void> {
-    const profileResult = await ESBService.updateProfile(
-      Object.keys(this.state.configuration.banlist),
-      this.state.configuration.selectedGame,
-      !this.state.configuration.unlimited
+    this.processResults(
+      [
+        await ESBService.updateProfile(
+          Object.keys(this.state.configuration.banlist),
+          this.state.configuration.selectedGame,
+          !this.state.configuration.unlimited
+        ),
+      ],
+      false
     );
 
     this.loadSongs();
@@ -179,10 +202,15 @@ export default class ConfigurationPage extends React.Component<Props, State> {
   }
 
   async handleGameSelect(event: React.ChangeEvent<HTMLSelectElement>): Promise<void> {
-    const profileResult = await ESBService.updateProfile(
-      Object.keys(this.state.configuration.banlist),
-      event.target.value,
-      this.state.configuration.unlimited
+    this.processResults(
+      [
+        await ESBService.updateProfile(
+          Object.keys(this.state.configuration.banlist),
+          event.target.value,
+          this.state.configuration.unlimited
+        ),
+      ],
+      false
     );
 
     this.loadSongs();
@@ -196,21 +224,70 @@ export default class ConfigurationPage extends React.Component<Props, State> {
   }
 
   async saveConfiguration(): Promise<void> {
-    const profileResult = await ESBService.updateProfile(
-      Object.keys(this.state.configuration.banlist),
-      this.state.configuration.selectedGame,
-      this.state.configuration.unlimited
-    );
-
-    const configurationResult = await ESBService.updateConfiguration(
-      this.state.configuration.chatIntegration.enabled,
-      this.state.configuration.requests.perUser,
-      this.state.configuration.requests.duplicates
+    this.processResults(
+      [
+        await ESBService.updateProfile(
+          Object.keys(this.state.configuration.banlist),
+          this.state.configuration.selectedGame,
+          this.state.configuration.unlimited
+        ),
+        await ESBService.updateConfiguration(
+          this.state.configuration.chatIntegration.enabled,
+          this.state.configuration.requests.perUser,
+          this.state.configuration.requests.duplicates
+        ),
+      ],
+      true
     );
   }
 
+  private clearMessage(): void {
+    this.setState({
+      statusMessage: {
+        timeout: undefined,
+        displayType: {
+          type: 'none',
+        },
+      },
+    });
+  }
+
+  private processResults(
+    results: Result<any, any>[],
+    showSuccess: boolean,
+    messages?: { successMessage?: string; errorMessage?: string }
+  ): void {
+    results.forEach((result) => {
+      if (result.type === 'error') {
+        return this.setState({
+          statusMessage: {
+            timeout: setTimeout(this.clearMessage, 2000),
+            displayType: {
+              type: 'error',
+              message: messages?.errorMessage ?? result.message,
+            },
+          },
+        });
+      }
+    });
+
+    if (!showSuccess) {
+      return;
+    }
+
+    return this.setState({
+      statusMessage: {
+        timeout: setTimeout(this.clearMessage, 2000),
+        displayType: {
+          type: 'success',
+          message: messages?.successMessage ?? 'Success',
+        },
+      },
+    });
+  }
+
   private getEmbedUrl(): string {
-    return `${window.location.origin}/queue.html?secret=${this.state.streamerData?.secret}`;
+    return `${window.location.origin}/live-config.html?secret=${this.state.streamerData?.secret}`;
   }
 
   public render(): JSX.Element {
@@ -318,6 +395,8 @@ export default class ConfigurationPage extends React.Component<Props, State> {
         >
           Save
         </button>
+
+        <StatusMessage displayType={this.state.statusMessage.displayType} />
       </div>
     );
   }
