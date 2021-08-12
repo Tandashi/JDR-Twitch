@@ -79,6 +79,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
     this.handleBanToggle = this.handleBanToggle.bind(this);
     this.saveConfiguration = this.saveConfiguration.bind(this);
     this.handleGameSelect = this.handleGameSelect.bind(this);
+    this.handleOnCopy = this.handleOnCopy.bind(this);
     this.clearMessage = this.clearMessage.bind(this);
   }
 
@@ -290,111 +291,125 @@ export default class ConfigurationPage extends React.Component<Props, State> {
     return `${window.location.origin}/live-config.html?secret=${this.state.streamerData?.secret}`;
   }
 
+  private handleOnCopy(): void {
+    this.setState({
+      statusMessage: {
+        timeout: setTimeout(this.clearMessage, 1000),
+        displayType: {
+          type: 'success',
+          message: 'Copied',
+        },
+      },
+    });
+  }
+
   public render(): JSX.Element {
     return (
-      <div className={'configuration flex flex-col space-y-2 rounded h-full w-full overflow-hidden p-2 select-none'}>
-        <div className={'flex flex-col'}>
-          <div className={'flex flex-row flex-30 p-4'}>
-            <div className={'flex-1 pr-2'}>
-              <p className={'text-xl text-white font-bold'}>Chat Integration</p>
-              <p className={'text-base text-white'}>
-                If enable will add the
-                <a className={'font-medium'} href={'https://www.twitch.tv/justdancerequests'}>
-                  &nbsp;JustDanceRequests&nbsp;
-                </a>
-                Bot to your channel. <br />
-                Commands: !sr, !banlist
-              </p>
-              <p className={'text-base text-white mt-2'}>
-                <b>Note</b>: Banlist will not be enforced for songs requested via chat
-              </p>
+      <div className={'configuration flex flex-col space-y-2 rounded h-full w-full overflow-hidden select-none'}>
+        <div className={'flex flex-col space-y-2 p-2 rounded h-full w-full overflow-hidden select-none'}>
+          <div className={'flex flex-col'}>
+            <div className={'flex flex-row flex-30 p-4'}>
+              <div className={'flex-1 pr-2'}>
+                <p className={'text-xl text-white font-bold'}>Chat Integration</p>
+                <p className={'text-base text-white'}>
+                  If enable will add the
+                  <a className={'font-medium'} href={'https://www.twitch.tv/justdancerequests'}>
+                    &nbsp;JustDanceRequests&nbsp;
+                  </a>
+                  Bot to your channel. <br />
+                  Commands: !sr, !banlist
+                </p>
+                <p className={'text-base text-white mt-2'}>
+                  <b>Note</b>: Banlist will not be enforced for songs requested via chat
+                </p>
 
-              <ToggleButton
-                id={'chat-integration-toggle'}
-                checked={this.state.configuration.chatIntegration.enabled}
-                onToggle={this.handleToggleChatIntegration}
-              />
-            </div>
-
-            <div className={'flex-1 px-2'}>
-              <p className={'text-xl text-white font-bold'}>Unlimited</p>
-              <p className={'text-base text-white'}>If you have Just Dance unlimited</p>
-
-              <p className={'text-base text-white mt-2'}>
-                <b>Note</b>: Changing this value will automatically save.
-              </p>
-
-              <ToggleButton
-                id={'unlimited-toggle'}
-                checked={this.state.configuration.unlimited}
-                onToggle={this.handleToggleUnlimited}
-              />
-            </div>
-
-            <div className={'flex-1 pl-2'}>
-              <p className={'text-xl text-white font-bold'}>Game</p>
-              <p className={'text-base text-white'}>The Just Dance version you use</p>
-
-              <p className={'text-base text-white mt-2'}>
-                <b>Note</b>: Changing the game will automatically save.
-              </p>
-
-              <div className={'mt-2'}>
-                <Select
-                  onChange={this.handleGameSelect}
-                  selected={this.state.configuration.selectedGame}
-                  options={this.state.games}
+                <ToggleButton
+                  id={'chat-integration-toggle'}
+                  checked={this.state.configuration.chatIntegration.enabled}
+                  onToggle={this.handleToggleChatIntegration}
                 />
+              </div>
+
+              <div className={'flex-1 px-2'}>
+                <p className={'text-xl text-white font-bold'}>Unlimited</p>
+                <p className={'text-base text-white'}>If you have Just Dance unlimited</p>
+
+                <p className={'text-base text-white mt-2'}>
+                  <b>Note</b>: Changing this value will automatically save.
+                </p>
+
+                <ToggleButton
+                  id={'unlimited-toggle'}
+                  checked={this.state.configuration.unlimited}
+                  onToggle={this.handleToggleUnlimited}
+                />
+              </div>
+
+              <div className={'flex-1 pl-2'}>
+                <p className={'text-xl text-white font-bold'}>Game</p>
+                <p className={'text-base text-white'}>The Just Dance version you use</p>
+
+                <p className={'text-base text-white mt-2'}>
+                  <b>Note</b>: Changing the game will automatically save.
+                </p>
+
+                <div className={'mt-2'}>
+                  <Select
+                    onChange={this.handleGameSelect}
+                    selected={this.state.configuration.selectedGame}
+                    options={this.state.games}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className={'flex flex-row p-4'}>
+              <div className={'flex-1'}>
+                <p className={'text-xl text-white font-bold'}>Queue Streamlabs Integration</p>
+                <p className={'text-base text-white'}>
+                  Copy the embed link and add it as Browser Component in Streamlabs
+                </p>
+
+                <CopyToClipboard text={this.getEmbedUrl()} onCopy={this.handleOnCopy}>
+                  <div className={'flex items-center justify-center mt-2 p-2 w-10 h-10 rounded ripple-bg-purple-600'}>
+                    <svg
+                      xmlns={'http://www.w3.org/2000/svg'}
+                      className={'w-10 h-10'}
+                      fill={'none'}
+                      viewBox={'0 0 24 24'}
+                      stroke={'#fff'}
+                    >
+                      <path
+                        strokeLinecap={'round'}
+                        strokeLinejoin={'round'}
+                        strokeWidth={2}
+                        d={
+                          'M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3'
+                        }
+                      />
+                    </svg>
+                  </div>
+                </CopyToClipboard>
               </div>
             </div>
           </div>
-          <div className={'flex flex-row p-4'}>
-            <div className={'flex-1'}>
-              <p className={'text-xl text-white font-bold'}>Queue Streamlabs Integration</p>
-              <p className={'text-base text-white'}>
-                Copy the embed link and add it as Browser Component in Streamlabs
-              </p>
 
-              <CopyToClipboard text={this.getEmbedUrl()}>
-                <div className={'flex items-center justify-center mt-2 p-2 w-10 h-10 rounded ripple-bg-purple-600'}>
-                  <svg
-                    xmlns={'http://www.w3.org/2000/svg'}
-                    className={'w-10 h-10'}
-                    fill={'none'}
-                    viewBox={'0 0 24 24'}
-                    stroke={'#fff'}
-                  >
-                    <path
-                      strokeLinecap={'round'}
-                      strokeLinejoin={'round'}
-                      strokeWidth={2}
-                      d={
-                        'M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3'
-                      }
-                    />
-                  </svg>
-                </div>
-              </CopyToClipboard>
-            </div>
+          <div className={'flex flex-col flex-70 space-y-4 overflow-auto'}>
+            <SearchBar onChange={debounce(this.filterSongs, 300)} />
+
+            <BanlistOverview
+              songdata={this.state.filteredSongs}
+              banlist={this.state.configuration.banlist}
+              onBan={this.handleBanToggle}
+            />
           </div>
+
+          <button
+            className={'mb-2 rounded-full py-1 px-24 ripple-bg-purple-600 text-white'}
+            onClick={this.saveConfiguration}
+          >
+            Save
+          </button>
         </div>
-
-        <div className={'flex flex-col flex-70 space-y-4 overflow-auto'}>
-          <SearchBar onChange={debounce(this.filterSongs, 300)} />
-
-          <BanlistOverview
-            songdata={this.state.filteredSongs}
-            banlist={this.state.configuration.banlist}
-            onBan={this.handleBanToggle}
-          />
-        </div>
-
-        <button
-          className={'mb-2 rounded-full py-1 px-24 ripple-bg-purple-600 text-white'}
-          onClick={this.saveConfiguration}
-        >
-          Save
-        </button>
 
         <StatusMessage displayType={this.state.statusMessage.displayType} />
       </div>
