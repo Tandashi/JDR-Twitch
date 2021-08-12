@@ -1,5 +1,9 @@
 module.exports = {
   theme: {
+    ripple: theme => ({
+      colors: theme('colors')
+    }),
+
     flex: {
       '1': '1 1 0%',
       auto: '1 1 auto',
@@ -20,4 +24,7 @@ module.exports = {
   purge: {
     enabled: false
   },
+  plugins: [
+    require('tailwindcss-ripple')()
+  ]
 }
