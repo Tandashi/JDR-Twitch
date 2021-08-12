@@ -223,7 +223,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
               <p className={'text-base text-white'}>
                 If enable will add the
                 <a className={'font-medium'} href={'https://www.twitch.tv/justdancerequests'}>
-                  JustDanceRequests
+                  &nbsp;JustDanceRequests&nbsp;
                 </a>
                 Bot to your channel. <br />
                 Commands: !sr, !banlist
@@ -243,6 +243,10 @@ export default class ConfigurationPage extends React.Component<Props, State> {
               <p className={'text-xl text-white font-bold'}>Unlimited</p>
               <p className={'text-base text-white'}>If you have Just Dance unlimited</p>
 
+              <p className={'text-base text-white mt-2'}>
+                <b>Note</b>: Changing this value will automatically save.
+              </p>
+
               <ToggleButton
                 id={'unlimited-toggle'}
                 checked={this.state.configuration.unlimited}
@@ -253,6 +257,10 @@ export default class ConfigurationPage extends React.Component<Props, State> {
             <div className={'flex-1 pl-2'}>
               <p className={'text-xl text-white font-bold'}>Game</p>
               <p className={'text-base text-white'}>The Just Dance version you use</p>
+
+              <p className={'text-base text-white mt-2'}>
+                <b>Note</b>: Changing the game will automatically save.
+              </p>
 
               <div className={'mt-2'}>
                 <Select

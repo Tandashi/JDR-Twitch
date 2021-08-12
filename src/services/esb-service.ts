@@ -30,13 +30,69 @@ type NonDataRequest = {
 };
 
 type DataRequest<T> = {
-  method: 'post' | 'patch';
+  method: 'post' | 'patch' | 'delete';
   data: T;
 };
 
 type Request<T> = NonDataRequest | DataRequest<T>;
 
 export default class ESBService {
+  private static async sendRequest<R, D = {}>(
+    url: string,
+    headers: Object,
+    request: Request<D>
+  ): Promise<Result<ESBResponse<R>, Errors>> {
+    const config = ConfigService.getConfig();
+
+    try {
+      let response;
+      switch (request.method) {
+        case 'get':
+          response = await axios[request.method]<ESBResponse<R>>(`${config.ebs.baseUrl}${url}`, {
+            headers: headers,
+          });
+          break;
+        case 'patch':
+        case 'post':
+          response = await axios[request.method]<ESBResponse<R>>(`${config.ebs.baseUrl}${url}`, request.data, {
+            headers: headers,
+          });
+          break;
+        case 'delete':
+          response = await axios[request.method]<ESBResponse<R>>(`${config.ebs.baseUrl}${url}`, {
+            headers: headers,
+            data: request.data,
+          });
+          break;
+      }
+
+      return Success(response.data);
+    } catch (e) {
+      const error = e as AxiosError<ESBErrorResponse>;
+      return Success(error.response.data);
+    }
+  }
+
+  private static async sendSecretRequest<R, D = {}>(
+    url: string,
+    request: Request<D>
+  ): Promise<Result<ESBResponse<R>, Errors>> {
+    const config = ConfigService.getConfig();
+
+    const auth = config.api.secret;
+    if (!auth) {
+      return Failure<Errors>('unauthorized', 'Not authorized.');
+    }
+
+    return this.sendRequest(
+      url,
+      {
+        'x-api-key': auth,
+      },
+      request
+    );
+  }
+
   private static async sendAuthroizedRequest<R, D = {}>(
     url: string,
     request: Request<D>
@@ -48,31 +104,13 @@ export default class ESBService {
       return Failure<Errors>('unauthorized', 'Not authorized.');
     }
 
-    try {
-      let response;
-      switch (request.method) {
-        case 'get':
-          response = await axios[request.method]<ESBResponse<R>>(`${config.ebs.baseUrl}${url}`, {
-            headers: {
-              Authorization: `Bearer ${auth.token}`,
-            },
-          });
-          break;
-        case 'patch':
-        case 'post':
-          response = await axios[request.method]<ESBResponse<R>>(`${config.ebs.baseUrl}${url}`, request.data, {
-            headers: {
-              Authorization: `Bearer ${auth.token}`,
-            },
-          });
-          break;
-      }
-
-      return Success(response.data);
-    } catch (e) {
-      const error = e as AxiosError<ESBErrorResponse>;
-      return Success(error.response.data);
-    }
+    return this.sendRequest(
+      url,
+      {
+        Authorization: `Bearer ${auth.token}`,
+      },
+      request
+    );
   }
 
   public static async loadFilteredSongs(excludeBanlist: boolean): Promise<Result<ESBResponse<ISongData[]>, Errors>> {
@@ -97,6 +135,47 @@ export default class ESBService {
         id: songId,
       },
     });
+
+    if (requestResult.type === 'error') {
+      return requestResult;
+    }
+
+    return Success(requestResult.data);
+  }
+
+  public static async getQueue(): Promise<Result<ESBResponse<IQueue>, Errors>> {
+    const requestResult = await this.sendAuthroizedRequest<IQueue>('/api/v1/queue', {
+      method: 'get',
+    });
+
+    if (requestResult.type === 'error') {
+      return requestResult;
+    }
+
+    return Success(requestResult.data);
+  }
+
+  public static async getQueueWithSecret(): Promise<Result<ESBResponse<IQueue>, Errors>> {
+    const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue', {
+      method: 'get',
+    });
+
+    if (requestResult.type === 'error') {
+      return requestResult;
+    }
+
+    return Success(requestResult.data);
+  }
+
+  public static async deleteFromQueue(index: number): Promise<Result<ESBResponse<IQueue>, Errors>> {
+    const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue', {
+      method: 'delete',
+      data: {
+        index: index,
+      },
+    });
+
+    console.log(requestResult);
 
     if (requestResult.type === 'error') {
       return requestResult;

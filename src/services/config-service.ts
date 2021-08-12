@@ -6,9 +6,14 @@ interface EBSConfig {
   baseUrl: string;
 }
 
+interface APIConfig {
+  secret: string;
+}
+
 interface Config {
   ebs: EBSConfig;
   twitch: TwitchConfig;
+  api: APIConfig;
 }
 
 export default class ConfigService {
@@ -22,6 +27,9 @@ export default class ConfigService {
     },
     twitch: {
       auth: undefined,
+    },
+    api: {
+      secret: undefined,
     },
   };
 
