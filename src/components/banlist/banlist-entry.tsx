@@ -32,8 +32,8 @@ export default class BanlistEntry extends React.Component<Props> {
             )}
           </div>
 
-          <div className={'p-2 min-w-0 self-center'}>
-            <p className={'text-sm leading-3 text-gray-700 font-bold truncate'}>{this.props.songdata.title}</p>
+          <div className={'px-2 min-w-0 self-center'}>
+            <p className={'text-sm text-gray-700 font-bold truncate'}>{this.props.songdata.title}</p>
             <p className={'text-xs text-gray-600 truncate'}>{this.props.songdata.artist}</p>
           </div>
         </div>
