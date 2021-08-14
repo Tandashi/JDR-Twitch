@@ -12,14 +12,14 @@ export default class SongPreview extends React.Component<Props> {
   public render(): JSX.Element {
     return (
       <div className={'song-preview flex h-full rounded-lg justify-center'}>
-        {this.props.songdata.preview_video_url ? (
+        {this.props.songdata.preview_url ? (
           <div className={'self-center justify-self-center'}>
             <video
               className={'rounded-lg'}
               loop={true}
               autoPlay={true}
               muted={true}
-              src={this.props.songdata.preview_video_url}
+              src={this.props.songdata.preview_url}
             />
           </div>
         ) : (

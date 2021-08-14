@@ -15,7 +15,11 @@ export default class SongHeader extends React.Component<Props> {
           <p className={'song-header-title truncate'}>{this.props.songdata.title}</p>
           <p className={'song-header-artist truncate'}>{this.props.songdata.artist}</p>
         </div>
-        <img className={'flex-shrink flex-20 rounded-r min-w-0'} draggable={false} src={this.props.songdata.img_url} />
+        <img
+          className={'flex-shrink flex-20 rounded-r min-w-0'}
+          draggable={false}
+          src={this.props.songdata.image_url}
+        />
       </div>
     );
   }
