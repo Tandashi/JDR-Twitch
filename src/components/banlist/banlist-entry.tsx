@@ -11,11 +11,13 @@ interface Props {
 export default class BanlistEntry extends React.Component<Props> {
   public render(): JSX.Element {
     return (
-      <div className={'flex items-center justify-between p-2 rounded-full bg-gray-100 border-2'}>
-        <div className={'flex items-center'}>
+      <div className={'flex flex-nowrap items-center justify-between p-2 rounded-full min-w-0 bg-gray-100 border-2'}>
+        <div className={'flex min-w-0 items-center'}>
           <div
             onClick={this.props.onClick}
-            className={'flex items-center justify-center h-12 w-12 rounded-full border mb-0 mr-3 cursor-pointer'}
+            className={
+              'flex flex-shrink-0 items-center justify-center h-12 w-12 rounded-full border mb-0 mr-3 cursor-pointer'
+            }
           >
             {this.props.banned && (
               <svg
@@ -30,9 +32,9 @@ export default class BanlistEntry extends React.Component<Props> {
             )}
           </div>
 
-          <div className={'flex flex-col'}>
-            <div className={'text-sm leading-3 text-gray-700 font-bold w-full'}>{this.props.songdata.title}</div>
-            <div className={'text-xs text-gray-600 w-full'}>{this.props.songdata.artist}</div>
+          <div className={'p-2 min-w-0 self-center'}>
+            <p className={'text-sm leading-3 text-gray-700 font-bold truncate'}>{this.props.songdata.title}</p>
+            <p className={'text-xs text-gray-600 truncate'}>{this.props.songdata.artist}</p>
           </div>
         </div>
       </div>
