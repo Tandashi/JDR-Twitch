@@ -73,7 +73,7 @@ export default class ESBService {
     }
   }
 
-  private static async sendSecretRequest<R, D = {}>(
+  private static async sendSecretAuthorizedRequest<R, D = {}>(
     url: string,
     request: Request<D>
   ): Promise<Result<ESBResponse<R>, Errors>> {
@@ -93,7 +93,7 @@ export default class ESBService {
     );
   }
 
-  private static async sendAuthroizedRequest<R, D = {}>(
+  private static async sendTwitchAuthroizedRequest<R, D = {}>(
     url: string,
     request: Request<D>
   ): Promise<Result<ESBResponse<R>, Errors>> {
@@ -111,6 +111,25 @@ export default class ESBService {
       },
       request
     );
+  }
+
+  private static async sendAuthroizedRequest<R, D = {}>(
+    url: string,
+    request: Request<D>
+  ): Promise<Result<ESBResponse<R>, Errors>> {
+    const config = ConfigService.getConfig();
+
+    const auth = config.twitch.auth;
+    if (auth) {
+      return this.sendTwitchAuthroizedRequest(url, request);
+    }
+
+    const secret = config.api.secret;
+    if (secret) {
+      return this.sendSecretAuthorizedRequest(url, request);
+    }
+
+    return Failure<Errors>('unauthorized', 'Not authorized.');
   }
 
   public static async loadFilteredSongs(excludeBanlist: boolean): Promise<Result<ESBResponse<ISongData[]>, Errors>> {
@@ -156,7 +175,7 @@ export default class ESBService {
   }
 
   public static async setQueueStatus(enabled: boolean): Promise<Result<ESBResponse<IQueue>, Errors>> {
-    const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue', {
+    const requestResult = await this.sendAuthroizedRequest<IQueue>('/api/v1/queue', {
       method: 'patch',
       data: {
         enabled: enabled,
@@ -171,7 +190,7 @@ export default class ESBService {
   }
 
   public static async clearQueue(): Promise<Result<ESBResponse<IQueue>, Errors>> {
-    const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue/clear', {
+    const requestResult = await this.sendAuthroizedRequest<IQueue>('/api/v1/queue/clear', {
       method: 'post',
       data: {},
     });
@@ -184,7 +203,7 @@ export default class ESBService {
   }
 
   public static async announceQueueEntry(index: number): Promise<Result<ESBResponse<IQueue>, Errors>> {
-    const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue/announce', {
+    const requestResult = await this.sendAuthroizedRequest<IQueue>('/api/v1/queue/announce', {
       method: 'post',
       data: {
         index: index,
@@ -198,20 +217,8 @@ export default class ESBService {
     return Success(requestResult.data);
   }
 
-  public static async getQueueWithSecret(): Promise<Result<ESBResponse<IQueue>, Errors>> {
-    const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue', {
-      method: 'get',
-    });
-
-    if (requestResult.type === 'error') {
-      return requestResult;
-    }
-
-    return Success(requestResult.data);
-  }
-
   public static async deleteFromQueue(index: number): Promise<Result<ESBResponse<IQueue>, Errors>> {
-    const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue', {
+    const requestResult = await this.sendAuthroizedRequest<IQueue>('/api/v1/queue', {
       method: 'delete',
       data: {
         index: index,
@@ -244,7 +251,7 @@ export default class ESBService {
     game: string,
     unlimited: boolean
   ): Promise<Result<ESBResponse<IProfile>, Errors>> {
-    const requestResult = await this.sendAuthroizedRequest<IProfile>('/api/v1/profile', {
+    const requestResult = await this.sendTwitchAuthroizedRequest<IProfile>('/api/v1/profile', {
       method: 'patch',
       data: {
         name: 'default',
@@ -270,7 +277,7 @@ export default class ESBService {
     perUser: number,
     duplicates: boolean
   ): Promise<Result<ESBResponse<IStreamerConfiguration>, Errors>> {
-    const requestResult = await this.sendAuthroizedRequest<IStreamerConfiguration>('/api/v1/configuration', {
+    const requestResult = await this.sendTwitchAuthroizedRequest<IStreamerConfiguration>('/api/v1/configuration', {
       method: 'patch',
       data: {
         chatIntegration: {
@@ -303,7 +310,7 @@ export default class ESBService {
   }
 
   public static async regenerateSecret(): Promise<Result<ESBResponse<boolean>, Errors>> {
-    const requestResult = await this.sendAuthroizedRequest<boolean>('/api/v1/streamerdata/secret', {
+    const requestResult = await this.sendTwitchAuthroizedRequest<boolean>('/api/v1/streamerdata/secret', {
       method: 'patch',
       data: {},
     });

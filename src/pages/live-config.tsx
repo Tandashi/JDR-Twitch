@@ -40,7 +40,7 @@ export default class LiveConfigPage extends React.Component<Props, State> {
   }
 
   async loadQueue(): Promise<void> {
-    const responseResult = await ESBService.getQueueWithSecret();
+    const responseResult = await ESBService.getQueue();
 
     if (responseResult.type === 'success') {
       if (responseResult.data.code === 200) {
