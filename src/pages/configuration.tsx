@@ -288,7 +288,9 @@ export default class ConfigurationPage extends React.Component<Props, State> {
   }
 
   private getEmbedUrl(): string {
-    return `${window.location.origin}/live-config.html?secret=${this.state.streamerData?.secret}`;
+    let url = window.location.href;
+    url = url.substring(0, url.lastIndexOf('/') + 1);
+    return `${url}/live-configuration.html?secret=${this.state.streamerData?.secret}`;
   }
 
   private handleOnCopy(): void {

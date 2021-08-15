@@ -101,7 +101,7 @@ export default class LiveConfigPage extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <div className={'flex flex-col space-y-6'}>
+      <div className={'flex flex-col space-y-6 select-none'}>
         <div className={'flex flex-row flex-1 items-center space-x-10 bg-gray-800'}>
           <div className={'flex flex-row items-center p-4'}>
             <p className={'text-base text-white font-bold pr-4'}>Queue</p>
@@ -109,14 +109,14 @@ export default class LiveConfigPage extends React.Component<Props, State> {
           </div>
 
           <div
-            className={'bg-purple-500 hover:bg-purple-700 py-2 px-4 border border-purple-700 rounded cursor-pointer'}
+            className={'ripple-bg-purple-600 bg-purple-500 hover:bg-purple-700 py-2 px-4 rounded cursor-pointer'}
             onClick={() => this.handleQueueClear()}
           >
             <p className={'text-base font-bold text-white'}>Clear Queue</p>
           </div>
 
           <div
-            className={'bg-purple-500 hover:bg-purple-700 py-2 px-4 border border-purple-700 rounded cursor-pointer'}
+            className={'ripple-bg-purple-600 bg-purple-500 hover:bg-purple-700 py-2 px-4 rounded cursor-pointer'}
             onClick={() => this.handleRandomSelect()}
           >
             <p className={'text-base font-bold text-white'}>Pick Random</p>
@@ -126,13 +126,11 @@ export default class LiveConfigPage extends React.Component<Props, State> {
         <div className={'p-4 space-y-4'}>
           {this.state.queue.entries.map((e, i) => {
             const isSelected = e.title === this.state.selected?.title;
-            const classNames = isSelected
-              ? 'bg-red-500 hover:bg-red-700 border-red-700'
-              : 'bg-purple-500 hover:bg-purple-700 border-purple-700';
+            const classNames = isSelected ? 'bg-red-500 hover:bg-red-700' : 'bg-purple-500 hover:bg-purple-700';
 
             return (
               <div
-                className={`${classNames} py-4 px-4 border  rounded cursor-pointer`}
+                className={`${classNames} py-4 px-4 rounded cursor-pointer`}
                 onClick={isSelected ? () => this.handleRemove(i) : () => this.handleSelect(i)}
               >
                 <p className={'text-base font-bold text-white'}>{isSelected ? 'Remove from Queue' : e.title}</p>

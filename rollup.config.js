@@ -18,7 +18,8 @@ function compile(input) {
     input: [input],
     output: {
       dir: 'dist/',
-      format: 'iife'
+      format: 'iife',
+      plugins: process.env.mini ? [terser()] : []
     },
     plugins: [
       alias({

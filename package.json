@@ -8,8 +8,9 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "build": "yarn tslint && rollup -c",
-    "watch": "yarn tslint && rollup -cw",
+    "build": "rm dist -rf && yarn tslint && rollup -c",
+    "deploy": "rm -f dist/extension.zip && mini=true yarn build && cd dist && zip extension.zip *",
+    "watch": "rm dist -rf && yarn tslint && rollup -cw",
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
   "devDependencies": {
