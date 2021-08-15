@@ -102,9 +102,13 @@ export default class LiveConfigPage extends React.Component<Props, State> {
   public render(): JSX.Element {
     return (
       <div className={'flex flex-col space-y-6 select-none'}>
-        <div className={'flex flex-row flex-1 items-center space-x-10 bg-gray-800'}>
-          <div className={'flex flex-row items-center p-4'}>
-            <p className={'text-base text-white font-bold pr-4'}>Queue</p>
+        <div
+          className={
+            'flex flex-row flex-1 items-center p-2 sm:p-4 text-xs sm:text-sm md:text-base space-x-4 md:space-x-10 bg-gray-800'
+          }
+        >
+          <div className={'flex flex-row items-center'}>
+            <p className={'text-white font-bold pr-2 md:pr-4'}>Queue</p>
             <ToggleButton id={'queueToggle'} checked={this.state.queue.enabled} onToggle={() => this.handleToggle()} />
           </div>
 
@@ -112,14 +116,14 @@ export default class LiveConfigPage extends React.Component<Props, State> {
             className={'ripple-bg-purple-600 bg-purple-500 hover:bg-purple-700 py-2 px-4 rounded cursor-pointer'}
             onClick={() => this.handleQueueClear()}
           >
-            <p className={'text-base font-bold text-white'}>Clear Queue</p>
+            <p className={'font-bold text-white'}>Clear Queue</p>
           </div>
 
           <div
             className={'ripple-bg-purple-600 bg-purple-500 hover:bg-purple-700 py-2 px-4 rounded cursor-pointer'}
             onClick={() => this.handleRandomSelect()}
           >
-            <p className={'text-base font-bold text-white'}>Pick Random</p>
+            <p className={'font-bold text-white'}>Pick Random</p>
           </div>
         </div>
 
