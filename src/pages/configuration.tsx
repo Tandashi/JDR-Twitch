@@ -319,7 +319,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
                   Bot to your channel. <br />
                   Commands: !sr, !banlist
                 </p>
-                <p className={'text-base text-white mt-2'}>
+                <p className={'text-base text-white my-2'}>
                   <b>Note</b>: Banlist will not be enforced for songs requested via chat
                 </p>
 
@@ -334,7 +334,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
                 <p className={'text-xl text-white font-bold'}>Unlimited</p>
                 <p className={'text-base text-white'}>If you have Just Dance unlimited</p>
 
-                <p className={'text-base text-white mt-2'}>
+                <p className={'text-base text-white my-2'}>
                   <b>Note</b>: Changing this value will automatically save.
                 </p>
 
@@ -353,7 +353,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
                   <b>Note</b>: Changing the game will automatically save.
                 </p>
 
-                <div className={'mt-2'}>
+                <div className={'my-2'}>
                   <Select
                     onChange={this.handleGameSelect}
                     selected={this.state.configuration.selectedGame}

@@ -1,7 +1,9 @@
 export default interface IQueue {
   enabled: boolean;
-  entries: {
-    title: string;
-    fromChat: boolean;
-  }[];
+  entries: IQueueEntry[];
+}
+
+export interface IQueueEntry {
+  title: string;
+  fromChat: boolean;
 }

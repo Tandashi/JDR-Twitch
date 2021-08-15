@@ -183,6 +183,21 @@ export default class ESBService {
     return Success(requestResult.data);
   }
 
+  public static async announceQueueEntry(index: number): Promise<Result<ESBResponse<IQueue>, Errors>> {
+    const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue/announce', {
+      method: 'post',
+      data: {
+        index: index,
+      },
+    });
+
+    if (requestResult.type === 'error') {
+      return requestResult;
+    }
+
+    return Success(requestResult.data);
+  }
+
   public static async getQueueWithSecret(): Promise<Result<ESBResponse<IQueue>, Errors>> {
     const requestResult = await this.sendSecretRequest<IQueue>('/api/v1/queue', {
       method: 'get',
