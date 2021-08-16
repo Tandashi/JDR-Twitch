@@ -371,6 +371,10 @@ export default class ConfigurationPage extends React.Component<Props, State> {
                   Copy the embed link and add it as Browser Component in Streamlabs
                 </p>
 
+                <p className={'text-base text-white mt-2'}>
+                  <b>Note</b>: Do <b>NOT</b> share this link with anyone!
+                </p>
+
                 <CopyToClipboard text={this.getEmbedUrl()} onCopy={this.handleOnCopy}>
                   <div className={'flex items-center justify-center mt-2 p-2 w-10 h-10 rounded ripple-bg-purple-600'}>
                     <svg
