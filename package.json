@@ -3,15 +3,18 @@
   "description": "",
   "version": "1.0.0",
   "author": {
-    "name": ""
+    "name": "Tandashi"
   },
-  "repository": {},
+  "repository": {
+    "url": "https://github.com/Tandashi/JDR-Twitch"
+  },
   "license": "MIT",
   "scripts": {
-    "build": "rm dist -rf && yarn tslint && rollup -c",
+    "build": "rm -rf dist && yarn tslint && rollup -c",
     "deploy": "rm -f dist/extension.zip && mini=true yarn build && cd dist && zip extension.zip *",
-    "watch": "rm dist -rf && yarn tslint && rollup -cw",
-    "tslint": "tslint -c tslint.json -p tsconfig.json"
+    "watch": "yarn build -w",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "server-static": "mkdir -p dist && cd dist && python3 -m http.server 8080"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.4",
