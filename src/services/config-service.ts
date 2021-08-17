@@ -23,7 +23,7 @@ export default class ConfigService {
     ebs: {
       // https://jd.tandashi.de
       // http://localhost:3000
-      baseUrl: 'http://localhost:3000',
+      baseUrl: 'https://jd.tandashi.de',
     },
     twitch: {
       auth: undefined,
