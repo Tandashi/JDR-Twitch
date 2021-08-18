@@ -307,10 +307,10 @@ export default class ConfigurationPage extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <div className={'configuration flex flex-col space-y-2 rounded h-full w-full overflow-hidden select-none'}>
-        <div className={'flex flex-col space-y-2 p-2 rounded h-full w-full overflow-hidden select-none'}>
-          <div className={'flex flex-col'}>
-            <div className={'flex flex-row flex-30 p-4 retina-144:pb-2'}>
+      <div className={'configuration flex flex-col space-y-2 rounded h-full w-full overflow-auto select-none'}>
+        <div className={'flex flex-col space-y-2 p-2 rounded h-full w-full overflow-auto select-none'}>
+          <div className={'flex flex-col flex-30 retina-144:overflow-auto'}>
+            <div className={'flex flex-row p-4 retina-144:pb-2'}>
               <div className={'flex-1 pr-2'}>
                 <p className={'text-xl retina-144:text-base text-white font-bold'}>Chat Integration</p>
                 <p className={'text-base retina-144:text-xs text-white'}>

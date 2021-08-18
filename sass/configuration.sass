@@ -1,5 +1,9 @@
 @import './main'
 @import './colors/configuration'
+@import './mixins/scrollbar'
 
 div.configuration
   background: $configuration-background
+
+  & div
+    @include default-scrollbar
