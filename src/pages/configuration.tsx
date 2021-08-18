@@ -310,10 +310,10 @@ export default class ConfigurationPage extends React.Component<Props, State> {
       <div className={'configuration flex flex-col space-y-2 rounded h-full w-full overflow-hidden select-none'}>
         <div className={'flex flex-col space-y-2 p-2 rounded h-full w-full overflow-hidden select-none'}>
           <div className={'flex flex-col'}>
-            <div className={'flex flex-row flex-30 p-4'}>
+            <div className={'flex flex-row flex-30 p-4 retina-144:pb-2'}>
               <div className={'flex-1 pr-2'}>
-                <p className={'text-xl text-white font-bold'}>Chat Integration</p>
-                <p className={'text-base text-white'}>
+                <p className={'text-xl retina-144:text-base text-white font-bold'}>Chat Integration</p>
+                <p className={'text-base retina-144:text-xs text-white'}>
                   If enable will add the
                   <a className={'font-medium'} href={'https://www.twitch.tv/justdancerequests'}>
                     &nbsp;JustDanceRequests&nbsp;
@@ -321,7 +321,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
                   Bot to your channel. <br />
                   Commands: !sr, !banlist
                 </p>
-                <p className={'text-base text-white my-2'}>
+                <p className={'text-base retina-144:text-xs text-white my-2'}>
                   <b>Note</b>: Banlist will not be enforced for songs requested via chat
                 </p>
 
@@ -333,10 +333,10 @@ export default class ConfigurationPage extends React.Component<Props, State> {
               </div>
 
               <div className={'flex-1 px-2'}>
-                <p className={'text-xl text-white font-bold'}>Unlimited</p>
-                <p className={'text-base text-white'}>If you have Just Dance unlimited</p>
+                <p className={'text-xl retina-144:text-base text-white font-bold'}>Unlimited</p>
+                <p className={'text-base retina-144:text-xs text-white'}>If you have Just Dance unlimited</p>
 
-                <p className={'text-base text-white my-2'}>
+                <p className={'text-base retina-144:text-xs text-white my-2'}>
                   <b>Note</b>: Changing this value will automatically save.
                 </p>
 
@@ -348,10 +348,10 @@ export default class ConfigurationPage extends React.Component<Props, State> {
               </div>
 
               <div className={'flex-1 pl-2'}>
-                <p className={'text-xl text-white font-bold'}>Game</p>
-                <p className={'text-base text-white'}>The Just Dance version you use</p>
+                <p className={'text-xl retina-144:text-base text-white font-bold'}>Game</p>
+                <p className={'text-base retina-144:text-xs text-white'}>The Just Dance version you use</p>
 
-                <p className={'text-base text-white mt-2'}>
+                <p className={'text-base retina-144:text-xs text-white mt-2'}>
                   <b>Note</b>: Changing the game will automatically save.
                 </p>
 
@@ -364,19 +364,19 @@ export default class ConfigurationPage extends React.Component<Props, State> {
                 </div>
               </div>
             </div>
-            <div className={'flex flex-row p-4'}>
+            <div className={'flex flex-row p-4 retina-144:pt-0'}>
               <div className={'flex-1'}>
-                <p className={'text-xl text-white font-bold'}>Queue Streamlabs Integration</p>
-                <p className={'text-base text-white'}>
+                <p className={'text-xl retina-144:text-base text-white font-bold'}>Queue Streamlabs Integration</p>
+                <p className={'text-base retina-144:text-xs text-white'}>
                   Copy the embed link and add it as Browser Component in Streamlabs
                 </p>
 
-                <p className={'text-base text-white mt-2'}>
+                <p className={'text-base retina-144:text-xs text-white mt-2'}>
                   <b>Note</b>: Do <b>NOT</b> share this link with anyone!
                 </p>
 
                 <CopyToClipboard text={this.getEmbedUrl()} onCopy={this.handleOnCopy}>
-                  <div className={'flex items-center justify-center mt-2 p-2 w-10 h-10 rounded ripple-bg-purple-600'}>
+                  <div className={'flex items-center justify-center mt-2 p-2 retina-144:p-1 w-10 retina-144:w-6 h-10 retina-144:h-6 rounded ripple-bg-purple-600 cursor-pointer'}>
                     <svg
                       xmlns={'http://www.w3.org/2000/svg'}
                       className={'w-10 h-10'}
@@ -410,7 +410,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
           </div>
 
           <button
-            className={'mb-2 rounded-full py-1 px-24 ripple-bg-purple-600 text-white'}
+            className={'retina-144:text-sm mb-2 rounded-full py-1 px-24 ripple-bg-purple-600 text-white'}
             onClick={this.saveConfiguration}
           >
             Save

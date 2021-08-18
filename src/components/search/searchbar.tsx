@@ -27,7 +27,7 @@ export default class SearchBar extends React.Component<Props, State> {
     return (
       <div className={'searchbar rounded flex flex-row'}>
         <span className={'flex items-center px-3'}>
-          <svg className={'h-6 w-6'} fill={'none'} viewBox={'0 0 24 24'} stroke={'#fff'}>
+          <svg className={'h-6 retina-144:h-4 w-6 retina-144:w-4'} fill={'none'} viewBox={'0 0 24 24'} stroke={'#fff'}>
             <path
               strokeLinecap={'round'}
               strokeLinejoin={'round'}
@@ -38,7 +38,7 @@ export default class SearchBar extends React.Component<Props, State> {
         </span>
 
         <input
-          className={'flex-1 pr-4 rounded-r bg-transparent'}
+          className={'flex-1 pr-4 retina-144:pr-3 rounded-r bg-transparent'}
           spellCheck={false}
           value={this.state.value}
           onChange={this.handleChange}

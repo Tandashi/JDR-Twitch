@@ -16,12 +16,12 @@ export default class BanlistEntry extends React.Component<Props> {
           <div
             onClick={this.props.onClick}
             className={
-              'flex flex-shrink-0 items-center justify-center h-12 w-12 rounded-full border mb-0 mr-3 cursor-pointer'
+              'flex flex-shrink-0 items-center justify-center h-12 retina-144:h-8 w-12 retina-144:w-8 rounded-full border mb-0 mr-3 cursor-pointer'
             }
           >
             {this.props.banned && (
               <svg
-                className={'h-10 w-10'}
+                className={'h-10 retina-144:h6 w-10 retina-144:w-6'}
                 xmlns={'http://www.w3.org/2000/svg'}
                 fill={'none'}
                 viewBox={'0 0 24 24'}

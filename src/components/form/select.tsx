@@ -9,9 +9,9 @@ interface Props {
 export default class Select extends React.Component<Props> {
   public render(): JSX.Element {
     return (
-      <div className={'relative inline-flex'}>
+      <div className={'relative inline-flex retina-144:text-xs'}>
         <svg
-          className={'w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none'}
+          className={'w-2 h-2 absolute top-0 right-0 m-4 retina-144:m-3 pointer-events-none'}
           xmlns={'http://www.w3.org/2000/svg'}
           viewBox={'0 0 412 232'}
         >
@@ -27,7 +27,7 @@ export default class Select extends React.Component<Props> {
         <select
           onChange={this.props.onChange}
           className={
-            'border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none'
+            'border border-gray-300 rounded-full text-gray-600 h-10 retina-144:h-8 pl-5 retina-144:pl-3 pr-10 retina-144:pr-6 bg-white hover:border-gray-400 focus:outline-none appearance-none'
           }
         >
           {this.props.options.map((e) => {

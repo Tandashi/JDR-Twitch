@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   theme: {
     ripple: theme => ({
@@ -19,6 +21,14 @@ module.exports = {
       DEFAULT: 1,
       '2': 2,
       '4': 4
+    },
+    extend: {
+      screens: {
+        'retina-192': {'raw': 'screen and (-webkit-min-device-pixel-ratio: 2), screen and (min-resolution: 192dpi), screen and (min-resolution: 2dppx)'},
+        'retina-144': {'raw': 'screen and (-webkit-min-device-pixel-ratio: 1.5), screen and (min-resolution: 144dpi), screen and (min-resolution: 1.5dppx)'},
+        'retina-120': {'raw': 'screen and (-webkit-min-device-pixel-ratio: 1.25), screen and (min-resolution: 120dpi), screen and (min-resolution: 1.25dppx)'},
+        // => @media (orientation: portrait) { ... }
+      }
     }
   },
   purge: {
