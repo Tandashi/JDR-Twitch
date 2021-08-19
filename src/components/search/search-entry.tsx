@@ -21,8 +21,8 @@ export default class SearchEntry extends React.Component<Props> {
           src={this.props.songdata.image_url}
         />
         <div className={'flex-grow-4 flex-shrink-0 flex-80 p-2 min-w-0 self-center'}>
-          <p className={'search-entry-title truncate'}>{this.props.songdata.title}</p>
-          <p className={'search-entry-artist truncate'}>{this.props.songdata.artist}</p>
+          <p className={'text-sm md:text-base retina-144:text-base lg:text-lg truncate'}>{this.props.songdata.title}</p>
+          <p className={'text-xs md:text-sm retina-144:text-sm lg:text-base truncate'}>{this.props.songdata.artist}</p>
         </div>
       </div>
     );

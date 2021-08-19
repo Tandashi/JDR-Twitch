@@ -98,7 +98,7 @@ export default class SongDetails extends React.Component<Props, State> {
 
         <div className={'flex flex-row space-x-2 px-6 mt-4 h-10'}>
           <div
-            className={'song-details-button song-details-back flex items-center justify-center flex-20 rounded-lg cursor-pointer'}
+            className={'song-details-button flex items-center justify-center flex-20 rounded-lg cursor-pointer'}
             onClick={() => this.props.onBack()}
           >
             <svg
