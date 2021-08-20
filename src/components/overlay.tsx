@@ -17,7 +17,7 @@ export default class Overlay extends React.Component<Props> {
     const slideClass = this.props.isOpen ? 'slide-out' : 'slide-in';
     const fixturePoint = this.props.direction === OverlayDirection.LEFT ? 'left-0' : 'right-0';
     return (
-      <div className={`overlay h-full w-full ${slideClass} fixed top-0 ${fixturePoint} z-10 overflow-x-hidden`}>
+      <div className={`overlay h-full w-full ${slideClass} fixed top-0 ${fixturePoint} z-10 overflow-auto`}>
         {this.props.children}
       </div>
     );
