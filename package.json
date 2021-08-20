@@ -13,6 +13,7 @@
     "build": "rm -rf dist && yarn tslint && rollup -c",
     "deploy": "rm -f dist/extension.zip && mini=true yarn build && cd dist && zip extension.zip *",
     "watch": "yarn build -w",
+
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "server-static": "mkdir -p dist && cd dist && python3 -m http.server 8080"
   },

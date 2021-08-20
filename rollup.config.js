@@ -13,7 +13,7 @@ import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
 import tailwindcss from 'tailwindcss';
 
-function compile(input) {
+function compile(input, server_url) {
   return {
     input: [input],
     output: {
@@ -36,7 +36,10 @@ function compile(input) {
       commonjs(),
       replace({
         preventAssignment: true,
-        'process.env.NODE_ENV': JSON.stringify('production')
+        values: {
+          'process.env.NODE_ENV': JSON.stringify('production'),
+          'EBS_SERVER_URL': server_url
+        }
       }),
       postcss({
         plugins: [
@@ -54,8 +57,32 @@ function compile(input) {
   }
 }
 
+if (!process.env.SERVER) {
+  throw Error('SERVER Environment Variable was not provided.');
+}
+
+let server;
+switch(process.env.SERVER) {
+  case 'prod':
+    server = 'https://jd.tandashi.de'
+    break;
+
+  case 'dev':
+    server = 'https://jd-dev.tandashi.de'
+    break;
+
+  case 'local':
+  default:
+    server = 'http://localhost:3000'
+    break;
+}
+
+if (!server) {
+  throw Error('No valid value for SERVER was defined. (local, dev, prod)');
+}
+
 export default [
-  compile('src/viewer.tsx'),
-  compile('src/configuration.tsx'),
-  compile('src/live-config.tsx'),
+  compile('src/viewer.tsx', server),
+  compile('src/configuration.tsx', server),
+  compile('src/live-config.tsx', server),
 ]

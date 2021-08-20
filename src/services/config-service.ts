@@ -21,9 +21,8 @@ export default class ConfigService {
 
   private config: Config = {
     ebs: {
-      // https://jd.tandashi.de
-      // http://localhost:3000
-      baseUrl: 'https://jd.tandashi.de',
+      // Will be replaced in the Rollup
+      baseUrl: 'EBS_SERVER_URL',
     },
     twitch: {
       auth: undefined,

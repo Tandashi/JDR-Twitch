@@ -13,14 +13,19 @@ To build the extension you need the following:
 # Install Dependencies
 yarn install
 
-# Build for production (Will create extension.zip in dist/)
-yarn deploy
+# Server Environments
+# - prod: Production Server
+# - dev: Development Server
+# - local: Local Test Server
 
-# Build development build (non-minified)
-yarn build
+# Build minified (Will create extension.zip in dist/)
+SERVER=prod yarn deploy
 
-# Build development build (with file watch)
-yarn watch
+# Build non-minified
+SERVER=prod yarn build
+
+# Build with file watch
+SERVER=prod yarn watch
 ```
 
 ## Development Process
