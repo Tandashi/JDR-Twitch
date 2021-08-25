@@ -13,7 +13,7 @@ import IStreamerData from '@models/streamerdata';
 import StatusMessage, { StatusMessageDisplayType } from '@components/status-message';
 import { Result } from '@models/result';
 
-interface Props { }
+interface Props {}
 
 interface State {
   songs: ISongData[];
@@ -31,6 +31,7 @@ interface State {
   configuration: {
     chatIntegration: {
       enabled: boolean;
+      banlistFormat: string;
     };
     requests: {
       perUser: number;
@@ -62,6 +63,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
       configuration: {
         chatIntegration: {
           enabled: false,
+          banlistFormat: '',
         },
         requests: {
           perUser: 1,
@@ -147,6 +149,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
       configuration: {
         ...this.state.configuration,
         chatIntegration: {
+          ...this.state.configuration.chatIntegration,
           enabled: !this.state.configuration.chatIntegration.enabled,
         },
       },
@@ -234,6 +237,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
         ),
         await ESBService.updateConfiguration(
           this.state.configuration.chatIntegration.enabled,
+          this.state.configuration.chatIntegration.banlistFormat,
           this.state.configuration.requests.perUser,
           this.state.configuration.requests.duplicates
         ),
@@ -366,7 +370,9 @@ export default class ConfigurationPage extends React.Component<Props, State> {
             </div>
             <div className={'flex flex-row p-4 md:pt-0 retina-144:pt-0'}>
               <div className={'flex-1'}>
-                <p className={'text-xl md:text-base retina-144:text-base text-white font-bold'}>Queue Streamlabs Integration</p>
+                <p className={'text-xl md:text-base retina-144:text-base text-white font-bold'}>
+                  Queue Streamlabs Integration
+                </p>
                 <p className={'text-base md:text-xs retina-144:text-xs text-white'}>
                   Copy the embed link and add it as Browser Component in Streamlabs
                 </p>
@@ -376,7 +382,11 @@ export default class ConfigurationPage extends React.Component<Props, State> {
                 </p>
 
                 <CopyToClipboard text={this.getEmbedUrl()} onCopy={this.handleOnCopy}>
-                  <div className={'flex items-center justify-center mt-2 p-2 md:p-1 retina-144:p-1 w-10 md:w-6 retina-144:w-6 h-10 md:h-6 retina-144:h-6 rounded ripple-bg-purple-600 cursor-pointer'}>
+                  <div
+                    className={
+                      'flex items-center justify-center mt-2 p-2 md:p-1 retina-144:p-1 w-10 md:w-6 retina-144:w-6 h-10 md:h-6 retina-144:h-6 rounded ripple-bg-purple-600 cursor-pointer'
+                    }
+                  >
                     <svg
                       xmlns={'http://www.w3.org/2000/svg'}
                       className={'w-10 h-10'}

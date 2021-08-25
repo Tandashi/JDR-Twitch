@@ -6,6 +6,7 @@ export default interface IStreamerConfiguration {
   chatIntegration: {
     enabled: boolean;
     channelName: string;
+    banlistFormat: string;
   };
 
   requests: {

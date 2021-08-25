@@ -274,6 +274,7 @@ export default class ESBService {
 
   public static async updateConfiguration(
     chatIntegration: boolean,
+    banlistFormat: string,
     perUser: number,
     duplicates: boolean
   ): Promise<Result<ESBResponse<IStreamerConfiguration>, Errors>> {
@@ -282,6 +283,7 @@ export default class ESBService {
       data: {
         chatIntegration: {
           enabled: chatIntegration,
+          banlistFormat: banlistFormat,
         },
         requests: {
           perUser: perUser,
