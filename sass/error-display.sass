@@ -1,0 +1,9 @@
+@import './main'
+@import './colors/error-display'
+@import './mixins/font'
+
+div.error-display
+  background: $error-display-background
+
+  p
+    @include default-font-style

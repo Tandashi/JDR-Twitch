@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Panel from '@pages/panel';
+import ErrorDisplayPage from '@pages/error-display';
 
 import ConfigService from '@services/config-service';
 
@@ -16,6 +17,15 @@ window.Twitch.ext.onAuthorized((auth) => {
 
   if (!window.Twitch.ext.viewer.isLinked) {
     window.Twitch.ext.actions.requestIdShare();
+    ReactDOM.render(
+      <ErrorDisplayPage>
+        Please grant permissions to the extension.
+        <br />
+        It is needed to work properly 🥳.
+      </ErrorDisplayPage>,
+      document.getElementById('root')
+    );
+    return;
   }
 
   ReactDOM.render(<Panel />, document.getElementById('root'));
