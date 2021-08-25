@@ -225,8 +225,6 @@ export default class ESBService {
       },
     });
 
-    console.log(requestResult);
-
     if (requestResult.type === 'error') {
       return requestResult;
     }

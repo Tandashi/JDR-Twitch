@@ -6,4 +6,5 @@ export default interface IQueue {
 export interface IQueueEntry {
   title: string;
   fromChat: boolean;
+  username: string;
 }
