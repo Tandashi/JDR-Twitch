@@ -53,8 +53,6 @@ export default class LiveConfigPage extends React.Component<Props, State> {
     const responseResult = await ESBService.announceQueueEntry(index);
     const selected = this.state.queue.entries[index];
 
-    console.log(selected);
-
     if (responseResult.type === 'success' && responseResult.data.code === 200) {
       // Remove entry from the Queue
       await this.handleRemove(index);
