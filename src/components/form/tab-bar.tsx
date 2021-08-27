@@ -1,7 +1,9 @@
 import React from 'react';
 
+import TabBarContent from '@components/form/tab-bar-content';
+import TabBarAccessories from '@components/form/tab-bar-accessories';
+
 import '@styles/components/tab-bar.sass';
-import TabBarContent from './tab-bar-content';
 
 interface Props {
   tabNames: string[];
@@ -16,18 +18,17 @@ export default class TabBar extends React.Component<Props> {
     let tabBarContent, tabBarAccessories;
 
     for (const child of children) {
-      console.log((child as any).type.name);
       switch ((child as any).type.name) {
-        case 'TabBarAccessories':
+        case TabBarAccessories.name:
           tabBarAccessories = child;
           break;
-        case 'TabBarContent':
+        case TabBarContent.name:
           tabBarContent = child;
           break;
       }
     }
 
-    const tabBarContentChildren = (tabBarContent as TabBarContent).props.children;
+    const tabBarContentChildren = (tabBarContent as TabBarContent)?.props?.children;
 
     return (
       <div className='flex flex-1 flex-col h-full overflow-auto'>

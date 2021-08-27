@@ -1,5 +1,8 @@
 import React from 'react';
 
+import SectionContent from '@components/configuration/section-content';
+import SectionHeader from '@components/configuration/section-header';
+
 export default class Section extends React.Component {
   public render(): JSX.Element {
     const children = React.Children.toArray(this.props.children);
@@ -8,10 +11,10 @@ export default class Section extends React.Component {
 
     for (const child of children) {
       switch ((child as any).type.name) {
-        case 'SectionHeader':
+        case SectionHeader.name:
           sectionHeader = child;
           break;
-        case 'SectionContent':
+        case SectionContent.name:
           sectionContent = child;
           break;
       }
