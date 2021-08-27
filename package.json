@@ -13,7 +13,6 @@
     "build": "rm -rf dist && yarn tslint && rollup -c",
     "deploy": "rm -f dist/extension.zip && mini=true yarn build && cd dist && zip extension.zip *",
     "watch": "yarn build -w",
-
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "server-static": "mkdir -p dist && cd dist && python3 -m http.server 8080"
   },
@@ -25,6 +24,7 @@
     "@types/lodash.debounce": "^4.0.6",
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
+    "@types/tailwindcss": "^2.2.1",
     "@types/twitch-ext": "^1.24.2",
     "autoprefixer": "^10.3.1",
     "postcss": "^8.3.6",

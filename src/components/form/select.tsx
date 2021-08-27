@@ -9,7 +9,7 @@ interface Props {
 export default class Select extends React.Component<Props> {
   public render(): JSX.Element {
     return (
-      <div className={'relative inline-flex retina-144:text-xs'}>
+      <div className={'relative inline-flex text-xs md:text-sm'}>
         <svg
           className={'w-2 h-2 absolute top-0 right-0 m-4 retina-144:m-3 pointer-events-none'}
           xmlns={'http://www.w3.org/2000/svg'}

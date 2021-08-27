@@ -4,7 +4,7 @@ import { Failure, Result, Success } from '@models/result';
 import ISongData from '@models/songdata';
 import ConfigService from '@services/config-service';
 import IQueue from '@models/queue';
-import IStreamerConfiguration from '@models/streamer-configuration';
+import IStreamerConfiguration, { IUpdateProfile, IUpdateStreamerConfiguration } from '@models/streamer-configuration';
 import IProfile from '@models/profile';
 import IStreamerData from '@models/streamerdata';
 
@@ -245,19 +245,17 @@ export default class ESBService {
   }
 
   public static async updateProfile(
-    ids: string[],
-    game: string,
-    unlimited: boolean
+    profile: IUpdateProfile
   ): Promise<Result<ESBResponse<IProfile>, Errors>> {
     const requestResult = await this.sendTwitchAuthroizedRequest<IProfile>('/api/v1/profile', {
       method: 'patch',
       data: {
         name: 'default',
-        ids: ids,
+        ids: Object.keys(profile.banlist),
         configuration: {
           song: {
-            game: game,
-            unlimited: unlimited,
+            game: profile.game,
+            unlimited: profile.unlimited,
           },
         },
       },
@@ -271,22 +269,12 @@ export default class ESBService {
   }
 
   public static async updateConfiguration(
-    chatIntegration: boolean,
-    banlistFormat: string,
-    perUser: number,
-    duplicates: boolean
+    configuration: IUpdateStreamerConfiguration
   ): Promise<Result<ESBResponse<IStreamerConfiguration>, Errors>> {
     const requestResult = await this.sendTwitchAuthroizedRequest<IStreamerConfiguration>('/api/v1/configuration', {
       method: 'patch',
       data: {
-        chatIntegration: {
-          enabled: chatIntegration,
-          banlistFormat: banlistFormat,
-        },
-        requests: {
-          perUser: perUser,
-          duplicates: duplicates,
-        },
+        ...configuration,
       },
     });
 

@@ -13,18 +13,14 @@ interface Props {
   onBan: (song: ISongData) => void;
 }
 
-interface ForwardedProps extends Props {
-  innerRef: React.ForwardedRef<HTMLDivElement>;
-}
-
-class BanlistOverview extends React.Component<ForwardedProps> {
+export default class BanlistOverview extends React.Component<Props> {
   public render(): JSX.Element {
     return (
-      <div ref={this.props.innerRef} className={'banlist-overview overflow-auto'}>
+      <div className={'banlist-overview overflow-auto'}>
         <div className={'flex items-center justify-center flex-wrap overflow-auto'}>
           {this.props.songdata.map((s) => {
             return (
-              <div className={'w-1/3 p-2'}>
+              <div className={'w-1/2 md:w-1/3 p-2'}>
                 <BanlistEntry
                   banned={this.props.banlist[s.id] !== undefined}
                   songdata={s}
@@ -38,5 +34,3 @@ class BanlistOverview extends React.Component<ForwardedProps> {
     );
   }
 }
-
-export default React.forwardRef<HTMLDivElement, Props>((props, ref) => <BanlistOverview innerRef={ref} {...props} />);

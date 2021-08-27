@@ -1,48 +1,36 @@
-import React, { ChangeEvent } from 'react';
-import debounce from 'lodash.debounce';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import React from 'react';
 
-import ToggleButton from '@components/form/toggle';
-import SearchBar from '@components/search/searchbar';
-import ESBService from '@services/esb-service';
-import ISongData from '@models/songdata';
-import FilterService from '@services/filter-service';
-import BanlistOverview from '@components/banlist/banlist-overview';
-import Select from '@components/form/select';
+import ESBService, { ESBResponse } from '@services/esb-service';
+
 import IStreamerData from '@models/streamerdata';
-import StatusMessage, { StatusMessageDisplayType } from '@components/status-message';
+import ISongData from '@models/songdata';
 import { Result } from '@models/result';
+import { IUpdateProfile, IUpdateStreamerConfiguration } from '@models/streamer-configuration';
+
+import TabBar from '@components/form/tab-bar';
+import LoadingIndicator from '@components/form/loading-indicator';
+
+import ChatIntegrationConfigurationPage from '@pages/configuration/chat-integration';
+import IntegrationsConfigurationPage from '@pages/configuration/integrations';
+import GameConfigurationPage from '@pages/configuration/game';
+import BanlistConfigurationPage from '@pages/configuration/banlist';
+import TabBarContent from '@components/form/tab-bar-content';
+import TabBarAccessories from '@components/form/tab-bar-accessories';
 
 interface Props {}
 
 interface State {
-  songs: ISongData[];
-  filteredSongs: ISongData[];
-
-  games: string[];
-
-  streamerData?: IStreamerData;
-
-  statusMessage: {
-    timeout?: NodeJS.Timeout;
-    displayType: StatusMessageDisplayType;
+  fetch: {
+    loading: boolean;
+    games: string[];
+    songs: ISongData[];
   };
-
-  configuration: {
-    chatIntegration: {
-      enabled: boolean;
-      banlistFormat: string;
-    };
-    requests: {
-      perUser: number;
-      duplicates: boolean;
-    };
-    selectedGame: string;
-    unlimited: boolean;
-    banlist: {
-      [key: string]: ISongData;
-    };
+  tabBar: {
+    index: number;
   };
+  streamerData: IStreamerData;
+  configuration: IUpdateStreamerConfiguration;
+  profile: IUpdateProfile;
 }
 
 export default class ConfigurationPage extends React.Component<Props, State> {
@@ -50,15 +38,19 @@ export default class ConfigurationPage extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      songs: [],
-      filteredSongs: [],
-      games: [],
-      streamerData: undefined,
-
-      statusMessage: {
-        displayType: {
-          type: 'none',
-        },
+      fetch: {
+        loading: false,
+        games: [],
+        songs: [],
+      },
+      tabBar: {
+        index: 0,
+      },
+      streamerData: {
+        channelId: '-1',
+        configuration: undefined,
+        queue: undefined,
+        secret: 'SECRET-HERE',
       },
       configuration: {
         chatIntegration: {
@@ -69,58 +61,79 @@ export default class ConfigurationPage extends React.Component<Props, State> {
           perUser: 1,
           duplicates: false,
         },
-        selectedGame: '',
+      },
+      profile: {
+        game: '',
         unlimited: false,
         banlist: {},
       },
     };
 
-    this.handleToggleChatIntegration = this.handleToggleChatIntegration.bind(this);
-    this.handleToggleUnlimited = this.handleToggleUnlimited.bind(this);
-    this.filterSongs = this.filterSongs.bind(this);
-    this.handleBanToggle = this.handleBanToggle.bind(this);
-    this.saveConfiguration = this.saveConfiguration.bind(this);
-    this.handleGameSelect = this.handleGameSelect.bind(this);
-    this.handleOnCopy = this.handleOnCopy.bind(this);
-    this.clearMessage = this.clearMessage.bind(this);
+    this.handleConfigurationUpdate = this.handleConfigurationUpdate.bind(this);
+    this.handleProfileUpdate = this.handleProfileUpdate.bind(this);
+    this.handleTabBarSelect = this.handleTabBarSelect.bind(this);
+    this.handleTabBarSave = this.handleTabBarSave.bind(this);
   }
 
   async componentDidMount(): Promise<void> {
-    await this.loadSongs();
-    await this.loadConfiguration();
-    await this.loadGames();
+    this.setState({
+      fetch: {
+        ...this.state.fetch,
+        loading: true,
+      },
+    });
+
+    await Promise.all([this.loadConfiguration(), this.loadGames(), this.loadSongs()]);
+
+    this.setState({
+      fetch: {
+        ...this.state.fetch,
+        loading: false,
+      },
+    });
   }
 
-  componentWillUnmount(): void {
-    clearTimeout(this.state.statusMessage.timeout);
-  }
-
-  async loadGames(): Promise<void> {
+  async loadGames(): Promise<Result<ESBResponse<string[]>, any>> {
     const responseResult = await ESBService.getGames();
 
     if (responseResult.type === 'success') {
       if (responseResult.data.code === 200) {
-        this.setState({ games: responseResult.data.data });
+        this.setState({
+          fetch: {
+            ...this.state.fetch,
+            games: responseResult.data.data,
+          },
+        });
       }
     }
+
+    return responseResult;
   }
 
-  async loadSongs(): Promise<void> {
+  async loadSongs(): Promise<Result<ESBResponse<ISongData[]>, any>> {
     const responseResult = await ESBService.loadFilteredSongs(true);
 
     if (responseResult.type === 'success') {
       if (responseResult.data.code === 200) {
-        this.setState({ songs: responseResult.data.data, filteredSongs: responseResult.data.data });
+        this.setState({
+          fetch: {
+            ...this.state.fetch,
+            songs: responseResult.data.data,
+          },
+        });
       }
     }
+
+    return responseResult;
   }
 
-  async loadConfiguration(): Promise<void> {
+  private async loadConfiguration(): Promise<Result<ESBResponse<IStreamerData>, any>> {
     const responseResult = await ESBService.getStreamerData();
 
     if (responseResult.type === 'success') {
       if (responseResult.data.code === 200) {
         const streamerData = responseResult.data.data;
+        const songConfiguration = streamerData.configuration.profile.active.configuration.song;
 
         const banlist: {
           [key: string]: ISongData;
@@ -135,299 +148,133 @@ export default class ConfigurationPage extends React.Component<Props, State> {
           configuration: {
             chatIntegration: streamerData.configuration.chatIntegration,
             requests: streamerData.configuration.requests,
-            selectedGame: streamerData.configuration.profile.active.configuration.song.game,
-            unlimited: streamerData.configuration.profile.active.configuration.song.unlimited,
+          },
+          profile: {
+            game: songConfiguration.game,
+            unlimited: songConfiguration.unlimited,
             banlist: banlist,
           },
         });
       }
     }
+
+    return responseResult;
   }
 
-  handleToggleChatIntegration(): void {
+  private handleConfigurationUpdate(configuration: Partial<IUpdateStreamerConfiguration>): void {
     this.setState({
       configuration: {
         ...this.state.configuration,
-        chatIntegration: {
-          ...this.state.configuration.chatIntegration,
-          enabled: !this.state.configuration.chatIntegration.enabled,
-        },
+        ...configuration,
       },
     });
   }
 
-  async handleToggleUnlimited(): Promise<void> {
-    this.processResults(
-      [
-        await ESBService.updateProfile(
-          Object.keys(this.state.configuration.banlist),
-          this.state.configuration.selectedGame,
-          !this.state.configuration.unlimited
-        ),
-      ],
-      false
-    );
-
-    this.loadSongs();
-
-    this.setState({
-      configuration: {
-        ...this.state.configuration,
-        unlimited: !this.state.configuration.unlimited,
-      },
-    });
-  }
-
-  filterSongs(event: ChangeEvent<HTMLInputElement>): void {
-    const filteredSongs = FilterService.filterSongs(this.state.songs, event.target.value);
-    this.setState({
-      filteredSongs,
-    });
-  }
-
-  handleBanToggle(songdata: ISongData): void {
-    const banlist = {
-      ...this.state.configuration.banlist,
+  private handleProfileUpdate(profile: Partial<IUpdateProfile>, forceUpdate: boolean = false): void {
+    const newProfile = {
+      ...this.state.profile,
+      ...profile,
     };
 
-    if (this.state.configuration.banlist[songdata.id]) {
-      delete banlist[songdata.id];
-    } else {
-      banlist[songdata.id] = songdata;
+    if (forceUpdate) {
+      this.updateProfile(newProfile);
     }
 
     this.setState({
-      ...this.state,
-      configuration: {
-        ...this.state.configuration,
-        banlist: banlist,
-      },
+      profile: newProfile,
     });
   }
 
-  async handleGameSelect(event: React.ChangeEvent<HTMLSelectElement>): Promise<void> {
-    this.processResults(
-      [
-        await ESBService.updateProfile(
-          Object.keys(this.state.configuration.banlist),
-          event.target.value,
-          this.state.configuration.unlimited
-        ),
-      ],
-      false
-    );
+  private async updateProfile(profile: IUpdateProfile): Promise<Result<ESBResponse<any>, any>[]> {
+    this.setState({
+      fetch: {
+        ...this.state.fetch,
+        loading: true,
+      },
+    });
 
-    this.loadSongs();
+    const updateResult = await ESBService.updateProfile(profile);
+    const songResult = await this.loadSongs();
 
     this.setState({
-      configuration: {
-        ...this.state.configuration,
-        selectedGame: event.target.value,
+      fetch: {
+        ...this.state.fetch,
+        loading: false,
       },
     });
+
+    return [updateResult, songResult];
   }
 
-  async saveConfiguration(): Promise<void> {
-    this.processResults(
-      [
-        await ESBService.updateProfile(
-          Object.keys(this.state.configuration.banlist),
-          this.state.configuration.selectedGame,
-          this.state.configuration.unlimited
-        ),
-        await ESBService.updateConfiguration(
-          this.state.configuration.chatIntegration.enabled,
-          this.state.configuration.chatIntegration.banlistFormat,
-          this.state.configuration.requests.perUser,
-          this.state.configuration.requests.duplicates
-        ),
-      ],
-      true
-    );
-  }
-
-  private clearMessage(): void {
+  private handleTabBarSelect(index: number): void {
     this.setState({
-      statusMessage: {
-        timeout: undefined,
-        displayType: {
-          type: 'none',
-        },
+      tabBar: {
+        index: index,
       },
     });
   }
 
-  private processResults(
-    results: Result<any, any>[],
-    showSuccess: boolean,
-    messages?: { successMessage?: string; errorMessage?: string }
-  ): void {
-    results.forEach((result) => {
-      if (result.type === 'error') {
-        return this.setState({
-          statusMessage: {
-            timeout: setTimeout(this.clearMessage, 2000),
-            displayType: {
-              type: 'error',
-              message: messages?.errorMessage ?? result.message,
-            },
-          },
-        });
-      }
-    });
-
-    if (!showSuccess) {
-      return;
-    }
-
-    return this.setState({
-      statusMessage: {
-        timeout: setTimeout(this.clearMessage, 2000),
-        displayType: {
-          type: 'success',
-          message: messages?.successMessage ?? 'Success',
-        },
-      },
-    });
-  }
-
-  private getEmbedUrl(): string {
-    let url = window.location.href;
-    url = url.substring(0, url.lastIndexOf('/') + 1);
-    return `${url}/live-configuration.html?secret=${this.state.streamerData?.secret}`;
-  }
-
-  private handleOnCopy(): void {
+  private async handleTabBarSave(): Promise<void> {
     this.setState({
-      statusMessage: {
-        timeout: setTimeout(this.clearMessage, 1000),
-        displayType: {
-          type: 'success',
-          message: 'Copied',
-        },
+      fetch: {
+        ...this.state.fetch,
+        loading: true,
+      },
+    });
+
+    const results = await Promise.all([
+      ESBService.updateConfiguration(this.state.configuration),
+      ESBService.updateProfile(this.state.profile),
+    ]);
+
+    this.setState({
+      fetch: {
+        ...this.state.fetch,
+        loading: false,
       },
     });
   }
 
   public render(): JSX.Element {
     return (
-      <div className={'configuration flex flex-col space-y-2 rounded h-full w-full overflow-auto select-none'}>
-        <div className={'flex flex-col space-y-2 p-2 rounded h-full w-full overflow-auto select-none'}>
-          <div className={'flex flex-col flex-30 overflow-auto'}>
-            <div className={'flex flex-row p-4 md:pb-2 retina-144:pb-2'}>
-              <div className={'flex-1 pr-2'}>
-                <p className={'text-xl md:text-base retina-144:text-base text-white font-bold'}>Chat Integration</p>
-                <p className={'text-base md:text-xs retina-144:text-xs text-white'}>
-                  If enable will add the
-                  <a className={'font-medium'} href={'https://www.twitch.tv/justdancerequests'}>
-                    &nbsp;JustDanceRequests&nbsp;
-                  </a>
-                  Bot to your channel. <br />
-                  Commands: !sr, !banlist
-                </p>
-                <p className={'text-base md:text-xs retina-144:text-xs text-white my-2'}>
-                  <b>Note</b>: Banlist will not be enforced for songs requested via chat
-                </p>
-
-                <ToggleButton
-                  id={'chat-integration-toggle'}
-                  checked={this.state.configuration.chatIntegration.enabled}
-                  onToggle={this.handleToggleChatIntegration}
-                />
-              </div>
-
-              <div className={'flex-1 px-2'}>
-                <p className={'text-xl md:text-base retina-144:text-base text-white font-bold'}>Unlimited</p>
-                <p className={'text-base md:text-xs retina-144:text-xs text-white'}>If you have Just Dance unlimited</p>
-
-                <p className={'text-base md:text-xs retina-144:text-xs text-white my-2'}>
-                  <b>Note</b>: Changing this value will automatically save.
-                </p>
-
-                <ToggleButton
-                  id={'unlimited-toggle'}
-                  checked={this.state.configuration.unlimited}
-                  onToggle={this.handleToggleUnlimited}
-                />
-              </div>
-
-              <div className={'flex-1 pl-2'}>
-                <p className={'text-xl md:text-base retina-144:text-base text-white font-bold'}>Game</p>
-                <p className={'text-base md:text-xs retina-144:text-xs text-white'}>The Just Dance version you use</p>
-
-                <p className={'text-base md:text-xs retina-144:text-xs text-white mt-2'}>
-                  <b>Note</b>: Changing the game will automatically save.
-                </p>
-
-                <div className={'my-2'}>
-                  <Select
-                    onChange={this.handleGameSelect}
-                    selected={this.state.configuration.selectedGame}
-                    options={this.state.games}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className={'flex flex-row p-4 md:pt-0 retina-144:pt-0'}>
-              <div className={'flex-1'}>
-                <p className={'text-xl md:text-base retina-144:text-base text-white font-bold'}>
-                  Queue Streamlabs Integration
-                </p>
-                <p className={'text-base md:text-xs retina-144:text-xs text-white'}>
-                  Copy the embed link and add it as Browser Component in Streamlabs
-                </p>
-
-                <p className={'text-base md:text-xs retina-144:text-xs text-white mt-2'}>
-                  <b>Note</b>: Do <b>NOT</b> share this link with anyone!
-                </p>
-
-                <CopyToClipboard text={this.getEmbedUrl()} onCopy={this.handleOnCopy}>
-                  <div
-                    className={
-                      'flex items-center justify-center mt-2 p-2 md:p-1 retina-144:p-1 w-10 md:w-6 retina-144:w-6 h-10 md:h-6 retina-144:h-6 rounded ripple-bg-purple-600 cursor-pointer'
-                    }
-                  >
-                    <svg
-                      xmlns={'http://www.w3.org/2000/svg'}
-                      className={'w-10 h-10'}
-                      fill={'none'}
-                      viewBox={'0 0 24 24'}
-                      stroke={'#fff'}
-                    >
-                      <path
-                        strokeLinecap={'round'}
-                        strokeLinejoin={'round'}
-                        strokeWidth={2}
-                        d={
-                          'M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3'
-                        }
-                      />
-                    </svg>
-                  </div>
-                </CopyToClipboard>
-              </div>
-            </div>
-          </div>
-
-          <div className={'flex flex-col flex-70 space-y-4 overflow-auto'}>
-            <SearchBar onChange={debounce(this.filterSongs, 300)} />
-
-            <BanlistOverview
-              songdata={this.state.filteredSongs}
-              banlist={this.state.configuration.banlist}
-              onBan={this.handleBanToggle}
-            />
-          </div>
-
-          <button
-            className={'md:text-sm retina-144:text-sm mb-2 rounded-full py-1 px-24 ripple-bg-purple-600 text-white'}
-            onClick={this.saveConfiguration}
+      <div className={'configuration flex h-full w-full'}>
+        {this.state.fetch.loading ? (
+          <LoadingIndicator />
+        ) : (
+          <TabBar
+            onSelect={this.handleTabBarSelect}
+            selectedIndex={this.state.tabBar.index}
+            tabNames={['Chat Integration', 'Game', 'Banlist', 'Integrations']}
           >
-            Save
-          </button>
-        </div>
-
-        <StatusMessage displayType={this.state.statusMessage.displayType} />
+            <TabBarAccessories>
+              <div
+                className={
+                  'flex self-center text-xs md:text-base ripple-bg-purple-500 bg-purple-400 hover:bg-purple-600 px-2 py-1 rounded cursor-pointer'
+                }
+                onClick={this.handleTabBarSave}
+              >
+                <p className={'self-center justify-self-center text-white'}>Save changes</p>
+              </div>
+            </TabBarAccessories>
+            <TabBarContent>
+              <ChatIntegrationConfigurationPage
+                initialConfiguration={this.state.configuration.chatIntegration}
+                updateConfiguration={this.handleConfigurationUpdate}
+              />
+              <GameConfigurationPage
+                initialConfiguration={this.state.profile}
+                updateProfile={this.handleProfileUpdate}
+                games={this.state.fetch.games}
+              />
+              <BanlistConfigurationPage
+                initialConfiguration={this.state.profile}
+                songs={this.state.fetch.songs}
+                updateProfile={this.handleProfileUpdate}
+              />
+              <IntegrationsConfigurationPage streamerData={this.state.streamerData} />
+            </TabBarContent>
+          </TabBar>
+        )}
       </div>
     );
   }

@@ -274,6 +274,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/tailwindcss@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "@types/tailwindcss@npm:2.2.1"
+  checksum: 4e3a625707caf345786825f8b4eba47cc5a6fc8f5417a8dc0b7776de4ef499b2ea08f5d2c05fbaf793c236b14765ab06b02737c432da1801279fe33bddf82624
+  languageName: node
+  linkType: hard
+
 "@types/twitch-ext@npm:^1.24.2":
   version: 1.24.2
   resolution: "@types/twitch-ext@npm:1.24.2"
@@ -2669,6 +2676,7 @@ fsevents@~2.3.2:
     "@types/react": ^17.0.15
     "@types/react-copy-to-clipboard": ^5.0.1
     "@types/react-dom": ^17.0.9
+    "@types/tailwindcss": ^2.2.1
     "@types/twitch-ext": ^1.24.2
     autoprefixer: ^10.3.1
     axios: ^0.21.1
