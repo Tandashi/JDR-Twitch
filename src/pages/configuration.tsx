@@ -16,6 +16,7 @@ import GameConfigurationPage from '@pages/configuration/game';
 import BanlistConfigurationPage from '@pages/configuration/banlist';
 import TabBarContent from '@components/form/tab-bar-content';
 import TabBarAccessories from '@components/form/tab-bar-accessories';
+import ResultButton from '@components/form/result-buttons';
 
 interface Props {}
 
@@ -214,25 +215,11 @@ export default class ConfigurationPage extends React.Component<Props, State> {
     });
   }
 
-  private async handleTabBarSave(): Promise<void> {
-    this.setState({
-      fetch: {
-        ...this.state.fetch,
-        loading: true,
-      },
-    });
-
-    const results = await Promise.all([
+  private async handleTabBarSave(): Promise<Result<ESBResponse<any>, any>[]> {
+    return Promise.all([
       ESBService.updateConfiguration(this.state.configuration),
       ESBService.updateProfile(this.state.profile),
     ]);
-
-    this.setState({
-      fetch: {
-        ...this.state.fetch,
-        loading: false,
-      },
-    });
   }
 
   public render(): JSX.Element {
@@ -247,13 +234,8 @@ export default class ConfigurationPage extends React.Component<Props, State> {
             tabNames={['Chat Integration', 'Game', 'Banlist', 'Integrations']}
           >
             <TabBarAccessories>
-              <div
-                className={
-                  'flex self-center text-xs md:text-base ripple-bg-purple-500 bg-purple-400 hover:bg-purple-600 px-2 py-1 rounded cursor-pointer'
-                }
-                onClick={this.handleTabBarSave}
-              >
-                <p className={'self-center justify-self-center text-white'}>Save changes</p>
+              <div className={'px-2 py-1'}>
+                <ResultButton text={'Save changes'} duration={1500} onClick={this.handleTabBarSave} />
               </div>
             </TabBarAccessories>
             <TabBarContent>

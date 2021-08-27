@@ -48,7 +48,7 @@ export default class TabBar extends React.Component<Props> {
               );
             })}
           </div>
-          <div className={'flex h-full self-end mx-2'}>{tabBarAccessories}</div>
+          <div className={'flex h-full self-end'}>{tabBarAccessories}</div>
         </div>
         <div className={'tab-bar-content flex overflow-auto'}>
           {React.Children.toArray(tabBarContentChildren)[this.props.selectedIndex]}
