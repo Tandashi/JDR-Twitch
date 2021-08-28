@@ -1,8 +1,8 @@
 import React from 'react';
+import Select from 'react-select';
 
 import { IUpdateProfile } from '@models/streamer-configuration';
 
-import Select from '@components/form/select';
 import ToggleButton from '@components/form/toggle';
 import Section from '@components/configuration/section';
 import SectionHeader from '@components/configuration/section-header';
@@ -12,7 +12,7 @@ import ConfigurationContent from '@components/configuration/configuration-conten
 
 interface Props {
   initialConfiguration: IUpdateProfile;
-  games: string[];
+  games: { value: string; label: string }[];
   updateProfile: (configuration: Partial<IUpdateProfile>, forceUpdate: boolean) => void;
 }
 
@@ -45,10 +45,10 @@ export default class GameConfigurationPage extends React.Component<Props, State>
     });
   }
 
-  private handleGameSelect(event: React.ChangeEvent<HTMLSelectElement>): void {
+  private handleGameSelect(selected: { value: string; label: string }): void {
     const newConfiguration = {
       ...this.state.configuration,
-      game: event.target.value,
+      game: selected.value,
     };
 
     this.props.updateProfile(newConfiguration, true);
@@ -70,8 +70,9 @@ export default class GameConfigurationPage extends React.Component<Props, State>
           </SectionHeader>
           <SectionContent>
             <Select
+              className={'text-black text-xs md:text-sm w-1/3'}
               onChange={this.handleGameSelect}
-              selected={this.state.configuration.game}
+              value={{ value: this.state.configuration.game, label: this.state.configuration.game }}
               options={this.props.games}
             />
           </SectionContent>

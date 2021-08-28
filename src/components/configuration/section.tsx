@@ -21,7 +21,7 @@ export default class Section extends React.Component {
     }
 
     return (
-      <div className={'flex flex-1 flex-col p-2 bg-gray-500 rounded'}>
+      <div className={'flex flex-col p-2 bg-gray-500 rounded'}>
         {sectionHeader}
 
         <div className={'p-3'}>{sectionContent}</div>

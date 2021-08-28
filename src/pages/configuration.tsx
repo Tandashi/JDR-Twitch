@@ -246,7 +246,9 @@ export default class ConfigurationPage extends React.Component<Props, State> {
               <GameConfigurationPage
                 initialConfiguration={this.state.profile}
                 updateProfile={this.handleProfileUpdate}
-                games={this.state.fetch.games}
+                games={this.state.fetch.games.map((v) => {
+                  return { value: v, label: v };
+                })}
               />
               <BanlistConfigurationPage
                 initialConfiguration={this.state.profile}
