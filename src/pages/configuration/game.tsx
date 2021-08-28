@@ -46,6 +46,10 @@ export default class GameConfigurationPage extends React.Component<Props, State>
   }
 
   private handleGameSelect(selected: { value: string; label: string }): void {
+    if (this.state.configuration.game === selected.value) {
+      return;
+    }
+
     const newConfiguration = {
       ...this.state.configuration,
       game: selected.value,
