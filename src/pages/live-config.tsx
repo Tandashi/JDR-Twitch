@@ -170,7 +170,7 @@ export default class LiveConfigPage extends React.Component<Props, State> {
         <div className={'p-4 space-y-4'}>
           {this.state.queue.entries.map((e, i) => {
             return (
-              <div className={'flex flex-row justify-between bg-purple-500 py-4 px-4 rounded cursor-pointer'}>
+              <div className={'flex flex-row justify-between bg-purple-500 py-4 px-4 rounded'}>
                 <div className={''}>
                   <p className={'text-base font-bold text-white'}>{e.title}</p>
                   <p className={'text-xs text-white'}>{`Request by: ${e.username ?? 'Unknown'}`}</p>
