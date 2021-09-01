@@ -7,6 +7,7 @@ import SectionHeader from '@components/configuration/section-header';
 import SectionHeaderAnnotation from '@components/configuration/section-header-annotation';
 import SectionContent from '@components/configuration/section-content';
 import ConfigurationContent from '@components/configuration/configuration-content';
+import ConfigService from '@services/config-service';
 
 interface Props {
   streamerData: IStreamerData;
@@ -14,9 +15,8 @@ interface Props {
 
 export default class IntegrationsConfigurationPage extends React.Component<Props> {
   private getStreamlabsEmbedUrl(): string {
-    let url = window.location.href;
-    url = url.substring(0, url.lastIndexOf('/') + 1);
-    return `${url}/live-configuration.html?secret=${this.props.streamerData?.secret}`;
+    const config = ConfigService.getConfig();
+    return `${config.ebs.baseUrl}/streamlabs/integration?secret=${this.props.streamerData?.secret}`;
   }
 
   public render(): JSX.Element {
