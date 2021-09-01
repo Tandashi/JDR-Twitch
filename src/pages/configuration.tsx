@@ -56,7 +56,15 @@ export default class ConfigurationPage extends React.Component<Props, State> {
       configuration: {
         chatIntegration: {
           enabled: false,
-          banlistFormat: '',
+          commands: {
+            songRequest: {
+              enabled: false,
+            },
+            banlist: {
+              enabled: false,
+              format: '',
+            },
+          },
         },
         requests: {
           perUser: 1,

@@ -7,7 +7,7 @@
     "moduleResolution": "node",
     "jsx": "react",
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "dist/tsc/",
     "baseUrl": ".",
     "paths": {
       "@models/*": ["src/models/*"],

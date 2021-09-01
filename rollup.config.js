@@ -17,9 +17,9 @@ function compile(input, server_url) {
   return {
     input: [input],
     output: {
-      dir: 'dist/',
+      dir: 'dist/rollup/',
       format: 'iife',
-      plugins: process.env.mini ? [terser()] : []
+      plugins: process.env.mini ? [terser()] : [],
     },
     plugins: [
       alias({
@@ -28,8 +28,8 @@ function compile(input, server_url) {
           '@services': path.resolve(__dirname, 'src/services'),
           '@components': path.resolve(__dirname, 'src/components'),
           '@pages': path.resolve(__dirname, 'src/pages'),
-          "@styles": path.resolve(__dirname, 'sass'),
-        }
+          '@styles': path.resolve(__dirname, 'sass'),
+        },
       }),
       rollupNodeResolve({ jsnext: true, preferBuiltins: true, browser: true }),
       rollupJSON(),
@@ -38,23 +38,18 @@ function compile(input, server_url) {
         preventAssignment: true,
         values: {
           'process.env.NODE_ENV': JSON.stringify('production'),
-          'EBS_SERVER_URL': server_url
-        }
+          EBS_SERVER_URL: server_url,
+        },
       }),
       postcss({
-        plugins: [
-          tailwindcss,
-          autoprefixer
-        ]
+        plugins: [tailwindcss, autoprefixer],
       }),
       typescript(),
       copy({
-        targets: [
-          { src: 'public/*.html', dest: 'dist/' }
-        ]
-      })
-    ]
-  }
+        targets: [{ src: 'public/*.html', dest: 'dist/rollup/' }],
+      }),
+    ],
+  };
 }
 
 if (!process.env.SERVER) {
@@ -62,18 +57,18 @@ if (!process.env.SERVER) {
 }
 
 let server;
-switch(process.env.SERVER) {
+switch (process.env.SERVER) {
   case 'prod':
-    server = 'https://jd.tandashi.de'
+    server = 'https://jd.tandashi.de';
     break;
 
   case 'dev':
-    server = 'https://jd-dev.tandashi.de'
+    server = 'https://jd-dev.tandashi.de';
     break;
 
   case 'local':
   default:
-    server = 'http://localhost:3000'
+    server = 'http://localhost:3000';
     break;
 }
 
@@ -85,4 +80,4 @@ export default [
   compile('src/viewer.tsx', server),
   compile('src/configuration.tsx', server),
   compile('src/live-config.tsx', server),
-]
+];

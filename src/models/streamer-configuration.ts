@@ -7,7 +7,15 @@ export default interface IStreamerConfiguration {
   chatIntegration: {
     enabled: boolean;
     channelName: string;
-    banlistFormat: string;
+    commands: {
+      songRequest: {
+        enabled: boolean;
+      };
+      banlist: {
+        enabled: boolean;
+        format: string;
+      };
+    };
   };
 
   requests: {
@@ -23,7 +31,15 @@ export default interface IStreamerConfiguration {
 
 export interface IUpdateChatIntegrationConfiguration {
   enabled: boolean;
-  banlistFormat: string;
+  commands: {
+    songRequest: {
+      enabled: boolean;
+    };
+    banlist: {
+      enabled: boolean;
+      format: string;
+    };
+  };
 }
 
 export interface IUpdateRequestsConfiguration {

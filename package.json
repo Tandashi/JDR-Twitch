@@ -10,11 +10,11 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf dist && yarn tslint && rollup -c",
-    "deploy": "rm -f dist/extension.zip && mini=true yarn build && cd dist && zip extension.zip *",
+    "build": "rm -rf dist && yarn tslint && yarn tsc && rollup -c",
+    "deploy": "rm -rf dist && mini=true yarn build && cd dist/rollup && zip extension.zip *",
     "watch": "yarn build -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "server-static": "mkdir -p dist && cd dist && python3 -m http.server 8080"
+    "server-static": "mkdir -p dist/rollup && cd dist/rollup && python3 -m http.server 8080"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.4",

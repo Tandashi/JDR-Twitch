@@ -118,7 +118,7 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
               <input
                 className={'flex-1 font-mono text-xs md:text-base rounded bg-gray-600 p-1'}
                 spellCheck={false}
-                value={this.state.configuration.banlistFormat}
+                value={this.state.configuration.commands.banlist.format}
                 onChange={this.handleBanlistFormatChange}
               />
             </div>
