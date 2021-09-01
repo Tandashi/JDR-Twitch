@@ -4,16 +4,16 @@ interface TwitchConfig {
 
 interface EBSConfig {
   baseUrl: string;
+  api: ESBAPIConfig;
 }
 
-interface APIConfig {
+interface ESBAPIConfig {
   secret: string;
 }
 
 interface Config {
   ebs: EBSConfig;
   twitch: TwitchConfig;
-  api: APIConfig;
 }
 
 export default class ConfigService {
@@ -23,12 +23,12 @@ export default class ConfigService {
     ebs: {
       // Will be replaced in the Rollup
       baseUrl: 'EBS_SERVER_URL',
+      api: {
+        secret: undefined,
+      },
     },
     twitch: {
       auth: undefined,
-    },
-    api: {
-      secret: undefined,
     },
   };
 

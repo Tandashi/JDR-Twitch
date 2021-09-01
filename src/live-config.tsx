@@ -17,8 +17,11 @@ window.Twitch.ext.onAuthorized((auth) => {
 const config = ConfigService.getConfig();
 ConfigService.setConfig({
   ...config,
-  api: {
-    secret: new URL(window.location.href).searchParams.get('secret'),
+  ebs: {
+    ...config.ebs,
+    api: {
+      secret: new URL(window.location.href).searchParams.get('secret'),
+    },
   },
 });
 

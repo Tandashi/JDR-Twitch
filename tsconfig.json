@@ -17,5 +17,5 @@
       "@styles/*": ["sass/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "definitions/**/*"]
 }

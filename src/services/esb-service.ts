@@ -1,12 +1,13 @@
-import axios, { AxiosError } from 'axios';
+import ConfigService from '@services/config-service';
+import APIService, { Request, Response } from '@services/api-service';
 
 import { Failure, Result, Success } from '@models/result';
 import ISongData from '@models/songdata';
-import ConfigService from '@services/config-service';
 import IQueue from '@models/queue';
 import IStreamerConfiguration, { IUpdateProfile, IUpdateStreamerConfiguration } from '@models/streamer-configuration';
 import IProfile from '@models/profile';
 import IStreamerData from '@models/streamerdata';
+import TwitchAPIService from './twitch-api-service';
 
 interface ESBDataResponse<T> {
   code: 200;
@@ -21,20 +22,9 @@ interface ESBErrorResponse {
   };
 }
 
-export type ESBResponse<T> = ESBDataResponse<T> | ESBErrorResponse;
+export type ESBResponse<T> = Response<ESBDataResponse<T>, ESBErrorResponse>;
 
 type Errors = 'unauthorized';
-
-type NonDataRequest = {
-  method: 'get';
-};
-
-type DataRequest<T> = {
-  method: 'post' | 'patch' | 'delete';
-  data: T;
-};
-
-type Request<T> = NonDataRequest | DataRequest<T>;
 
 export default class ESBService {
   private static async sendRequest<R, D = {}>(
@@ -43,34 +33,7 @@ export default class ESBService {
     request: Request<D>
   ): Promise<Result<ESBResponse<R>, Errors>> {
     const config = ConfigService.getConfig();
-
-    try {
-      let response;
-      switch (request.method) {
-        case 'get':
-          response = await axios[request.method]<ESBResponse<R>>(`${config.ebs.baseUrl}${url}`, {
-            headers: headers,
-          });
-          break;
-        case 'patch':
-        case 'post':
-          response = await axios[request.method]<ESBResponse<R>>(`${config.ebs.baseUrl}${url}`, request.data, {
-            headers: headers,
-          });
-          break;
-        case 'delete':
-          response = await axios[request.method]<ESBResponse<R>>(`${config.ebs.baseUrl}${url}`, {
-            headers: headers,
-            data: request.data,
-          });
-          break;
-      }
-
-      return Success(response.data);
-    } catch (e) {
-      const error = e as AxiosError<ESBErrorResponse>;
-      return Success(error.response.data);
-    }
+    return APIService.sendRequest<ESBResponse<R>, Errors, D>(`${config.ebs.baseUrl}${url}`, headers, request);
   }
 
   private static async sendSecretAuthorizedRequest<R, D = {}>(
@@ -79,7 +42,7 @@ export default class ESBService {
   ): Promise<Result<ESBResponse<R>, Errors>> {
     const config = ConfigService.getConfig();
 
-    const auth = config.api.secret;
+    const auth = config.ebs.api.secret;
     if (!auth) {
       return Failure<Errors>('unauthorized', 'Not authorized.');
     }
@@ -124,7 +87,7 @@ export default class ESBService {
       return this.sendTwitchAuthroizedRequest(url, request);
     }
 
-    const secret = config.api.secret;
+    const secret = config.ebs.api.secret;
     if (secret) {
       return this.sendSecretAuthorizedRequest(url, request);
     }
@@ -148,10 +111,17 @@ export default class ESBService {
   }
 
   public static async requestSong(songId: string): Promise<Result<ESBResponse<IQueue>, Errors>> {
+    const channelInformationResult = await TwitchAPIService.getChannelInformation();
+
+    if (channelInformationResult.type === 'error') {
+      return channelInformationResult;
+    }
+
     const requestResult = await this.sendAuthroizedRequest<IQueue>('/api/v1/queue', {
       method: 'post',
       data: {
         id: songId,
+        username: channelInformationResult.data[0].broadcaster_name,
       },
     });
 
@@ -244,9 +214,7 @@ export default class ESBService {
     return Success(requestResult.data);
   }
 
-  public static async updateProfile(
-    profile: IUpdateProfile
-  ): Promise<Result<ESBResponse<IProfile>, Errors>> {
+  public static async updateProfile(profile: IUpdateProfile): Promise<Result<ESBResponse<IProfile>, Errors>> {
     const requestResult = await this.sendTwitchAuthroizedRequest<IProfile>('/api/v1/profile', {
       method: 'patch',
       data: {
