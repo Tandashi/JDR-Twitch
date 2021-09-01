@@ -56,7 +56,6 @@ If the extension can't load it is probably due to the fact that twitch only allo
 Documentation on this topic can be found [here](https://dev.twitch.tv/docs/extensions#develop-your-extension).
 
 ## Twitch Review Process Instructions
-
 The ESB (Backend Service) should be available 24/7.
 
 Viewer Walk-through:
@@ -73,17 +72,16 @@ Live Configuration Walk-through:
 
 1. Open the streamer dashboard
 2. See that the song appears in the list
-3. Click on the song to select it
-4. Click on it once more to remove
-5. Toggle the queue.
-6. Now try to request a song again. It should not work.
+3. Click 'pick next' on the song to select it
+4. Toggle the queue.
+5. Now try to request a song again. It should not work.
 
 Configuration Walk-through:
 
 1. Open the configuration page of the extension
-2. Change the Game Version (Song list should update)
+2. Navigate to the Game Tab and change the Game Version (Song list on banlist tab should update)
 3. Toggle Unlimited (Song list should update)
-4. Check some songs and click 'Save'
+4. Navigate to the banlist Tab and check some songs and click 'Save'
 5. Reload the viewer page
 6. Search for a song that has been banned (should not appear)
 7. Un-check the same song and click 'Save'
@@ -92,7 +90,7 @@ Configuration Walk-through:
 
 Chat-Integration Walk-through:
 
-1. Toggle on Chat-Integration (if not already) in the configuration and click 'Save'
+1. Toggle on Chat-Integration (if not already) in the ChatIntegration Tab and click 'Save'
 2. Go to the review channel (Make sure there are songs banned and that the queue is empty)
 3. Send the following message: '!banlist'. A message from JustDanceRequests should appear
 4. Send the following message: '!sr Hello World'. On the Live Configuration Page the Song 'Hello World' should appear after max 5 seconds.
