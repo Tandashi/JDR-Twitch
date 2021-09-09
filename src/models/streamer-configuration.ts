@@ -11,6 +11,9 @@ export default interface IStreamerConfiguration {
       songRequest: {
         enabled: boolean;
       };
+      queue: {
+        enabled: boolean;
+      };
       banlist: {
         enabled: boolean;
         format: string;
@@ -33,6 +36,9 @@ export interface IUpdateChatIntegrationConfiguration {
   enabled: boolean;
   commands: {
     songRequest: {
+      enabled: boolean;
+    };
+    queue: {
       enabled: boolean;
     };
     banlist: {

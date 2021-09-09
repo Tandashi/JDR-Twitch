@@ -60,6 +60,9 @@ export default class ConfigurationPage extends React.Component<Props, State> {
             songRequest: {
               enabled: false,
             },
+            queue: {
+              enabled: false,
+            },
             banlist: {
               enabled: false,
               format: '',
