@@ -14,6 +14,9 @@ export default interface IStreamerConfiguration {
       queue: {
         enabled: boolean;
       };
+      queuePosition: {
+        enabled: boolean;
+      };
       banlist: {
         enabled: boolean;
         format: string;
@@ -39,6 +42,9 @@ export interface IUpdateChatIntegrationConfiguration {
       enabled: boolean;
     };
     queue: {
+      enabled: boolean;
+    };
+    queuePosition: {
       enabled: boolean;
     };
     banlist: {
