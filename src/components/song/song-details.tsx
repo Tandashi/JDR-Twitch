@@ -4,7 +4,7 @@ import { Result } from '@models/result';
 import ISongData from '@models/songdata';
 import IQueue from '@models/queue';
 
-import ESBService, { ESBResponse } from '@services/esb-service';
+import ESBService, { ESBApiResponse } from '@services/esb-api-service';
 
 import SongHeader from '@components/song/song-header';
 import SongPreview from '@components/song/song-preview';
@@ -49,7 +49,7 @@ export default class SongDetails extends React.Component<Props, State> {
     });
   }
 
-  private handleRequest(response: Result<ESBResponse<IQueue>>): void {
+  private handleRequest(response: Result<ESBApiResponse<IQueue>>): void {
     console.log('Handling Request');
 
     if (response.type === 'error') {

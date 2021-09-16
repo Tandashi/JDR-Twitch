@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Result } from '@models/result';
 
-import { ESBResponse } from '@services/esb-service';
+import { ESBApiResponse } from '@services/esb-api-service';
 
 interface Props {
   text: string;
-  onClick: () => Promise<Result<ESBResponse<any>, any>[]>;
+  onClick: () => Promise<Result<ESBApiResponse<any>, any>[]>;
   duration: number;
 }
 

@@ -19,9 +19,7 @@ ConfigService.setConfig({
   ...config,
   ebs: {
     ...config.ebs,
-    api: {
-      secret: new URL(window.location.href).searchParams.get('secret'),
-    },
+    secret: new URL(window.location.href).searchParams.get('secret'),
   },
 });
 

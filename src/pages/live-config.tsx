@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ESBService from '@services/esb-service';
+import ESBService from '@services/esb-api-service';
 import IQueue, { IQueueEntry } from '@models/queue';
 import ToggleButton from '@components/form/toggle';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ESBService, { ESBResponse } from '@services/esb-service';
+import ESBService, { ESBApiResponse } from '@services/esb-api-service';
 
 import IStreamerData from '@models/streamerdata';
 import ISongData from '@models/songdata';
@@ -108,7 +108,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
     });
   }
 
-  async loadGames(): Promise<Result<ESBResponse<string[]>, any>> {
+  async loadGames(): Promise<Result<ESBApiResponse<string[]>, any>> {
     const responseResult = await ESBService.getGames();
 
     if (responseResult.type === 'success') {
@@ -125,7 +125,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
     return responseResult;
   }
 
-  async loadSongs(): Promise<Result<ESBResponse<ISongData[]>, any>> {
+  async loadSongs(): Promise<Result<ESBApiResponse<ISongData[]>, any>> {
     const responseResult = await ESBService.loadFilteredSongs(true);
 
     if (responseResult.type === 'success') {
@@ -142,7 +142,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
     return responseResult;
   }
 
-  private async loadConfiguration(): Promise<Result<ESBResponse<IStreamerData>, any>> {
+  private async loadConfiguration(): Promise<Result<ESBApiResponse<IStreamerData>, any>> {
     const responseResult = await ESBService.getStreamerData();
 
     if (responseResult.type === 'success') {
@@ -200,7 +200,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
     });
   }
 
-  private async updateProfile(profile: IUpdateProfile): Promise<Result<ESBResponse<any>, any>[]> {
+  private async updateProfile(profile: IUpdateProfile): Promise<Result<ESBApiResponse<any>, any>[]> {
     this.setState({
       fetch: {
         ...this.state.fetch,
@@ -229,7 +229,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
     });
   }
 
-  private async handleTabBarSave(): Promise<Result<ESBResponse<any>, any>[]> {
+  private async handleTabBarSave(): Promise<Result<ESBApiResponse<any>, any>[]> {
     return Promise.all([
       ESBService.updateConfiguration(this.state.configuration),
       ESBService.updateProfile(this.state.profile),
