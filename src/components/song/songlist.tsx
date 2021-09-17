@@ -1,6 +1,5 @@
 import React from 'react';
 
-import '@styles/components/song/songlist.sass';
 import ISongData from '@models/songdata';
 import SearchEntry from '@components/search/search-entry';
 
@@ -16,7 +15,7 @@ interface ForwardedProps extends Props {
 class SongList extends React.Component<ForwardedProps> {
   public render(): JSX.Element {
     return (
-      <div ref={this.props.innerRef} className={'songlist overflow-auto'}>
+      <div ref={this.props.innerRef} className={'scrollbar overflow-auto'}>
         <div className={'pr-2 space-y-2 overflow-auto'}>
           {this.props.songdata.map((song) => {
             return <SearchEntry onClick={() => this.props.onSelect(song)} songdata={song} />;

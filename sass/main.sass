@@ -2,6 +2,15 @@
 @tailwind components
 @tailwind utilities
 
+@import './mixins/scrollbar'
+@import './mixins/font'
+
 html, body, #root
   margin: 0
   padding: 0
+
+  p[class^="text-"]
+    @include default-font-style
+
+  div.scrollbar
+    @include default-scrollbar

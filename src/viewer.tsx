@@ -5,6 +5,7 @@ import Panel from '@pages/panel';
 import ErrorDisplayPage from '@pages/error-display';
 
 import ConfigService from '@services/config-service';
+import ESBSocketIOService from '@services/esb-socketio-service';
 
 window.Twitch.ext.onAuthorized((auth) => {
   const config = ConfigService.getConfig();
@@ -28,5 +29,6 @@ window.Twitch.ext.onAuthorized((auth) => {
     return;
   }
 
+  ESBSocketIOService.connect('jwt', auth.token);
   ReactDOM.render(<Panel />, document.getElementById('root'));
 });
