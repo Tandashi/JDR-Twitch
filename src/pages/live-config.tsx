@@ -5,10 +5,10 @@ import IQueue, { IQueueEntry } from '@models/queue';
 import ToggleButton from '@components/form/toggle';
 
 import '@styles/live-config.sass';
+import ESBSocketIOService from '@services/esb-socketio-service';
 
 interface Props {}
 interface State {
-  interval?: NodeJS.Timeout;
   selected?: IQueueEntry;
   queue: IQueue;
 }
@@ -19,7 +19,6 @@ export default class LiveConfigPage extends React.Component<Props, State> {
 
     this.state = {
       selected: undefined,
-      interval: undefined,
       queue: {
         enabled: false,
         entries: [],
@@ -28,15 +27,16 @@ export default class LiveConfigPage extends React.Component<Props, State> {
   }
 
   componentDidMount(): void {
-    this.setState({
-      interval: setInterval(() => {
-        this.loadQueue();
-      }, 3000),
-    });
+    this.loadQueue();
+    this.registerSocketHandler();
   }
 
-  componentWillUnmount(): void {
-    clearInterval(this.state.interval);
+  async registerSocketHandler(): Promise<void> {
+    ESBSocketIOService.registerHandler('v1/queue:updated', (queue: IQueue) => {
+      this.setState({
+        queue: queue,
+      });
+    });
   }
 
   async loadQueue(): Promise<void> {

@@ -10,7 +10,6 @@ import FilterService from '@services/filter-service';
 import SongList from '@components/song/songlist';
 import Overlay, { OverlayDirection } from '@components/overlay';
 import SongDetails from '@components/song/song-details';
-import ESBSocketIOService from '@services/esb-socketio-service';
 
 interface Props {}
 interface State {
@@ -40,8 +39,6 @@ export default class PanelPage extends React.Component<Props, State> {
     this.filterSongs = this.filterSongs.bind(this);
     this.handleSongSelect = this.handleSongSelect.bind(this);
     this.handleDetailsBack = this.handleDetailsBack.bind(this);
-
-    ESBSocketIOService.registerHandler('world', () => console.log('World Response'));
   }
 
   filterSongs(event: ChangeEvent<HTMLInputElement>): void {
@@ -77,7 +74,6 @@ export default class PanelPage extends React.Component<Props, State> {
 
   componentDidMount(): void {
     this.loadSongs();
-    ESBSocketIOService.emit('hello');
   }
 
   public render(): JSX.Element {
