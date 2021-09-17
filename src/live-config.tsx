@@ -15,6 +15,7 @@ window.Twitch.ext.onAuthorized((auth) => {
   });
 
   ESBSocketIOService.connect('jwt', auth.token);
+  ReactDOM.render(<LiveConfig />, document.getElementById('root'));
 });
 
 const secret = new URL(window.location.href).searchParams.get('secret');
@@ -29,6 +30,5 @@ if (secret) {
   });
 
   ESBSocketIOService.connect('secret', secret);
+  ReactDOM.render(<LiveConfig />, document.getElementById('root'));
 }
-
-ReactDOM.render(<LiveConfig />, document.getElementById('root'));
