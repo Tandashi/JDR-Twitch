@@ -31,6 +31,7 @@ interface State {
   queue: {
     queue: IQueue;
     filteredQueue: IQueue;
+    filter: string;
   };
 }
 
@@ -53,6 +54,7 @@ export default class PanelPage extends React.Component<Props, State> {
       queue: {
         queue: { enabled: false, entries: [] },
         filteredQueue: { enabled: false, entries: [] },
+        filter: '',
       },
     };
 
@@ -78,6 +80,10 @@ export default class PanelPage extends React.Component<Props, State> {
         queue: {
           ...this.state.queue,
           queue: queue,
+          filteredQueue: {
+            ...queue,
+            entries: FilterService.filterQueue(queue.entries, this.state.queue.filter),
+          },
         },
       });
     });
@@ -117,6 +123,7 @@ export default class PanelPage extends React.Component<Props, State> {
       if (responseResult.data.code === 200) {
         this.setState({
           queue: {
+            ...this.state.queue,
             queue: responseResult.data.data,
             filteredQueue: responseResult.data.data,
           },
@@ -126,11 +133,13 @@ export default class PanelPage extends React.Component<Props, State> {
   }
 
   filterQueue(event: ChangeEvent<HTMLInputElement>): void {
-    const filteredQueueEntries = FilterService.filterQueue(this.state.queue.queue.entries, event.target.value);
+    const filterValue = event.target.value;
+    const filteredQueueEntries = FilterService.filterQueue(this.state.queue.queue.entries, filterValue);
     this.queuelistRef.current.scrollTo(0, 0);
     this.setState({
       queue: {
         ...this.state.queue,
+        filter: filterValue,
         filteredQueue: {
           ...this.state.queue.filteredQueue,
           entries: filteredQueueEntries,
