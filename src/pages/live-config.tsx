@@ -64,13 +64,6 @@ export default class LiveConfigPage extends React.Component<Props, State> {
 
   private async handleToggle(): Promise<void> {
     await ESBService.setQueueStatus(!this.state.queue.enabled);
-
-    this.setState({
-      queue: {
-        ...this.state.queue,
-        enabled: !this.state.queue.enabled,
-      },
-    });
   }
 
   private async handleQueueClear(): Promise<void> {
@@ -79,19 +72,12 @@ export default class LiveConfigPage extends React.Component<Props, State> {
     if (responseResult.type === 'success' && responseResult.data.code === 200) {
       this.setState({
         selected: undefined,
-        queue: responseResult.data.data,
       });
     }
   }
 
   private async handleRemove(index: number): Promise<void> {
-    const responseResult = await ESBService.deleteFromQueue(index);
-
-    if (responseResult.type === 'success' && responseResult.data.code === 200) {
-      this.setState({
-        queue: responseResult.data.data,
-      });
-    }
+    await ESBService.deleteFromQueue(index);
   }
 
   private handleRemoveSelected(): void {
