@@ -29,7 +29,7 @@ export default class RatingDisplay extends React.Component<Props> {
           <Rating value={this.props.value} maxValue={this.props.maxValue} />
         </div>
         <div className={'flex-1'}>
-          <p className={'rating-display-text'}>{this.props.text}</p>
+          <p className={'rating-display-text text-white'}>{this.props.text}</p>
         </div>
       </div>
     );

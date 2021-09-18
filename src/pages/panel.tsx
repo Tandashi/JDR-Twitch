@@ -215,9 +215,9 @@ export default class PanelPage extends React.Component<Props, State> {
                   } rounded p-2 items-center justify-center`}
                 >
                   {this.state.queue.filteredQueue.enabled ? (
-                    <p className='text-xs md:text-sm lg:text-base text-center'>Open</p>
+                    <p className='text-xs md:text-sm lg:text-base text-center text-white'>Open</p>
                   ) : (
-                    <p className='text-xs md:text-sm lg:text-base text-center'>Closed</p>
+                    <p className='text-xs md:text-sm lg:text-base text-center text-white'>Closed</p>
                   )}
                 </div>
               </div>

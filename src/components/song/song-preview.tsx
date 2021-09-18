@@ -23,7 +23,7 @@ export default class SongPreview extends React.Component<Props> {
             />
           </div>
         ) : (
-          <p className={'text-base flex-1 self-center text-center'}>No preview available :(</p>
+          <p className={'text-base flex-1 self-center text-center text-white'}>No preview available :(</p>
         )}
       </div>
     );

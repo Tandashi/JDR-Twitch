@@ -50,14 +50,12 @@ export default class SongDetails extends React.Component<Props, State> {
   }
 
   private handleRequest(response: Result<ESBApiResponse<IQueue>>): void {
-    console.log('Handling Request');
-
     if (response.type === 'error') {
       return this.setState({
         timeout: setTimeout(this.clearMessage, 2000),
         displayType: {
           type: 'error',
-          message: 'An internal error occured :(',
+          message: response.message,
         },
       });
     }
@@ -113,11 +111,13 @@ export default class SongDetails extends React.Component<Props, State> {
               </svg>
             </div>
             <div
-              className={'song-details-button song-details-request flex-80 rounded-lg flex items-center text-center cursor-pointer'}
+              className={
+                'song-details-button song-details-request flex-80 rounded-lg flex items-center text-center cursor-pointer'
+              }
               onClick={() => {}}
             >
               <p
-                className={'flex-1'}
+                className={'flex-1 text-white'}
                 onClick={() => {
                   ESBService.requestSong(this.props.songdata.id).then(this.handleRequest);
                 }}

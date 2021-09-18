@@ -12,7 +12,7 @@ export default class SongHeader extends React.Component<Props> {
   public render(): JSX.Element {
     return (
       <div className={'song-header song-header-background select-none flex flex-row flex-nowrap rounded-r'}>
-        <div className={'flex-grow-4 flex-shrink-0 flex-80 p-2 min-w-0 self-center'}>
+        <div className={'flex-grow-4 flex-shrink-0 flex-80 p-2 min-w-0 self-center text-white'}>
           <p className={'text-sm md:text-base retina-144:text-base lg:text-lg truncate'}>{this.props.songdata.title}</p>
           <p className={'text-xs md:text-sm retina-144:text-sm lg:text-base truncate'}>{this.props.songdata.artist}</p>
         </div>

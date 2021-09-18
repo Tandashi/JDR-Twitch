@@ -228,7 +228,7 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
                   <div className={'flex flex-1 flex-row items-center space-x-4'}>
                     <p className={'text-xs md:text-base text-white'}>Banlist Format</p>
                     <input
-                      className={'flex-1 font-mono text-xs md:text-base rounded bg-gray-600 p-1'}
+                      className={'flex-1 font-mono text-xs md:text-base rounded bg-gray-600 p-1 text-white'}
                       spellCheck={false}
                       value={this.state.configuration.commands.banlist.format}
                       onChange={this.handleBanlistFormatChange}

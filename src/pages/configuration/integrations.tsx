@@ -36,7 +36,7 @@ export default class IntegrationsConfigurationPage extends React.Component<Props
                   'flex flex-1 items-center justify-center mt-2 p-2 rounded ripple-bg-purple-600 cursor-pointer space-x-2'
                 }
               >
-                <p>Copy</p>
+                <p className='text-white'>Copy</p>
                 <svg
                   xmlns={'http://www.w3.org/2000/svg'}
                   className={'w-6 h-6'}
