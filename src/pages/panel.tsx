@@ -195,8 +195,10 @@ export default class PanelPage extends React.Component<Props, State> {
       <div className={'panel h-full w-full overflow-hidden select-none'}>
         <TabBar onSelect={this.handleTabSelect} selectedIndex={this.state.tabIndex} tabNames={['Search', 'Queue']}>
           <TabBarContent>
-            <div className={'flex flex-col p-2 space-y-2 overflow-hidden'}>
-              <SearchBar value={this.state.song.filter} onChange={debounce(this.filterSongs, 300)} />
+            <div className={'flex flex-1 flex-col space-y-2 p-2 overflow-hidden'}>
+              <div className={'flex flex-row'}>
+                <SearchBar value={this.state.song.filter} onChange={debounce(this.filterSongs, 300)} />
+              </div>
               <SongList
                 onSelect={this.handleSongSelect}
                 songdata={this.state.song.filteredSongs}
