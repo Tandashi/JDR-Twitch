@@ -3,7 +3,7 @@ import debounce from 'lodash.debounce';
 
 import '@styles/panel.sass';
 
-import IQueue from '@models/queue';
+import IQueue, { IQueueEntryExtended } from '@models/queue';
 
 import ESBSocketIOService from '@services/esb-socketio-service';
 
@@ -29,8 +29,8 @@ interface State {
     selected?: ISongData;
   };
   queue: {
-    queue: IQueue;
-    filteredQueue: IQueue;
+    queue: IQueue<IQueueEntryExtended>;
+    filteredQueue: IQueue<IQueueEntryExtended>;
     filter: string;
   };
 }
@@ -76,13 +76,15 @@ export default class PanelPage extends React.Component<Props, State> {
 
   async registerSocketHandler(): Promise<void> {
     ESBSocketIOService.registerHandler('v1/queue:updated', (queue: IQueue) => {
+      const extendedQueue = this.extendQueue(queue);
+
       this.setState({
         queue: {
           ...this.state.queue,
-          queue: queue,
+          queue: extendedQueue,
           filteredQueue: {
-            ...queue,
-            entries: FilterService.filterQueue(queue.entries, this.state.queue.filter),
+            ...extendedQueue,
+            entries: FilterService.filterQueue(extendedQueue.entries, this.state.queue.filter),
           },
         },
       });
@@ -121,11 +123,13 @@ export default class PanelPage extends React.Component<Props, State> {
 
     if (responseResult.type === 'success') {
       if (responseResult.data.code === 200) {
+        const extendedQueue = this.extendQueue(responseResult.data.data);
+
         this.setState({
           queue: {
             ...this.state.queue,
-            queue: responseResult.data.data,
-            filteredQueue: responseResult.data.data,
+            queue: extendedQueue,
+            filteredQueue: extendedQueue,
           },
         });
       }
@@ -146,6 +150,18 @@ export default class PanelPage extends React.Component<Props, State> {
         },
       },
     });
+  }
+
+  extendQueue(queue: IQueue): IQueue<IQueueEntryExtended> {
+    return {
+      ...queue,
+      entries: queue.entries.map((e, i) => {
+        return {
+          ...e,
+          index: i + 1,
+        };
+      }),
+    };
   }
 
   handleSongSelect(song: ISongData): void {

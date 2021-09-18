@@ -1,6 +1,6 @@
 import Fuse from 'fuse.js';
 
-import { IQueueEntry } from '@models/queue';
+import { IQueueEntry, IQueueEntryExtended } from '@models/queue';
 import ISongData from '@models/songdata';
 
 const baseFuseOptions = {
@@ -33,7 +33,7 @@ export default class FilterService {
     return this.filter(songFuseOptions, songs, filter);
   }
 
-  public static filterQueue(entries: IQueueEntry[], filter: string): IQueueEntry[] {
+  public static filterQueue<T extends IQueueEntry | IQueueEntryExtended>(entries: T[], filter: string): T[] {
     return this.filter(queueFuseOptions, entries, filter);
   }
 }

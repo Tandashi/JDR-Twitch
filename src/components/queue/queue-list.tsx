@@ -1,11 +1,11 @@
 import React from 'react';
 
-import IQueue from '@models/queue';
+import IQueue, { IQueueEntryExtended } from '@models/queue';
 
 import QueueEntry from '@components/queue/queue-entry';
 
 interface Props {
-  queue: IQueue;
+  queue: IQueue<IQueueEntryExtended>;
 }
 
 interface ForwardedProps extends Props {
@@ -17,7 +17,7 @@ class QueueList extends React.Component<ForwardedProps> {
     return (
       <div ref={this.props.innerRef} className='scrollbar space-y-2 overflow-auto pr-2'>
         {this.props.queue.entries.map((e, i) => (
-          <QueueEntry position={i + 1} entry={e} />
+          <QueueEntry position={e.index} entry={e} />
         ))}
       </div>
     );
