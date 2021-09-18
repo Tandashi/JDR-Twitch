@@ -27,6 +27,7 @@ interface State {
     songs: ISongData[];
     filteredSongs: ISongData[];
     selected?: ISongData;
+    filter: string;
   };
   queue: {
     queue: IQueue<IQueueEntryExtended>;
@@ -50,6 +51,7 @@ export default class PanelPage extends React.Component<Props, State> {
         songs: [],
         filteredSongs: [],
         selected: undefined,
+        filter: '',
       },
       queue: {
         queue: { enabled: false, entries: [] },
@@ -108,11 +110,13 @@ export default class PanelPage extends React.Component<Props, State> {
   }
 
   filterSongs(event: ChangeEvent<HTMLInputElement>): void {
-    const filteredSongs = FilterService.filterSongs(this.state.song.songs, event.target.value);
+    const filterValue = event.target.value;
+    const filteredSongs = FilterService.filterSongs(this.state.song.songs, filterValue);
     this.songlistRef.current.scrollTo(0, 0);
     this.setState({
       song: {
         ...this.state.song,
+        filter: filterValue,
         filteredSongs: filteredSongs,
       },
     });
@@ -192,7 +196,7 @@ export default class PanelPage extends React.Component<Props, State> {
         <TabBar onSelect={this.handleTabSelect} selectedIndex={this.state.tabIndex} tabNames={['Search', 'Queue']}>
           <TabBarContent>
             <div className={'flex flex-col p-2 space-y-2 overflow-hidden'}>
-              <SearchBar onChange={debounce(this.filterSongs, 300)} />
+              <SearchBar value={this.state.song.filter} onChange={debounce(this.filterSongs, 300)} />
               <SongList
                 onSelect={this.handleSongSelect}
                 songdata={this.state.song.filteredSongs}
@@ -201,7 +205,7 @@ export default class PanelPage extends React.Component<Props, State> {
             </div>
 
             <div className={'flex flex-1 flex-col space-y-2 p-2 overflow-hidden'}>
-              <SearchBar onChange={debounce(this.filterQueue, 300)} />
+              <SearchBar value={this.state.queue.filter} onChange={debounce(this.filterQueue, 300)} />
               <QueueList queue={this.state.queue.filteredQueue} ref={this.queuelistRef} />
             </div>
           </TabBarContent>

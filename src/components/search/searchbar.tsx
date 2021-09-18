@@ -3,6 +3,7 @@ import React, { ChangeEvent, ChangeEventHandler } from 'react';
 import '@styles/components/search/searchbar.sass';
 
 interface Props {
+  value?: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
@@ -13,7 +14,7 @@ interface State {
 export default class SearchBar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { value: '' };
+    this.state = { value: this.props.value ?? '' };
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -38,7 +39,9 @@ export default class SearchBar extends React.Component<Props, State> {
         </span>
 
         <input
-          className={'flex-1 text-base sm:text-xs md:text-sm retina-144:text-sm pr-4 md:pr-3 retina-144:pr-3 rounded-r bg-transparent'}
+          className={
+            'flex-1 text-base sm:text-xs md:text-sm retina-144:text-sm pr-4 md:pr-3 retina-144:pr-3 rounded-r bg-transparent'
+          }
           spellCheck={false}
           value={this.state.value}
           onChange={this.handleChange}
