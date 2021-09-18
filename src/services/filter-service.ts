@@ -7,6 +7,8 @@ const baseFuseOptions = {
   limit: 1000,
   includeScore: true,
   findAllMatches: true,
+  distance: 10,
+  threshold: 0.4,
 };
 
 const songFuseOptions = {
