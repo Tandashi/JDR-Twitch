@@ -26,7 +26,7 @@ export default class SearchBar extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <div className={'searchbar rounded flex flex-row'}>
+      <div className={'searchbar flex-1 rounded flex flex-row'}>
         <span className={'flex items-center px-3'}>
           <svg className={'h-6 retina-144:h-4 w-6 retina-144:w-4'} fill={'none'} viewBox={'0 0 24 24'} stroke={'#fff'}>
             <path

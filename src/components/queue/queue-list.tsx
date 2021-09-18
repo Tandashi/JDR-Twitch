@@ -16,7 +16,7 @@ class QueueList extends React.Component<ForwardedProps> {
   public render(): JSX.Element {
     return (
       <div ref={this.props.innerRef} className='scrollbar space-y-2 overflow-auto pr-2'>
-        {this.props.queue.entries.map((e, i) => (
+        {this.props.queue.entries.map((e) => (
           <QueueEntry position={e.index} entry={e} />
         ))}
       </div>
