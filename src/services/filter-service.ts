@@ -2,6 +2,7 @@ import Fuse from 'fuse.js';
 
 import { IQueueEntry, IQueueEntryExtended } from '@models/queue';
 import ISongData from '@models/songdata';
+import Logger from './logging';
 
 const baseFuseOptions = {
   limit: 1000,
@@ -23,6 +24,10 @@ const queueFuseOptions = {
 
 export default class FilterService {
   private static filter<T>(fuseOptions: Fuse.IFuseOptions<T>, data: T[], filter: string): T[] {
+    Logger.group('Filter data');
+    Logger.info({ data, filter, fuseOptions });
+    Logger.groupEnd();
+
     if (filter === '') {
       return data;
     }

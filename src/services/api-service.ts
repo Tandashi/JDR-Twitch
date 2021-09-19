@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 import { Result, Success } from '@models/result';
+import Logger, { LogLevel } from './logging';
 
 type NonDataRequest = {
   method: 'get';
@@ -20,6 +21,11 @@ export default class APIService {
     headers: Object,
     request: Request<Data>
   ): Promise<Result<Response, Errors>> {
+    Logger.group('API Request', LogLevel.INFO);
+    Logger.info(`Sending API Request: ${url}`);
+    Logger.info({ url, headers, request });
+    Logger.groupEnd();
+
     try {
       let response;
       switch (request.method) {

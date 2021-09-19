@@ -7,9 +7,14 @@ interface EBSConfig {
   secret: string;
 }
 
+interface LoggingConfig {
+  enabled: boolean;
+}
+
 interface Config {
   ebs: EBSConfig;
   twitch: TwitchConfig;
+  logging: LoggingConfig;
 }
 
 export default class ConfigService {
@@ -20,6 +25,9 @@ export default class ConfigService {
       // Will be replaced in the Rollup
       baseUrl: 'EBS_SERVER_URL',
       secret: undefined,
+    },
+    logging: {
+      enabled: JSON.parse('LOGGING_ENABLED'),
     },
     twitch: {
       auth: undefined,

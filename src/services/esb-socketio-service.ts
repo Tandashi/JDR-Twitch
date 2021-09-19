@@ -2,6 +2,7 @@ import IQueue from '@models/queue';
 import { Response } from '@services/api-service';
 import socketIO, { Socket } from 'socket.io-client';
 import ConfigService from './config-service';
+import Logger from './logging';
 
 interface ESBSocketIODataResponse<T> {
   code: 200;
@@ -24,7 +25,10 @@ type ESBSocketIOEmitEvent = 'v1/queue:get';
 export default class ESBSocketIOService {
   private static io: Socket;
 
-  public static registerHandler<D>(event: ESBSocketIOListenEvent, callback: (data: D) => void): void {
+  public static registerHandler<D>(
+    event: ESBSocketIOListenEvent | 'connected' | 'disconnected',
+    callback: (data: D) => void
+  ): void {
     this.io.on(event, callback);
   }
 
@@ -51,6 +55,9 @@ export default class ESBSocketIOService {
         token: token,
       },
     });
+
+    this.registerHandler('connected', () => Logger.info('Socket connected'));
+    this.registerHandler('disconnected', () => Logger.info('Socket disconnected'));
 
     this.io.connect();
   }

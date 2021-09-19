@@ -50,7 +50,7 @@ export default class StatusMessage extends React.Component<Props> {
               />
             </svg>
           </div>
-          <p className={'message text-center'}>{this.props.displayType.message}</p>
+          <p className={'message text-center text-white'}>{this.props.displayType.message}</p>
         </div>
       </div>
     );

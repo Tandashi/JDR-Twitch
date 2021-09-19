@@ -38,6 +38,7 @@ function compile(input, server_url) {
         preventAssignment: true,
         values: {
           'process.env.NODE_ENV': JSON.stringify('production'),
+          LOGGING_ENABLED: JSON.stringify(process.env.logging ? 'true' : 'false'),
           EBS_SERVER_URL: server_url,
         },
       }),
