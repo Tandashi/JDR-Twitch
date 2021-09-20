@@ -67,6 +67,7 @@ Viewer Walk-through:
 5. Click 'Request Song' again to see that you've reached the maximum of requests
 6. Revoke Permissions. Extension should reload and ask for permissions.
 7. Grant Permissions to see the songlist again
+8. Switch Tab to Queue and see the queue status and which songs have been added to the queue
 
 Live Configuration Walk-through:
 
