@@ -21,7 +21,7 @@ yarn install
 # - dev: Development Server
 # - local: Local Test Server
 
-# Build minified (Will create extension.zip in dist/)
+# Build minified (Will create extension.zip in dist/rollup/)
 SERVER=prod yarn deploy
 
 # Build non-minified
