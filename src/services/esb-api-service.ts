@@ -110,15 +110,36 @@ export default class ESBApiService {
   public static async requestSong(songId: string): Promise<Result<ESBApiResponse<IQueue>, Errors>> {
     const channelInformationResult = await TwitchAPIService.getChannelInformation();
 
+    // TODO: Remove this if https://github.com/twitchdev/issues/issues/455 is fixed.
+    let username: string;
     if (channelInformationResult.type === 'error') {
-      return channelInformationResult;
+      // TODO: Remove this if https://github.com/twitchdev/issues/issues/455 is fixed.
+      switch (channelInformationResult.error) {
+        case 'internal':
+        case 'unauthorized':
+          return Failure(channelInformationResult.error, channelInformationResult.message);
+
+        case 'helix-token-error':
+          username = 'unknown (mobile)';
+          break;
+      }
+    }
+
+    // TODO: Remove this if https://github.com/twitchdev/issues/issues/455 is fixed.
+    if (channelInformationResult.type === 'success') {
+      username = channelInformationResult.data[0].broadcaster_name;
+    }
+
+    // TODO: Remove this if https://github.com/twitchdev/issues/issues/455 is fixed.
+    if (!username) {
+      return Failure('internal', 'username was undefined in requestSong. This should never be the case');
     }
 
     const requestResult = await this.sendAuthroizedRequest<IQueue>('/api/v1/queue', {
       method: 'post',
       data: {
         id: songId,
-        username: channelInformationResult.data[0].broadcaster_name,
+        username: username,
       },
     });
 

@@ -4,7 +4,7 @@ import APIService, { Request, Response } from '@services/api-service';
 import ConfigService from '@services/config-service';
 
 type GeneralErrors = 'unauthorized';
-type ChannelInformationErrors = GeneralErrors;
+type ChannelInformationErrors = GeneralErrors | 'helix-token-error';
 
 interface ChannelInformationResult {
   broadcaster_id: string;
@@ -60,6 +60,11 @@ export default class TwitchAPIService {
 
     if (!config.twitch.auth) {
       return Failure<GeneralErrors>('unauthorized', 'Not authorized.');
+    }
+
+    // TODO: Remove this if https://github.com/twitchdev/issues/issues/455 is fixed.
+    if (!config.twitch.auth.helixToken) {
+      return Failure<ChannelInformationErrors>('helix-token-error', 'Twitch Helix Token was undefined.');
     }
 
     const channel = channelId ?? window.Twitch.ext.viewer.id;
