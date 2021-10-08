@@ -1,0 +1,62 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
+  - type: textarea
+    id: where-happend
+    attributes:
+      label: Where did it happened?
+      description: The link to the twitch channel it happend on, if possible.
+    validations:
+      required: false
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: resolution
+    attributes:
+      label: What resolution do you use?
+      multiple: false
+      options:
+        - 1280 x 720
+        - 1600 x 900
+        - 1920 x 1080
+        - 2048 x 1152
+        - 2560 x 1440
+        - 3840 x 2160
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Anything else?
+      description: |
+        Links? References? Anything that will give us more context about the issue you are encountering!
+
+        Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
+    validations:
+      required: false
