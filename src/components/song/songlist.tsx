@@ -18,7 +18,7 @@ class SongList extends React.Component<ForwardedProps> {
       <div ref={this.props.innerRef} className={'scrollbar overflow-auto'}>
         <div className={'pr-2 space-y-2 overflow-auto'}>
           {this.props.songdata.map((song) => {
-            return <SearchEntry onClick={() => this.props.onSelect(song)} songdata={song} />;
+            return <SearchEntry key={song.id} onClick={() => this.props.onSelect(song)} songdata={song} />;
           })}
         </div>
       </div>
