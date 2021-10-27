@@ -19,6 +19,7 @@ export default class SearchEntry extends React.Component<Props> {
           className={'flex-shrink flex-20 rounded-l min-w-0'}
           draggable={false}
           src={this.props.songdata.image_url}
+          loading='lazy'
         />
         <div className={'flex-grow-4 flex-shrink-0 flex-80 p-2 min-w-0 self-center text-white'}>
           <p className={'text-sm md:text-base retina-144:text-base lg:text-lg truncate'}>{this.props.songdata.title}</p>
