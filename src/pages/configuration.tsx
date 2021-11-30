@@ -56,6 +56,20 @@ export default class ConfigurationPage extends React.Component<Props, State> {
       configuration: {
         chatIntegration: {
           enabled: false,
+          announcements: {
+            queue: {
+              status: {
+                opened: false,
+                closed: false,
+                cleared: false,
+              },
+              song: {
+                fromChat: false,
+                fromExtension: false,
+                nextUp: false,
+              },
+            },
+          },
           commands: {
             songRequest: {
               enabled: false,

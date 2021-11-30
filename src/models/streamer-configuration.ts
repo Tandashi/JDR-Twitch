@@ -7,6 +7,20 @@ export default interface IStreamerConfiguration {
   chatIntegration: {
     enabled: boolean;
     channelName: string;
+    announcements: {
+      queue: {
+        status: {
+          opened: boolean;
+          closed: boolean;
+          cleared: boolean;
+        };
+        song: {
+          fromChat: boolean;
+          fromExtension: boolean;
+          nextUp: boolean;
+        };
+      };
+    };
     commands: {
       songRequest: {
         enabled: boolean;
@@ -37,6 +51,20 @@ export default interface IStreamerConfiguration {
 
 export interface IUpdateChatIntegrationConfiguration {
   enabled: boolean;
+  announcements: {
+    queue: {
+      status: {
+        opened: boolean;
+        closed: boolean;
+        cleared: boolean;
+      };
+      song: {
+        fromChat: boolean;
+        fromExtension: boolean;
+        nextUp: boolean;
+      };
+    };
+  };
   commands: {
     songRequest: {
       enabled: boolean;

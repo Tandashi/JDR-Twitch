@@ -32,9 +32,9 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
     this.handleBanlistFormatChange = this.handleBanlistFormatChange.bind(this);
   }
 
-  private handleEnabledToggle(path: string): () => void {
+  private handleEnabledToggle(path: string, pathAddons: string[] = []): () => void {
     return () => {
-      const enabledPath = [...path.split('.').filter((e) => e !== ''), 'enabled'];
+      const enabledPath = [...path.split('.').filter((e) => e !== ''), ...pathAddons];
       const enabled = !lodash.get(this.state.configuration, enabledPath);
 
       const newConfiguration = {
@@ -104,6 +104,124 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
         </Section>
 
         <Section>
+          <SectionHeader title={'Announcement Configuration'}>
+            <p>Configure the different chat announcements</p>
+          </SectionHeader>
+          <SectionContent>
+            <Accordion title='Queue opened' isOpen={false}>
+              <Section isSubSection={true}>
+                <SectionHeader>
+                  <p>Enable to allow the chat bot to make announcements when the Queue opens.</p>
+                </SectionHeader>
+                <SectionContent>
+                  <div className={'flex flex-1 flex-row items-center space-x-4'}>
+                    <p className={'text-xs md:text-base text-white'}>Enable</p>
+
+                    <ToggleButton
+                      id={'chat-integration-toggle'}
+                      checked={this.state.configuration.announcements.queue.status.opened}
+                      onToggle={this.handleEnabledToggle('announcements.queue.status.opened')}
+                    />
+                  </div>
+                </SectionContent>
+              </Section>
+            </Accordion>
+            <Accordion title='Queue closed' isOpen={false}>
+              <Section isSubSection={true}>
+                <SectionHeader>
+                  <p>Enable to allow the chat bot to make announcements when the Queue closes.</p>
+                </SectionHeader>
+                <SectionContent>
+                  <div className={'flex flex-1 flex-row items-center space-x-4'}>
+                    <p className={'text-xs md:text-base text-white'}>Enable</p>
+
+                    <ToggleButton
+                      id={'chat-integration-toggle'}
+                      checked={this.state.configuration.announcements.queue.status.closed}
+                      onToggle={this.handleEnabledToggle('announcements.queue.status.closed')}
+                    />
+                  </div>
+                </SectionContent>
+              </Section>
+            </Accordion>
+            <Accordion title='Queue cleared' isOpen={false}>
+              <Section isSubSection={true}>
+                <SectionHeader>
+                  <p>Enable to allow the chat bot to make announcements when the Queue is cleared.</p>
+                </SectionHeader>
+                <SectionContent>
+                  <div className={'flex flex-1 flex-row items-center space-x-4'}>
+                    <p className={'text-xs md:text-base text-white'}>Enable</p>
+
+                    <ToggleButton
+                      id={'chat-integration-toggle'}
+                      checked={this.state.configuration.announcements.queue.status.cleared}
+                      onToggle={this.handleEnabledToggle('announcements.queue.status.cleared')}
+                    />
+                  </div>
+                </SectionContent>
+              </Section>
+            </Accordion>
+            <Accordion title='Song added from Chat' isOpen={false}>
+              <Section isSubSection={true}>
+                <SectionHeader>
+                  <p>Enable to allow the chat bot to make announcements when a song from chat has been added.</p>
+                </SectionHeader>
+                <SectionContent>
+                  <div className={'flex flex-1 flex-row items-center space-x-4'}>
+                    <p className={'text-xs md:text-base text-white'}>Enable</p>
+
+                    <ToggleButton
+                      id={'chat-integration-toggle'}
+                      checked={this.state.configuration.announcements.queue.song.fromChat}
+                      onToggle={this.handleEnabledToggle('announcements.queue.song.fromChat')}
+                    />
+                  </div>
+                </SectionContent>
+              </Section>
+            </Accordion>
+            <Accordion title='Song added from Extension' isOpen={false}>
+              <Section isSubSection={true}>
+                <SectionHeader>
+                  <p>
+                    Enable to allow the chat bot to make announcements when a song from the Extension has been added.
+                  </p>
+                </SectionHeader>
+                <SectionContent>
+                  <div className={'flex flex-1 flex-row items-center space-x-4'}>
+                    <p className={'text-xs md:text-base text-white'}>Enable</p>
+
+                    <ToggleButton
+                      id={'chat-integration-toggle'}
+                      checked={this.state.configuration.announcements.queue.song.fromExtension}
+                      onToggle={this.handleEnabledToggle('announcements.queue.song.fromExtension')}
+                    />
+                  </div>
+                </SectionContent>
+              </Section>
+            </Accordion>
+            <Accordion title='Song Next Up' isOpen={false}>
+              <Section isSubSection={true}>
+                <SectionHeader>
+                  <p>Enable to allow the chat bot to make announcements when the next song has been selected.</p>
+                </SectionHeader>
+                <SectionContent>
+                  <div className={'flex flex-1 flex-row items-center space-x-4'}>
+                    <p className={'text-xs md:text-base text-white'}>Enable</p>
+
+                    <ToggleButton
+                      id={'chat-integration-toggle'}
+                      checked={this.state.configuration.announcements.queue.song.nextUp}
+                      onToggle={this.handleEnabledToggle('announcements.queue.song.nextUp')}
+                    />
+                  </div>
+                </SectionContent>
+              </Section>
+            </Accordion>
+          </SectionContent>
+        </Section>
+
+        <Section>
           <SectionHeader title={'Command Configuration'}>
             <p>Configure the different Commands</p>
           </SectionHeader>
@@ -123,7 +241,7 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
                     <ToggleButton
                       id={'chat-integration-toggle'}
                       checked={this.state.configuration.commands.songRequest.enabled}
-                      onToggle={this.handleEnabledToggle('commands.songRequest')}
+                      onToggle={this.handleEnabledToggle('commands.songRequest', ['enabled'])}
                     />
                   </div>
                 </SectionContent>
@@ -145,7 +263,7 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
                     <ToggleButton
                       id={'chat-integration-toggle'}
                       checked={this.state.configuration.commands.queue.enabled}
-                      onToggle={this.handleEnabledToggle('commands.queue')}
+                      onToggle={this.handleEnabledToggle('commands.queue', ['enabled'])}
                     />
                   </div>
                 </SectionContent>
@@ -169,7 +287,7 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
                     <ToggleButton
                       id={'chat-integration-toggle'}
                       checked={this.state.configuration.commands.queuePosition.enabled}
-                      onToggle={this.handleEnabledToggle('commands.queuePosition')}
+                      onToggle={this.handleEnabledToggle('commands.queuePosition', ['enabled'])}
                     />
                   </div>
                 </SectionContent>
@@ -196,7 +314,7 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
                     <ToggleButton
                       id={'chat-integration-toggle'}
                       checked={this.state.configuration.commands.banlist.enabled}
-                      onToggle={this.handleEnabledToggle('commands.banlist')}
+                      onToggle={this.handleEnabledToggle('commands.banlist', ['enabled'])}
                     />
                   </div>
                 </SectionContent>
