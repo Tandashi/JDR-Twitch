@@ -19,8 +19,8 @@ interface ESBSocketIOErrorResponse {
 
 export type ESBSocketIOResponse<T> = Response<ESBSocketIODataResponse<T>, ESBSocketIOErrorResponse>;
 
-type ESBSocketIOListenEvent = 'v1/queue:updated';
-type ESBSocketIOEmitEvent = 'v1/queue:get';
+type ESBSocketIOListenEvent = 'v1/queue:updated' | 'v1/next-up:set' | 'v1/next-up:cleared';
+type ESBSocketIOEmitEvent = 'v1/queue:get' | 'v1/next-up:clear';
 
 export default class ESBSocketIOService {
   private static io: Socket;
@@ -30,6 +30,10 @@ export default class ESBSocketIOService {
     callback: (data: D) => void
   ): void {
     this.io.on(event, callback);
+  }
+
+  public static clearUpNext(): void {
+    this.emit('v1/next-up:clear');
   }
 
   public static getQueue(): Promise<ESBSocketIOResponse<IQueue>> {
