@@ -220,6 +220,18 @@ export default class ESBApiService {
     return Success(requestResult.data);
   }
 
+  public static async getStreamerConfiguration(): Promise<Result<ESBApiResponse<IStreamerConfiguration>, Errors>> {
+    const requestResult = await this.sendAuthroizedRequest<IStreamerConfiguration>('/api/v1/configuration', {
+      method: 'get',
+    });
+
+    if (requestResult.type === 'error') {
+      return requestResult;
+    }
+
+    return Success(requestResult.data);
+  }
+
   public static async getStreamerData(): Promise<Result<ESBApiResponse<IStreamerData>, Errors>> {
     const requestResult = await this.sendAuthroizedRequest<IStreamerData>('/api/v1/streamerdata', {
       method: 'get',

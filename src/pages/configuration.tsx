@@ -5,7 +5,11 @@ import ESBService, { ESBApiResponse } from '@services/esb-api-service';
 import IStreamerData from '@models/streamerdata';
 import ISongData from '@models/songdata';
 import { Result } from '@models/result';
-import { IUpdateProfile, IUpdateStreamerConfiguration } from '@models/streamer-configuration';
+import {
+  IUpdateProfile,
+  IUpdateStreamerConfiguration,
+  IUpdateThemeConfiguration,
+} from '@models/streamer-configuration';
 
 import TabBar from '@components/form/tab-bar';
 import LoadingIndicator from '@components/form/loading-indicator';
@@ -14,6 +18,7 @@ import ChatIntegrationConfigurationPage from '@pages/configuration/chat-integrat
 import IntegrationsConfigurationPage from '@pages/configuration/integrations';
 import GameConfigurationPage from '@pages/configuration/game';
 import BanlistConfigurationPage from '@pages/configuration/banlist';
+import ThemeConfigurationPage from '@pages/configuration/theme';
 import TabBarContent from '@components/form/tab-bar-content';
 import TabBarAccessories from '@components/form/tab-bar-accessories';
 import ResultButton from '@components/form/result-buttons';
@@ -54,6 +59,11 @@ export default class ConfigurationPage extends React.Component<Props, State> {
         secret: 'SECRET-HERE',
       },
       configuration: {
+        theme: {
+          liveConfig: {
+            css: '',
+          },
+        },
         chatIntegration: {
           enabled: false,
           announcements: {
@@ -175,6 +185,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
         this.setState({
           streamerData: streamerData,
           configuration: {
+            theme: streamerData.configuration.theme,
             chatIntegration: streamerData.configuration.chatIntegration,
             requests: streamerData.configuration.requests,
           },
@@ -259,7 +270,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
           <TabBar
             onSelect={this.handleTabBarSelect}
             selectedIndex={this.state.tabBar.index}
-            tabNames={['Chat Integration', 'Game', 'Banlist', 'Integrations']}
+            tabNames={['Chat Integration', 'Game', 'Banlist', 'Integrations', 'Theme']}
           >
             <TabBarAccessories>
               <div className={'px-2 py-1'}>
@@ -284,6 +295,10 @@ export default class ConfigurationPage extends React.Component<Props, State> {
                 updateProfile={this.handleProfileUpdate}
               />
               <IntegrationsConfigurationPage streamerData={this.state.streamerData} />
+              <ThemeConfigurationPage
+                initialConfiguration={this.state.configuration.theme}
+                updateConfiguration={this.handleConfigurationUpdate}
+              />
             </TabBarContent>
           </TabBar>
         )}

@@ -6,6 +6,7 @@ import ToggleButton from '@components/form/toggle';
 
 import '@styles/live-config.sass';
 import ESBSocketIOService from '@services/esb-socketio-service';
+import ESBApiService from '@services/esb-api-service';
 
 interface Props {
   isEmbed: boolean;
@@ -31,6 +32,7 @@ export default class LiveConfigPage extends React.Component<Props, State> {
 
   componentDidMount(): void {
     this.loadQueue();
+    this.loadTheme();
     this.registerSocketHandler();
   }
 
@@ -60,6 +62,19 @@ export default class LiveConfigPage extends React.Component<Props, State> {
     if (responseResult.type === 'success') {
       if (responseResult.data.code === 200) {
         this.setState({ queue: responseResult.data.data });
+      }
+    }
+  }
+
+  async loadTheme(): Promise<void> {
+    const responseResult = await ESBApiService.getStreamerConfiguration();
+    if (responseResult.type === 'success') {
+      if (responseResult.data.code === 200) {
+        const theme = responseResult.data.data.theme;
+
+        const styleElement = document.createElement('style');
+        styleElement.innerHTML = theme.liveConfig.css;
+        document.head.appendChild(styleElement);
       }
     }
   }

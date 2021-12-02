@@ -4,6 +4,12 @@ import ISongData from '@models/songdata';
 export default interface IStreamerConfiguration {
   version: string;
 
+  theme: {
+    liveConfig: {
+      css: string;
+    };
+  };
+
   chatIntegration: {
     enabled: boolean;
     channelName: string;
@@ -87,7 +93,16 @@ export interface IUpdateRequestsConfiguration {
   duplicates: boolean;
 }
 
+export interface IUpdateThemeLiveConfigConfiguration {
+  css: string;
+}
+
+export interface IUpdateThemeConfiguration {
+  liveConfig: IUpdateThemeLiveConfigConfiguration;
+}
+
 export interface IUpdateStreamerConfiguration {
+  theme: IUpdateThemeConfiguration;
   chatIntegration: IUpdateChatIntegrationConfiguration;
   requests: IUpdateRequestsConfiguration;
 }

@@ -132,6 +132,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@monaco-editor/loader@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@monaco-editor/loader@npm:1.2.0"
+  dependencies:
+    state-local: ^1.0.6
+  peerDependencies:
+    monaco-editor: ">= 0.21.0 < 1"
+  checksum: b483d8d74830f8bcfe18111b0dfe526e038b704e9a461ce2ecb25d66db2abb19fbb704569ba84b06e4b5ead4e483ae7335e3d5e2201613d4f0c077401d540bd3
+  languageName: node
+  linkType: hard
+
+"@monaco-editor/react@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "@monaco-editor/react@npm:4.3.1"
+  dependencies:
+    "@monaco-editor/loader": ^1.2.0
+    prop-types: ^15.7.2
+  peerDependencies:
+    monaco-editor: ">= 0.25.0 < 1"
+    react: ^16.8.0 || ^17.0.0
+    react-dom: ^16.8.0 || ^17.0.0
+  checksum: 477349e64078ab3fc30e75577fbe51519c5af621cd1e3fa557e21f2a5e7291c4eabe34caa3013d578be0379c5bc43b199ee1c74853d571b05598ce866ad5a3a1
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -2863,6 +2888,7 @@ fsevents@~2.3.2:
   version: 0.0.0-use.local
   resolution: "jd-extension@workspace:."
   dependencies:
+    "@monaco-editor/react": ^4.3.1
     "@rollup/plugin-alias": ^3.1.4
     "@rollup/plugin-commonjs": ^19.0.1
     "@rollup/plugin-node-resolve": ^13.0.2
@@ -2878,6 +2904,7 @@ fsevents@~2.3.2:
     axios: ^0.21.1
     fuse.js: ^6.4.6
     lodash.debounce: ^4.0.8
+    monaco-editor: ^0.30.1
     postcss: ^8.3.6
     react: ^17.0.2
     react-copy-to-clipboard: ^5.0.3
@@ -3368,6 +3395,13 @@ fsevents@~2.3.2:
   version: 1.1.0
   resolution: "modern-normalize@npm:1.1.0"
   checksum: edfd40650bd7250eb4761651886a02ca3c524effca41b9832932eab9ccf9f2cfa7e5da8491c7c8bc2d58e1696e5e765adebeaf90cd9d3376444bd6bc0b0f2c99
+  languageName: node
+  linkType: hard
+
+"monaco-editor@npm:^0.30.1":
+  version: 0.30.1
+  resolution: "monaco-editor@npm:0.30.1"
+  checksum: 474b8b2f252eaa9d0c02a9b3b9ff587abfbe7e39bb825441e9277d983a80807eca049a26900706113139e0f8c1d664ad346aa25f3c3a30aab0ac3518943e1bed
   languageName: node
   linkType: hard
 
@@ -4286,7 +4320,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.8, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2":
+"prop-types@npm:^15.5.8, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2":
   version: 15.7.2
   resolution: "prop-types@npm:15.7.2"
   dependencies:
@@ -5066,6 +5100,13 @@ fsevents@~2.3.2:
   version: 0.1.8
   resolution: "stable@npm:0.1.8"
   checksum: 2ff482bb100285d16dd75cd8f7c60ab652570e8952c0bfa91828a2b5f646a0ff533f14596ea4eabd48bb7f4aeea408dce8f8515812b975d958a4cc4fa6b9dfeb
+  languageName: node
+  linkType: hard
+
+"state-local@npm:^1.0.6":
+  version: 1.0.7
+  resolution: "state-local@npm:1.0.7"
+  checksum: d1afcf1429e7e6eb08685b3a94be8797db847369316d4776fd51f3962b15b984dacc7f8e401ad20968e5798c9565b4b377afedf4e4c4d60fe7495e1cbe14a251
   languageName: node
   linkType: hard
 
