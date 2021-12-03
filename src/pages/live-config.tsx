@@ -119,23 +119,25 @@ export default class LiveConfigPage extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <div className={'flex flex-col space-y-4 select-none'}>
+      <div id='queue-overview' className={'flex flex-1 flex-col space-y-4 select-none'}>
         {!this.props.isEmbed ? (
           <div
+            id='controls-container'
             className={
-              'flex flex-row flex-1 items-center p-2 sm:p-4 text-xs sm:text-sm md:text-base space-x-4 md:space-x-10 bg-gray-800'
+              'flex flex-row items-center p-2 sm:p-4 text-xs sm:text-sm md:text-base space-x-4 md:space-x-10 bg-gray-800'
             }
           >
-            <div className={'flex flex-row items-center'}>
+            <div id='queue-toggle-container' className={'flex flex-row items-center'}>
               <p className={'text-white font-bold pr-2 md:pr-4'}>Queue</p>
               <ToggleButton
-                id={'queueToggle'}
+                id='queue-toggle-button'
                 checked={this.state.queue.enabled}
                 onToggle={() => this.handleToggle()}
               />
             </div>
 
             <div
+              id='queue-clear-button'
               className={'ripple-bg-purple-600 bg-purple-500 hover:bg-purple-700 py-2 px-4 rounded cursor-pointer'}
               onClick={() => this.handleQueueClear()}
             >
@@ -143,6 +145,7 @@ export default class LiveConfigPage extends React.Component<Props, State> {
             </div>
 
             <div
+              id='queue-random-button'
               className={'ripple-bg-purple-600 bg-purple-500 hover:bg-purple-700 py-2 px-4 rounded cursor-pointer'}
               onClick={() => this.handleRandomSelect()}
             >
@@ -151,15 +154,20 @@ export default class LiveConfigPage extends React.Component<Props, State> {
           </div>
         ) : undefined}
 
-        <div className={'p-4'}>
-          <div className={'flex justify-between bg-blue-500 py-4 px-4 rounded'}>
-            <div className={''}>
-              <p className={'text-base font-bold text-white'}>{`Next Up: ${this.state.selected?.title ?? '-'}`}</p>
-              <p className={'text-xs text-white'}>{`Request by: ${this.state.selected?.username ?? '-'}`}</p>
+        <div id='next-up-container' className={'p-4'}>
+          <div id='next-up-banner' className={'flex justify-between bg-blue-500 py-4 px-4 rounded'}>
+            <div id='next-up-info' className={''}>
+              <p id='next-up-info-title' className={'text-base font-bold text-white'}>{`Next Up: ${
+                this.state.selected?.title ?? '-'
+              }`}</p>
+              <p id='next-up-info-username' className={'text-xs text-white'}>{`Request by: ${
+                this.state.selected?.username ?? '-'
+              }`}</p>
             </div>
             {this.state.selected && !this.props.isEmbed ? (
-              <div className={'self-center'}>
+              <div id='next-up-controls-container' className={'self-center'}>
                 <div
+                  id='next-up-clear-button'
                   className={'flex ripple-bg-red-500 bg-red-400 hover:bg-red-600 py-2 px-2 rounded cursor-pointer'}
                   onClick={() => this.handleRemoveSelected()}
                 >
@@ -183,26 +191,30 @@ export default class LiveConfigPage extends React.Component<Props, State> {
           </div>
         </div>
 
-        <div className={'p-4 space-y-4'}>
+        <div id='queue-container' className={'flex-1 p-4 space-y-4'}>
           {this.state.queue.entries.map((e, i) => {
             return (
-              <div className={'flex flex-row justify-between bg-purple-500 py-4 px-4 rounded'}>
-                <div className={''}>
-                  <p className={'text-base font-bold text-white'}>{e.title}</p>
-                  <p className={'text-xs text-white'}>{`Request by: ${e.username ?? 'Unknown'}`}</p>
+              <div className={'queue-entry flex flex-row justify-between bg-purple-500 py-4 px-4 rounded'}>
+                <div className={'queue-entry-header'}>
+                  <p className={'queue-entry-title text-base font-bold text-white'}>{e.title}</p>
+                  <p className={'queue-entry-username text-xs text-white'}>{`Request by: ${
+                    e.username ?? 'Unknown'
+                  }`}</p>
                 </div>
                 {!this.props.isEmbed ? (
-                  <div className={'flex flex-row space-x-4 self-center'}>
+                  <div className={'queue-entry-controls-container flex flex-row space-x-4 self-center'}>
                     <div
                       className={
-                        'flex text-xs sm:text-sm md:text-base ripple-bg-blue-500 bg-blue-400 hover:bg-blue-600 py-2 px-2 rounded cursor-pointer'
+                        'queue-entry-pick-button flex text-xs sm:text-sm md:text-base ripple-bg-blue-500 bg-blue-400 hover:bg-blue-600 py-2 px-2 rounded cursor-pointer'
                       }
                       onClick={() => this.handleSelect(i)}
                     >
                       <p className={'self-center justify-self-center font-bold text-white'}>Pick next</p>
                     </div>
                     <div
-                      className={'flex ripple-bg-red-500 bg-red-400 hover:bg-red-600 py-2 px-2 rounded cursor-pointer'}
+                      className={
+                        'queue-entry-delete-button flex ripple-bg-red-500 bg-red-400 hover:bg-red-600 py-2 px-2 rounded cursor-pointer'
+                      }
                       onClick={() => this.handleRemove(i)}
                     >
                       <svg

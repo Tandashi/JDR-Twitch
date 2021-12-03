@@ -2,7 +2,7 @@ import React from 'react';
 
 interface Props {
   text: string;
-  color: 'red' | 'yellow';
+  color: 'red' | 'yellow' | 'gray';
   classNames?: string;
 }
 

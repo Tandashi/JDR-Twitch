@@ -81,7 +81,11 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
           <SectionHeader>
             <p>
               If enable will add the
-              <a className={'font-medium text-blue-300'} href={'https://www.twitch.tv/justdancerequests'}>
+              <a
+                target='_blank'
+                className={'font-medium text-blue-300'}
+                href={'https://www.twitch.tv/justdancerequests'}
+              >
                 &nbsp;JustDanceRequests&nbsp;
               </a>
               Bot to your channel.

@@ -132,31 +132,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@monaco-editor/loader@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "@monaco-editor/loader@npm:1.2.0"
-  dependencies:
-    state-local: ^1.0.6
-  peerDependencies:
-    monaco-editor: ">= 0.21.0 < 1"
-  checksum: b483d8d74830f8bcfe18111b0dfe526e038b704e9a461ce2ecb25d66db2abb19fbb704569ba84b06e4b5ead4e483ae7335e3d5e2201613d4f0c077401d540bd3
-  languageName: node
-  linkType: hard
-
-"@monaco-editor/react@npm:^4.3.1":
-  version: 4.3.1
-  resolution: "@monaco-editor/react@npm:4.3.1"
-  dependencies:
-    "@monaco-editor/loader": ^1.2.0
-    prop-types: ^15.7.2
-  peerDependencies:
-    monaco-editor: ">= 0.25.0 < 1"
-    react: ^16.8.0 || ^17.0.0
-    react-dom: ^16.8.0 || ^17.0.0
-  checksum: 477349e64078ab3fc30e75577fbe51519c5af621cd1e3fa557e21f2a5e7291c4eabe34caa3013d578be0379c5bc43b199ee1c74853d571b05598ce866ad5a3a1
-  languageName: node
-  linkType: hard
-
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -2888,7 +2863,6 @@ fsevents@~2.3.2:
   version: 0.0.0-use.local
   resolution: "jd-extension@workspace:."
   dependencies:
-    "@monaco-editor/react": ^4.3.1
     "@rollup/plugin-alias": ^3.1.4
     "@rollup/plugin-commonjs": ^19.0.1
     "@rollup/plugin-node-resolve": ^13.0.2
@@ -2909,6 +2883,7 @@ fsevents@~2.3.2:
     react: ^17.0.2
     react-copy-to-clipboard: ^5.0.3
     react-dom: ^17.0.2
+    react-monaco-editor: ^0.46.0
     react-select: ^4.3.1
     rollup: ^2.53.3
     rollup-plugin-copy: ^3.4.0
@@ -4429,6 +4404,19 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"react-monaco-editor@npm:^0.46.0":
+  version: 0.46.0
+  resolution: "react-monaco-editor@npm:0.46.0"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    "@types/react": ^17.x
+    monaco-editor: ^0.28.1
+    react: ^17.x
+  checksum: 53e38657c4a996809dd5922000c36325f154f327521bf575d9b3cb0189439df6e5b120fbe88ab13bf1ca6dbdca8f8a7da907b09196a4eec65e1e59a8adc4af94
+  languageName: node
+  linkType: hard
+
 "react-select@npm:^4.3.1":
   version: 4.3.1
   resolution: "react-select@npm:4.3.1"
@@ -5100,13 +5088,6 @@ fsevents@~2.3.2:
   version: 0.1.8
   resolution: "stable@npm:0.1.8"
   checksum: 2ff482bb100285d16dd75cd8f7c60ab652570e8952c0bfa91828a2b5f646a0ff533f14596ea4eabd48bb7f4aeea408dce8f8515812b975d958a4cc4fa6b9dfeb
-  languageName: node
-  linkType: hard
-
-"state-local@npm:^1.0.6":
-  version: 1.0.7
-  resolution: "state-local@npm:1.0.7"
-  checksum: d1afcf1429e7e6eb08685b3a94be8797db847369316d4776fd51f3962b15b984dacc7f8e401ad20968e5798c9565b4b377afedf4e4c4d60fe7495e1cbe14a251
   languageName: node
   linkType: hard
 

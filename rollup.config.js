@@ -18,7 +18,7 @@ function compile(input, server_url) {
     input: [input],
     output: {
       dir: 'dist/rollup/',
-      format: 'iife',
+      format: 'esm',
       plugins: process.env.mini ? [terser()] : [],
     },
     plugins: [

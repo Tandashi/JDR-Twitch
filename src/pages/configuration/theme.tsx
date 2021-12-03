@@ -1,5 +1,7 @@
 import React from 'react';
-import MonacoEditor from '@monaco-editor/react';
+import MonacoEditor from 'react-monaco-editor';
+
+import 'monaco-editor/esm/vs/basic-languages/css/css.contribution.js';
 
 import Accordion from '@components/form/accordion';
 import Section from '@components/configuration/section';
@@ -52,7 +54,15 @@ export default class ThemeConfigurationPage extends React.Component<Props, State
         <Section>
           <SectionHeader title={'Theme'}>
             <p>Custom theming of the Extension to make it more unique.</p>
-            <p>TODO LINK DOCUMENTATION HERE</p>
+            <p>
+              <a
+                target='_blank'
+                className='font-medium text-blue-300'
+                href='https://github.com/Tandashi/JDR-Twitch/wiki/Theming-Guide'
+              >
+                Documentation
+              </a>
+            </p>
             <SectionHeaderAnnotation text={'Note'} color={'red'}>
               Be careful with what you paste here! Do NOT just copy sytles from the Internet without checking them.
             </SectionHeaderAnnotation>
@@ -62,7 +72,15 @@ export default class ThemeConfigurationPage extends React.Component<Props, State
               <Section isSubSection={true}>
                 <SectionHeader>
                   <p>Theme the Queue Overview page</p>
-                  <p>TODO LINK DOCUMENTATION TO QUEUE OVERVIEW PAGE HERE</p>
+                  <p>
+                    <a
+                      target='_blank'
+                      className='font-medium text-blue-300'
+                      href='https://github.com/Tandashi/JDR-Twitch/wiki/Theming-Guide'
+                    >
+                      Documentation
+                    </a>
+                  </p>
                 </SectionHeader>
                 <SectionContent>
                   <MonacoEditor
@@ -72,6 +90,7 @@ export default class ThemeConfigurationPage extends React.Component<Props, State
                     value={this.state.configuration.liveConfig.css}
                     onChange={this.handleLiveConfigCssChange}
                     options={{
+                      automaticLayout: true,
                       minimap: {
                         enabled: false,
                       },
