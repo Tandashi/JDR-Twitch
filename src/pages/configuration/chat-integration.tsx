@@ -252,6 +252,28 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
               </Section>
             </Accordion>
 
+            <Accordion title='Leave Queue Command' isOpen={false}>
+              <Section isSubSection={true}>
+                <SectionHeader>
+                  <p>
+                    Enable to give viewers access to the{' '}
+                    <a className={'text-xs bg-gray-700 p-1 rounded font-mono'}>!l / !leave</a> command
+                  </p>
+                  <p>Using this command viewers can remove their request from the queue</p>
+                </SectionHeader>
+                <SectionContent>
+                  <div className={'flex flex-1 flex-row items-center space-x-4'}>
+                    <p className={'text-xs md:text-base text-white'}>Enable</p>
+                    <ToggleButton
+                      id={'chat-integration-toggle'}
+                      checked={this.state.configuration.commands.leave.enabled}
+                      onToggle={this.handleEnabledToggle('commands.leave', ['enabled'])}
+                    />
+                  </div>
+                </SectionContent>
+              </Section>
+            </Accordion>
+
             <Accordion title='Queue Command' isOpen={false}>
               <Section isSubSection={true}>
                 <SectionHeader>

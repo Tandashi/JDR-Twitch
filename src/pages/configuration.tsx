@@ -90,6 +90,9 @@ export default class ConfigurationPage extends React.Component<Props, State> {
             queuePosition: {
               enabled: false,
             },
+            leave: {
+              enabled: false,
+            },
             banlist: {
               enabled: false,
               format: '',
