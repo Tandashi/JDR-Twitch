@@ -101,7 +101,7 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
               <ToggleButton
                 id={'chat-integration-toggle'}
                 checked={this.state.configuration.enabled}
-                onToggle={this.handleEnabledToggle('')}
+                onToggle={this.handleEnabledToggle('', ['enabled'])}
               />
             </div>
           </SectionContent>
