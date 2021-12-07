@@ -113,26 +113,19 @@ export default class ESBApiService {
     // TODO: Remove this if https://github.com/twitchdev/issues/issues/455 is fixed.
     let username: string;
     if (channelInformationResult.type === 'error') {
-      // TODO: Remove this if https://github.com/twitchdev/issues/issues/455 is fixed.
       switch (channelInformationResult.error) {
         case 'internal':
         case 'unauthorized':
           return Failure(channelInformationResult.error, channelInformationResult.message);
 
         case 'helix-token-error':
-          username = 'unknown (mobile)';
+          username = undefined;
           break;
       }
     }
 
-    // TODO: Remove this if https://github.com/twitchdev/issues/issues/455 is fixed.
     if (channelInformationResult.type === 'success') {
       username = channelInformationResult.data[0].broadcaster_name;
-    }
-
-    // TODO: Remove this if https://github.com/twitchdev/issues/issues/455 is fixed.
-    if (!username) {
-      return Failure('internal', 'username was undefined in requestSong. This should never be the case');
     }
 
     const requestResult = await this.sendAuthroizedRequest<IQueue>('/api/v1/queue', {
