@@ -1,4 +1,5 @@
 import React from 'react';
+import { DateTime, Duration } from 'luxon';
 
 import ESBService from '@services/esb-api-service';
 import IQueue, { IQueueEntry } from '@models/queue';
@@ -13,15 +14,19 @@ interface Props {
 }
 
 interface State {
+  time: DateTime;
   selected?: IQueueEntry;
   queue: IQueue;
 }
 
 export default class LiveConfigPage extends React.Component<Props, State> {
+  private interval: NodeJS.Timer;
+
   constructor(props: Props) {
     super(props);
 
     this.state = {
+      time: DateTime.now(),
       selected: undefined,
       queue: {
         enabled: false,
@@ -34,6 +39,15 @@ export default class LiveConfigPage extends React.Component<Props, State> {
     this.loadQueue();
     this.loadTheme();
     this.registerSocketHandler();
+    this.startTimeInterval();
+  }
+
+  componentWillUnmount(): void {
+    clearInterval(this.interval);
+  }
+
+  private startTimeInterval(): void {
+    this.interval = setInterval(() => this.setState({ time: DateTime.now() }), 5000);
   }
 
   async registerSocketHandler(): Promise<void> {
@@ -115,6 +129,37 @@ export default class LiveConfigPage extends React.Component<Props, State> {
     const randomIndex = Math.floor(Math.random() * length);
 
     this.handleSelect(randomIndex);
+  }
+
+  private getUserStateText(entry: IQueueEntry): string {
+    // Mobile User
+    if (entry.userState === undefined) {
+      return '';
+    }
+
+    if (entry.userState.inChat) {
+      return 'In Chat';
+    }
+
+    let timeText;
+    const lastSeenDateTime = DateTime.fromMillis(entry.userState.lastSeen);
+    const differenceToNow: Duration = this.state.time.diff(lastSeenDateTime).shiftTo('seconds', 'minutes', 'hours');
+
+    console.log({
+      lastSeenDateTime,
+      differenceToNow,
+      now: this.state.time,
+    });
+
+    if (differenceToNow.minutes === 0 && differenceToNow.hours === 0) {
+      timeText = `${differenceToNow.seconds.toFixed(0)} seconds ago`;
+    } else if (differenceToNow.minutes > 0 && differenceToNow.hours === 0) {
+      timeText = `${differenceToNow.minutes} minute(s) ago`;
+    } else if (differenceToNow.minutes > 0 && differenceToNow.hours > 0) {
+      timeText = `${differenceToNow.hours} hour(s) ago`;
+    }
+
+    return timeText;
   }
 
   public render(): JSX.Element {
@@ -200,6 +245,20 @@ export default class LiveConfigPage extends React.Component<Props, State> {
                   <p className={'queue-entry-username text-xs text-white'}>{`Request by: ${
                     e.username ?? 'Unknown'
                   }`}</p>
+                  {!this.props.isEmbed ? (
+                    <p className={'queue-entry-user-state text-xs text-white'}>
+                      Last seen:{' '}
+                      <a
+                        className={
+                          e.userState?.inChat
+                            ? 'queue-entry-user-state-in-chat text-green-200'
+                            : 'queue-entry-user-state-last-seen text-red-200'
+                        }
+                      >
+                        {this.getUserStateText(e)}
+                      </a>
+                    </p>
+                  ) : undefined}
                 </div>
                 {!this.props.isEmbed ? (
                   <div className={'queue-entry-controls-container flex flex-row space-x-4 self-center'}>

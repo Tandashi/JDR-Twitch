@@ -301,6 +301,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/luxon@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "@types/luxon@npm:2.0.7"
+  checksum: 81ee3bf5085dac398468e788c2bdc9d36a28c673453f335b6bfe0b31bacb907a7368b09e1794c93702e73c5ebf2733c562c2bfb12768e893a58ce7dc70beacd9
+  languageName: node
+  linkType: hard
+
 "@types/minimatch@npm:*":
   version: 3.0.5
   resolution: "@types/minimatch@npm:3.0.5"
@@ -2868,6 +2875,7 @@ fsevents@~2.3.2:
     "@rollup/plugin-node-resolve": ^13.0.2
     "@rollup/plugin-replace": ^3.0.0
     "@types/lodash.debounce": ^4.0.6
+    "@types/luxon": ^2.0.7
     "@types/react": ^17.0.15
     "@types/react-copy-to-clipboard": ^5.0.1
     "@types/react-dom": ^17.0.9
@@ -2878,6 +2886,7 @@ fsevents@~2.3.2:
     axios: ^0.21.1
     fuse.js: ^6.4.6
     lodash.debounce: ^4.0.8
+    luxon: ^2.2.0
     monaco-editor: ^0.30.1
     postcss: ^8.3.6
     react: ^17.0.2
@@ -3105,6 +3114,13 @@ fsevents@~2.3.2:
   dependencies:
     yallist: ^4.0.0
   checksum: f97f499f898f23e4585742138a22f22526254fdba6d75d41a1c2526b3b6cc5747ef59c5612ba7375f42aca4f8461950e925ba08c991ead0651b4918b7c978297
+  languageName: node
+  linkType: hard
+
+"luxon@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "luxon@npm:2.2.0"
+  checksum: 69c715529b6aaa1f96fad8edfe2681004a1f314191ac243804a90c023fc533b5e3f0b9d34d5c86555d2a41297ddbee96a67a7cbb185f20243e66b7c6d4b809ac
   languageName: node
   linkType: hard
 
