@@ -134,7 +134,7 @@ export default class LiveConfigPage extends React.Component<Props, State> {
   private getUserStateText(entry: IQueueEntry): string {
     // Mobile User
     if (entry.userState === undefined) {
-      return '';
+      return 'Unknown (Mobile)';
     }
 
     if (entry.userState.inChat) {
@@ -144,12 +144,6 @@ export default class LiveConfigPage extends React.Component<Props, State> {
     let timeText;
     const lastSeenDateTime = DateTime.fromMillis(entry.userState.lastSeen);
     const differenceToNow: Duration = this.state.time.diff(lastSeenDateTime).shiftTo('seconds', 'minutes', 'hours');
-
-    console.log({
-      lastSeenDateTime,
-      differenceToNow,
-      now: this.state.time,
-    });
 
     if (differenceToNow.minutes === 0 && differenceToNow.hours === 0) {
       timeText = `${differenceToNow.seconds.toFixed(0)} seconds ago`;
