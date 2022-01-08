@@ -22,7 +22,10 @@ yarn install
 # - local: Local Test Server
 
 # Build minified (Will create extension.zip in dist/rollup/)
-SERVER=prod yarn deploy
+SERVER=prod yarn bundle-extension
+
+# Bundles all source files needed for the Twitch Review process
+SERVER=prod yarn bundle-sources
 
 # Build non-minified
 SERVER=prod yarn build
@@ -56,6 +59,7 @@ If the extension can't load it is probably due to the fact that twitch only allo
 Documentation on this topic can be found [here](https://dev.twitch.tv/docs/extensions#develop-your-extension).
 
 ## Twitch Review Process Instructions
+
 The ESB (Backend Service) should be available 24/7.
 
 Viewer Walk-through:
