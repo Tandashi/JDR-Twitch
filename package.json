@@ -11,7 +11,8 @@
   "license": "MIT",
   "scripts": {
     "build": "rm -rf dist && yarn tslint && yarn tsc && rollup -c",
-    "deploy": "rm -rf dist && mini=true yarn build && cd dist/rollup && zip extension.zip *",
+    "bundle-sources": "zip -r sources.zip src/ sass/ public/ definitions/ README.md *.js *.json .yarnrc.yml",
+    "bundle-extension": "rm -rf dist && mini=true yarn build && cd dist/rollup && zip extension.zip *",
     "watch": "yarn build -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "server-static": "mkdir -p dist/rollup && cd dist/rollup && python3 -m http.server 8080"
