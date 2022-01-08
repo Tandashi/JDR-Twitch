@@ -63,6 +63,15 @@ export default class ThemeConfigurationPage extends React.Component<Props, State
                 Documentation
               </a>
             </p>
+
+            <SectionHeaderAnnotation text={'Attention'} color={'yellow'}>
+              Requires{' '}
+              <a target='_blank' className='font-medium text-blue-300' href='https://en.wikipedia.org/wiki/CSS'>
+                CSS
+              </a>{' '}
+              knowledge.
+            </SectionHeaderAnnotation>
+
             <SectionHeaderAnnotation text={'Note'} color={'red'}>
               Be careful with what you paste here! Do NOT just copy sytles from the Internet without checking them.
             </SectionHeaderAnnotation>
@@ -71,7 +80,13 @@ export default class ThemeConfigurationPage extends React.Component<Props, State
             <Accordion title='Queue Overview Page' isOpen={false}>
               <Section isSubSection={true}>
                 <SectionHeader>
-                  <p>Theme the Queue Overview page</p>
+                  <p>
+                    The custom{' '}
+                    <a target='_blank' className='font-medium text-blue-300' href='https://en.wikipedia.org/wiki/CSS'>
+                      CSS
+                    </a>{' '}
+                    for the Queue overview page.
+                  </p>
                   <p>
                     <a
                       target='_blank'
