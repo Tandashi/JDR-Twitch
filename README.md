@@ -6,14 +6,37 @@
   <a href="https://dashboard.twitch.tv/extensions/nv9ue0u2753fk3n1n9ghrvd28e3r9v" target="_blank"><img src="https://img.shields.io/badge/Twitch%20Extension%20Page-9146FF?style=for-the-badge&logo=twitch&logoColor=white" /></a>
 </p>
 
+## Why should I use this extension as a Just Dance Streamer ?
 
-The extension allows the users to request songs for Just Dance streamers.
+With this extension you can make it easier for your viewers to requests songs.  
+They can search through all the songs directly on Twitch without visiting e.g. the Just Dance Wiki.  
+A preview of the song as well as its stats (difficutly, effort, coach count) can also be seen in the extension.
 
-The streamer can configure the extension with the game version, if they have Just Dance Unlimited as well as banning certain songs from being requested.
-All this has been done on the review channel already. Then the viewers can request songs from that list in the panel / video component (both are the same just different html to differentiate)
+You as a streamer can configure the extension with the game version (Just Dance 2016-2022), if you have Just Dance Unlimited as well as banning certain songs from being requested.
+
+## Features
+
+- 💃 Just Dance support from 2016 onwards including Just Dance Unlimited
+- 🎥 Streamlabs / OBS integration
+- 📱 Mobile Support (Android only)
+- 💬 Chat Integration (Announcements in chat and commands like: !sr, !banlist, !leave)
+- 🎬 Preview of the songs
+- 🎨 Custom Theming for the Queue List
+- and much more... 🚀
+
+If you think there is anything missing then please see the [feature request](#feature-request) section for more information.
+
+
+## Installation Guide
+
+Installing the extension is super easy. All you have to do is head over to the [Twitch Extension Page](https://dashboard.twitch.tv/extensions/nv9ue0u2753fk3n1n9ghrvd28e3r9v) and click `Install`.  
+
+After you have installed the extension you need to confiure it. A detailed configuration guide can be found in the [Wiki](https://github.com/Tandashi/JDR-Twitch/wiki/Configuration-Guide).
 
 
 ## Building the Extension
+
+This section is only interesting to you if you are a developer and want to contribute to the project.
 
 To build the extension you need the following:
 
@@ -43,11 +66,6 @@ SERVER=prod yarn watch
 ```
 
 ## Development Process
-
-Got to `https://dev.twitch.tv/console/extensions/nv9ue0u2753fk3n1n9ghrvd28e3r9v` (Twitch Developer Console).
-Manage the version to develop on / clone the latest one and change the `Testing Base URL` in `Asset Hosting`.
-This however should not be needed if static assets are hosted on `http://localhost:8080` and the previous version has been cloned.
-
 ### Host Assets
 
 Hosting assets statically on `localhost`
@@ -66,47 +84,30 @@ If the extension can't load it is probably due to the fact that twitch only allo
 
 Documentation on this topic can be found [here](https://dev.twitch.tv/docs/extensions#develop-your-extension).
 
-## Twitch Review Process Instructions
 
-The ESB (Backend Service) should be available 24/7.
+## Contributing and Support
 
-Viewer Walk-through:
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change 🙏
 
-1. Go to the channel.
-2. Search for a song in the search
-3. Click on a song
-4. Click 'Request Song'
-5. Click 'Request Song' again to see that you've reached the maximum of requests
-6. Revoke Permissions. Extension should reload and ask for permissions.
-7. Grant Permissions to see the songlist again
-8. Switch Tab to Queue and see the queue status and which songs have been added to the queue
+### Questions / Support
 
-Live Configuration Walk-through:
+To get support head over to the [discussions](https://github.com/Tandashi/JDR-Twitch/discussions) tab and create a new discussion as follows:
 
-1. Open the streamer dashboard
-2. See that the song appears in the list
-3. Click 'pick next' on the song to select it
-4. Toggle the queue.
-5. Now try to request a song again. It should not work.
+1. Select the category `Q&A`
+2. Explain your problem
 
-Configuration Walk-through:
+### Feature request
 
-1. Open the configuration page of the extension
-2. Navigate to the Game Tab and change the Game Version (Song list on banlist tab should update)
-3. Toggle Unlimited (Song list should update)
-4. Navigate to the banlist Tab and check some songs and click 'Save'
-5. Reload the viewer page
-6. Search for a song that has been banned (should not appear)
-7. Un-check the same song and click 'Save'
-8. Reload the viewer page
-9. Search for the song and it should appear again
+To create a feature request head over to the [discussions](https://github.com/Tandashi/JDR-Twitch/discussions) tab and create a new discussion as follows:
 
-Chat-Integration Walk-through:
+1. Select the category `Ideas`
+2. Explain the feature
 
-1. Toggle on Chat-Integration (if not already) in the ChatIntegration Tab and click 'Save'
-2. Go to the review channel (Make sure there are songs banned and that the queue is empty)
-3. Send the following message: '!banlist'. A message from JustDanceRequests should appear
-4. Send the following message: '!sr Hello World'. On the Live Configuration Page the Song 'Hello World' should appear after max 5 seconds.
-5. Select the Song / click on it. A message from JustDanceRequests should appear in the chat.
-6. Click on 'Clear Queue' on the Live Configuration Page. A message from JustDanceRequests should appear in the chat.
-7. Open / Close the Queue on the Live Configuration Page. A message from JustDanceRequests should appear in the chat.
+### Bug Reports
+
+To create a bug report head over to the [issues](https://github.com/Tandashi/JDR-Twitch/issues) tab and create a new issue as follows:
+
+1. Click on the Bug report template
+2. Fill out as many points as you can
+3. And your done :)
+
