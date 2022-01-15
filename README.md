@@ -34,9 +34,12 @@ Installing the extension is super easy. All you have to do is head over to the [
 After you have installed the extension you need to confiure it. A detailed configuration guide can be found in the [Wiki](https://github.com/Tandashi/JDR-Twitch/wiki/Configuration-Guide).
 
 
-## Building the Extension
 
-This section is only interesting to you if you are a developer and want to contribute to the project.
+## Development Instructions
+
+>⚠️ **Attention**: This section is only interesting to you if you are a developer and want to contribute to the project.
+
+### Building the Extension
 
 To build the extension you need the following:
 
@@ -65,7 +68,6 @@ SERVER=prod yarn build
 SERVER=prod yarn watch
 ```
 
-## Development Process
 ### Host Assets
 
 Hosting assets statically on `localhost`
