@@ -17,12 +17,14 @@ import Overlay, { OverlayDirection } from '@components/overlay';
 import SongDetails from '@components/song/song-details';
 import TabBarContent from '@components/form/tab-bar-content';
 import QueueList from '@components/queue/queue-list';
+import IUserData from '@models/userdata';
 
 interface Props {}
 interface State {
   loadingFromAPI: boolean;
   showDetails: boolean;
   tabIndex: number;
+  userData: IUserData;
   song: {
     songs: ISongData[];
     filteredSongs: ISongData[];
@@ -47,6 +49,9 @@ export default class PanelPage extends React.Component<Props, State> {
       loadingFromAPI: true,
       showDetails: false,
       tabIndex: 0,
+      userData: {
+        favouriteSongs: [],
+      },
       song: {
         songs: [],
         filteredSongs: [],
@@ -73,6 +78,7 @@ export default class PanelPage extends React.Component<Props, State> {
   componentDidMount(): void {
     this.loadSongs();
     this.loadQueue();
+    this.loadUserData();
     this.registerSocketHandler();
   }
 
@@ -168,6 +174,18 @@ export default class PanelPage extends React.Component<Props, State> {
     };
   }
 
+  async loadUserData(): Promise<void> {
+    const responseResult = await ESBService.getUserData();
+
+    if (responseResult.type === 'success') {
+      if (responseResult.data.code === 200) {
+        this.setState({
+          userData: responseResult.data.data,
+        });
+      }
+    }
+  }
+
   handleSongSelect(song: ISongData): void {
     this.setState({
       showDetails: true,
@@ -193,7 +211,11 @@ export default class PanelPage extends React.Component<Props, State> {
   public render(): JSX.Element {
     return (
       <div className={'panel h-full w-full overflow-hidden select-none'}>
-        <TabBar onSelect={this.handleTabSelect} selectedIndex={this.state.tabIndex} tabNames={['Search', 'Queue']}>
+        <TabBar
+          onSelect={this.handleTabSelect}
+          selectedIndex={this.state.tabIndex}
+          tabNames={['Search', 'Queue', 'Favourites']}
+        >
           <TabBarContent>
             <div className={'flex flex-1 flex-col space-y-2 p-2 overflow-hidden'}>
               <div className={'flex flex-row'}>
@@ -225,12 +247,29 @@ export default class PanelPage extends React.Component<Props, State> {
               </div>
               <QueueList queue={this.state.queue.filteredQueue} ref={this.queuelistRef} />
             </div>
+
+            <div className={'flex flex-1 flex-col space-y-2 p-2 overflow-hidden'}>
+              <SongList
+                onSelect={this.handleSongSelect}
+                songdata={this.state.userData.favouriteSongs}
+                ref={this.songlistRef}
+              />
+            </div>
           </TabBarContent>
         </TabBar>
 
         <Overlay direction={OverlayDirection.RIGHT} isOpen={this.state.showDetails ? true : false}>
           {this.state.song.selected ? (
-            <SongDetails songdata={this.state.song.selected} onBack={this.handleDetailsBack} />
+            <SongDetails
+              userData={this.state.userData}
+              songdata={this.state.song.selected}
+              onBack={this.handleDetailsBack}
+              onUserDataUpdated={(userData) => {
+                this.setState({
+                  userData,
+                });
+              }}
+            />
           ) : undefined}
         </Overlay>
       </div>

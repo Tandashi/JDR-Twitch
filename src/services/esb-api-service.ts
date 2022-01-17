@@ -8,6 +8,7 @@ import IStreamerConfiguration, { IUpdateProfile, IUpdateStreamerConfiguration } 
 import IProfile from '@models/profile';
 import IStreamerData from '@models/streamerdata';
 import TwitchAPIService from './twitch-api-service';
+import IUserData, { IUpdateUserData } from '@models/userdata';
 
 interface ESBApiDataResponse<T> {
   code: 200;
@@ -189,6 +190,33 @@ export default class ESBApiService {
       data: {
         index: index,
       },
+    });
+
+    if (requestResult.type === 'error') {
+      return requestResult;
+    }
+
+    return Success(requestResult.data);
+  }
+
+  public static async updateUserData(userData: IUpdateUserData): Promise<Result<ESBApiResponse<IUserData>, Errors>> {
+    const requestResult = await this.sendAuthroizedRequest<IUserData>('/api/v1/userdata/', {
+      method: 'patch',
+      data: {
+        ...userData,
+      },
+    });
+
+    if (requestResult.type === 'error') {
+      return requestResult;
+    }
+
+    return Success(requestResult.data);
+  }
+
+  public static async getUserData(): Promise<Result<ESBApiResponse<IUserData>, Errors>> {
+    const requestResult = await this.sendAuthroizedRequest<IUserData>('/api/v1/userdata/', {
+      method: 'get',
     });
 
     if (requestResult.type === 'error') {

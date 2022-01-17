@@ -12,13 +12,18 @@ import SongStats from '@components/song/song-stats';
 import StatusMessage, { StatusMessageDisplayType } from '@components/status-message';
 
 import '@styles/components/song/song-details.sass';
+import StarIcon from '@components/icons/star';
+import IUserData from '@models/userdata';
 
 interface Props {
+  userData: IUserData;
   songdata: ISongData;
   onBack: () => void;
+  onUserDataUpdated: (userData: IUserData) => void;
 }
 
 interface State {
+  isFavourited: boolean;
   displayType: StatusMessageDisplayType;
   timeout?: NodeJS.Timeout;
 }
@@ -28,6 +33,7 @@ export default class SongDetails extends React.Component<Props, State> {
     super(props);
 
     this.state = {
+      isFavourited: this.props.userData.favouriteSongs.some((e) => e.id === this.props.songdata.id),
       displayType: {
         type: 'none',
       },
@@ -49,7 +55,7 @@ export default class SongDetails extends React.Component<Props, State> {
     });
   }
 
-  private handleRequest(response: Result<ESBApiResponse<IQueue>>): void {
+  private handleRequest<T>(response: Result<ESBApiResponse<T>, 'unauthorized'>, message: string): T | void {
     if (response.type === 'error') {
       return this.setState({
         timeout: setTimeout(this.clearMessage, 2000),
@@ -70,13 +76,17 @@ export default class SongDetails extends React.Component<Props, State> {
       });
     }
 
-    return this.setState({
-      timeout: setTimeout(this.clearMessage, 2000),
-      displayType: {
-        type: 'success',
-        message: 'Song added successfully',
-      },
-    });
+    if (message) {
+      return this.setState({
+        timeout: setTimeout(this.clearMessage, 2000),
+        displayType: {
+          type: 'success',
+          message: message,
+        },
+      });
+    }
+
+    return response.data.data;
   }
 
   public render(): JSX.Element {
@@ -112,18 +122,52 @@ export default class SongDetails extends React.Component<Props, State> {
             </div>
             <div
               className={
-                'song-details-button song-details-request flex-80 rounded-lg flex items-center text-center cursor-pointer'
+                'song-details-button song-details-request flex-60 rounded-lg flex items-center text-center cursor-pointer'
               }
               onClick={() => {}}
             >
               <p
                 className={'flex-1 text-white'}
                 onClick={() => {
-                  ESBService.requestSong(this.props.songdata.id).then(this.handleRequest);
+                  ESBService.requestSong(this.props.songdata.id).then((response) =>
+                    this.handleRequest(response, 'Song added successfully')
+                  );
                 }}
               >
                 Request Song
               </p>
+            </div>
+            <div
+              className={'song-details-button flex flex-20 rounded-lg items-center text-center cursor-pointer'}
+              onClick={() => {
+                const isFavourited = !this.state.isFavourited;
+                const updateUserDataSongs = this.props.userData.favouriteSongs.map((e) => e.id);
+
+                if (isFavourited) {
+                  updateUserDataSongs.push(this.props.songdata.id);
+                } else {
+                  updateUserDataSongs.splice(updateUserDataSongs.indexOf(this.props.songdata.id), 1);
+                }
+
+                ESBService.updateUserData({
+                  favouriteSongs: updateUserDataSongs,
+                })
+                  .then((response) => this.handleRequest(response, undefined))
+                  .then((userData) => {
+                    if (typeof userData !== 'object') {
+                      return;
+                    }
+
+                    this.props.onUserDataUpdated(userData);
+                    this.setState({
+                      isFavourited,
+                    });
+                  });
+              }}
+            >
+              <div className='flex-1 p-3'>
+                <StarIcon fill={this.state.isFavourited ? 'yellow-400' : 'gray-500'} />
+              </div>
             </div>
           </div>
         </div>
