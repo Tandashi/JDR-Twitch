@@ -1,12 +1,10 @@
 # Just Dance Requests - Twitch Extension
 
 <p align="center">
+  <a href="https://ko-fi.com/tandashi" target="_blank"><img src="https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white" /></a>
   <a href="https://twitter.com/JDR_Twitch" target="_blank"><img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" /></a>
   <a href="https://status.tandashi.de/status" target="_blank"><img src="https://img.shields.io/badge/Server%20Status%20Page-6F4C5B?style=for-the-badge&logo=Statuspage&logoColor=white" /></a>
   <a href="https://dashboard.twitch.tv/extensions/nv9ue0u2753fk3n1n9ghrvd28e3r9v" target="_blank"><img src="https://img.shields.io/badge/Twitch%20Extension%20Page-9146FF?style=for-the-badge&logo=twitch&logoColor=white" /></a>
-  <a href="https://ko-fi.com/tandashi" target="_blank"><img src="https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white" /></a>
-  
-  
 </p>
 
 ## Why should I use this extension as a Just Dance Streamer ?
