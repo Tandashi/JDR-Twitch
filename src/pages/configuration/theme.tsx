@@ -10,6 +10,7 @@ import SectionHeaderAnnotation from '@components/configuration/section-header-an
 import SectionContent from '@components/configuration/section-content';
 import ConfigurationContent from '@components/configuration/configuration-content';
 import { IUpdateStreamerConfiguration, IUpdateThemeConfiguration } from '@models/streamer-configuration';
+import TextLink from '@components/links/text-link';
 
 interface Props {
   initialConfiguration: IUpdateThemeConfiguration;
@@ -55,21 +56,11 @@ export default class ThemeConfigurationPage extends React.Component<Props, State
           <SectionHeader title={'Theme'}>
             <p>Custom theming of the Extension to make it more unique.</p>
             <p>
-              <a
-                target='_blank'
-                className='font-medium text-blue-300'
-                href='https://github.com/Tandashi/JDR-Twitch/wiki/Theming-Guide'
-              >
-                Documentation
-              </a>
+              <TextLink text='Theming Documentation' url='https://github.com/Tandashi/JDR-Twitch/wiki/Theming-Guide' />
             </p>
 
-            <SectionHeaderAnnotation text={'Attention'} color={'yellow'}>
-              Requires{' '}
-              <a target='_blank' className='font-medium text-blue-300' href='https://en.wikipedia.org/wiki/CSS'>
-                CSS
-              </a>{' '}
-              knowledge.
+            <SectionHeaderAnnotation text={'Attention'} color={'yellow'} classNames='pt-4'>
+              Requires <TextLink text='CSS' url='https://en.wikipedia.org/wiki/CSS' /> knowledge.
             </SectionHeaderAnnotation>
 
             <SectionHeaderAnnotation text={'Note'} color={'red'}>
@@ -81,20 +72,14 @@ export default class ThemeConfigurationPage extends React.Component<Props, State
               <Section isSubSection={true}>
                 <SectionHeader>
                   <p>
-                    The custom{' '}
-                    <a target='_blank' className='font-medium text-blue-300' href='https://en.wikipedia.org/wiki/CSS'>
-                      CSS
-                    </a>{' '}
-                    for the Queue overview page.
+                    The custom <TextLink text='CSS' url='https://en.wikipedia.org/wiki/CSS' /> for the Queue overview
+                    page.
                   </p>
                   <p>
-                    <a
-                      target='_blank'
-                      className='font-medium text-blue-300'
-                      href='https://github.com/Tandashi/JDR-Twitch/wiki/Theming-Guide'
-                    >
-                      Documentation
-                    </a>
+                    <TextLink
+                      text='Theming Documentation'
+                      url='https://github.com/Tandashi/JDR-Twitch/wiki/Theming-Guide'
+                    />
                   </p>
                 </SectionHeader>
                 <SectionContent>

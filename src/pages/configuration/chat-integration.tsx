@@ -6,10 +6,11 @@ import { IUpdateChatIntegrationConfiguration, IUpdateStreamerConfiguration } fro
 import ToggleButton from '@components/form/toggle';
 import Section from '@components/configuration/section';
 import SectionHeader from '@components/configuration/section-header';
-import SectionHeaderAnnoatation from '@components/configuration/section-header-annotation';
+import SectionHeaderAnnotation from '@components/configuration/section-header-annotation';
 import SectionContent from '@components/configuration/section-content';
 import ConfigurationContent from '@components/configuration/configuration-content';
 import Accordion from '@components/form/accordion';
+import TextLink from '@components/links/text-link';
 
 interface Props {
   initialConfiguration: IUpdateChatIntegrationConfiguration;
@@ -81,19 +82,13 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
           <SectionHeader>
             <p>
               If enable will add the
-              <a
-                target='_blank'
-                className={'font-medium text-blue-300'}
-                href={'https://www.twitch.tv/justdancerequests'}
-              >
-                &nbsp;JustDanceRequests&nbsp;
-              </a>
+              <TextLink text='&nbsp;JustDanceRequests&nbsp;' url='https://www.twitch.tv/justdancerequests' />
               Bot to your channel.
             </p>
 
-            <SectionHeaderAnnoatation text={'Note'} color={'red'}>
+            <SectionHeaderAnnotation text={'Note'} color={'red'}>
               Banlist will not be enforced for songs requested via chat
-            </SectionHeaderAnnoatation>
+            </SectionHeaderAnnotation>
           </SectionHeader>
           <SectionContent>
             <div className={'flex flex-1 flex-row items-center space-x-4'}>
@@ -330,9 +325,9 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
 
                   <p>Using this command viewers can see which songs are on the banlist via chat</p>
 
-                  <SectionHeaderAnnoatation text={'Note'} color={'red'}>
+                  <SectionHeaderAnnotation text={'Note'} color={'red'}>
                     Banlist will not be enforced for songs requested via chat
-                  </SectionHeaderAnnoatation>
+                  </SectionHeaderAnnotation>
                 </SectionHeader>
                 <SectionContent>
                   <div className={'flex flex-1 flex-row items-center space-x-4'}>
@@ -355,7 +350,7 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
                     <a className={'bg-gray-700 p-1 rounded font-mono'}>{'{ARTIST}'}</a> - Artist of the Song
                   </p>
 
-                  <SectionHeaderAnnoatation text={'Example'} color={'yellow'} classNames={'space-y-2'}>
+                  <SectionHeaderAnnotation text={'Example'} color={'yellow'} classNames={'space-y-2'}>
                     <p>
                       <a className={'text-xs bg-gray-700 p-1 rounded font-mono'}>{'{TITLE} - {ARTIST}'}</a> ➔
                       {' "Bad Habits - Ed Sheeran"'}
@@ -366,7 +361,7 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
                     <p>
                       <a className={'text-xs bg-gray-700 p-1 rounded font-mono'}>{'{ARTIST}'}</a> ➔ {'"Ed Sheeran"'}
                     </p>
-                  </SectionHeaderAnnoatation>
+                  </SectionHeaderAnnotation>
                 </SectionHeader>
                 <SectionContent>
                   <div className={'flex flex-1 flex-row items-center space-x-4'}>
