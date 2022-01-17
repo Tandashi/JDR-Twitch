@@ -8,7 +8,6 @@ import { Result } from '@models/result';
 import {
   IUpdateProfile,
   IUpdateStreamerConfiguration,
-  IUpdateThemeConfiguration,
 } from '@models/streamer-configuration';
 
 import TabBar from '@components/form/tab-bar';
@@ -19,6 +18,8 @@ import IntegrationsConfigurationPage from '@pages/configuration/integrations';
 import GameConfigurationPage from '@pages/configuration/game';
 import BanlistConfigurationPage from '@pages/configuration/banlist';
 import ThemeConfigurationPage from '@pages/configuration/theme';
+import AboutConfigurationPage from '@pages/configuration/about';
+
 import TabBarContent from '@components/form/tab-bar-content';
 import TabBarAccessories from '@components/form/tab-bar-accessories';
 import ResultButton from '@components/form/result-buttons';
@@ -273,7 +274,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
           <TabBar
             onSelect={this.handleTabBarSelect}
             selectedIndex={this.state.tabBar.index}
-            tabNames={['Chat Integration', 'Game', 'Banlist', 'Integrations', 'Theme']}
+            tabNames={['Chat Integration', 'Game', 'Banlist', 'Integrations', 'Theme', 'About']}
           >
             <TabBarAccessories>
               <div className={'px-2 py-1'}>
@@ -302,6 +303,7 @@ export default class ConfigurationPage extends React.Component<Props, State> {
                 initialConfiguration={this.state.configuration.theme}
                 updateConfiguration={this.handleConfigurationUpdate}
               />
+              <AboutConfigurationPage />
             </TabBarContent>
           </TabBar>
         )}
