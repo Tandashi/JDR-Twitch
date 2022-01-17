@@ -51,7 +51,7 @@ export default class ResultButton extends React.Component<Props, State> {
   private async processClick(): Promise<void> {
     const result = await this.props.onClick();
 
-    const error = result.some((r) => r.type === 'error');
+    const error = result.some((r) => r.type === 'error' || r.data.code !== 200);
     const state = error ? DisplayState.FAIL : DisplayState.SUCCESS;
     const timeout = setTimeout(this.clearDisplayState, this.props.duration);
 
