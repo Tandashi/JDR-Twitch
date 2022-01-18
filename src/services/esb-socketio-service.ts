@@ -19,7 +19,12 @@ interface ESBSocketIOErrorResponse {
 
 export type ESBSocketIOResponse<T> = Response<ESBSocketIODataResponse<T>, ESBSocketIOErrorResponse>;
 
-type ESBSocketIOListenEvent = 'v1/queue:updated' | 'v1/next-up:set' | 'v1/next-up:cleared' | 'v1/userdata:updated';
+type ESBSocketIOListenEvent =
+  | 'v1/queue:updated'
+  | 'v1/next-up:set'
+  | 'v1/next-up:cleared'
+  | 'v1/userdata:updated'
+  | 'v1/songdata:filtered-updated';
 type ESBSocketIOEmitEvent = 'v1/queue:get' | 'v1/next-up:clear';
 
 export default class ESBSocketIOService {

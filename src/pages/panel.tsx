@@ -104,6 +104,17 @@ export default class PanelPage extends React.Component<Props, State> {
         userData,
       });
     });
+
+    // Update userData when it should have changed
+    ESBSocketIOService.registerHandler('v1/songdata:filtered-updated', (songDatas: ISongData[]) => {
+      this.setState({
+        song: {
+          ...this.state.song,
+          songs: songDatas,
+          filteredSongs: FilterService.filterSongs(songDatas, this.state.song.filter),
+        },
+      });
+    });
   }
 
   async loadSongs(): Promise<void> {
