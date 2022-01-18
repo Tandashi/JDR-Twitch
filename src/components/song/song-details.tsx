@@ -163,7 +163,7 @@ export default class SongDetails extends React.Component<Props, State> {
                   });
               }}
             >
-              <div className='flex-1 p-3'>
+              <div className='flex flex-1 justify-center'>
                 <StarIcon fill={this.isFavourite() ? 'yellow-400' : 'gray-500'} />
               </div>
             </div>

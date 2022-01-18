@@ -9,13 +9,13 @@ export default class StarIcon extends React.Component<Props> {
     return (
       <svg
         version='1.1'
-        id='Layer_1'
         xmlns='http://www.w3.org/2000/svg'
         xmlnsXlink='http://www.w3.org/1999/xlink'
         x='0px'
         y='0px'
         viewBox='0 0 512.021 512.021'
         xmlSpace='preserve'
+        className='h-6 w-6'
       >
         <path
           fill='#fff'
