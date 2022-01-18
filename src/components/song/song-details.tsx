@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Result } from '@models/result';
 import ISongData from '@models/songdata';
-import IQueue from '@models/queue';
 
 import ESBService, { ESBApiResponse } from '@services/esb-api-service';
 
@@ -23,7 +22,6 @@ interface Props {
 }
 
 interface State {
-  isFavourited: boolean;
   displayType: StatusMessageDisplayType;
   timeout?: NodeJS.Timeout;
 }
@@ -33,7 +31,6 @@ export default class SongDetails extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      isFavourited: this.props.userData.favouriteSongs.some((e) => e.id === this.props.songdata.id),
       displayType: {
         type: 'none',
       },
@@ -45,6 +42,10 @@ export default class SongDetails extends React.Component<Props, State> {
 
   componentWillUnmount(): void {
     clearTimeout(this.state.timeout);
+  }
+
+  private isFavourite(): boolean {
+    return this.props.userData.favouriteSongs.some((e) => e.id === this.props.songdata.id);
   }
 
   private clearMessage(): void {
@@ -140,7 +141,7 @@ export default class SongDetails extends React.Component<Props, State> {
             <div
               className={'song-details-button flex flex-20 rounded-lg items-center text-center cursor-pointer'}
               onClick={() => {
-                const isFavourited = !this.state.isFavourited;
+                const isFavourited = !this.isFavourite();
                 const updateUserDataSongs = this.props.userData.favouriteSongs.map((e) => e.id);
 
                 if (isFavourited) {
@@ -159,14 +160,11 @@ export default class SongDetails extends React.Component<Props, State> {
                     }
 
                     this.props.onUserDataUpdated(userData);
-                    this.setState({
-                      isFavourited,
-                    });
                   });
               }}
             >
               <div className='flex-1 p-3'>
-                <StarIcon fill={this.state.isFavourited ? 'yellow-400' : 'gray-500'} />
+                <StarIcon fill={this.isFavourite() ? 'yellow-400' : 'gray-500'} />
               </div>
             </div>
           </div>
