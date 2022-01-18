@@ -97,6 +97,13 @@ export default class PanelPage extends React.Component<Props, State> {
         },
       });
     });
+
+    // Update userData when it should have changed
+    ESBSocketIOService.registerHandler('v1/userdata:updated', (userData: IUserData) => {
+      this.setState({
+        userData,
+      });
+    });
   }
 
   async loadSongs(): Promise<void> {
