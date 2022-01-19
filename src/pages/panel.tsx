@@ -248,7 +248,7 @@ export default class PanelPage extends React.Component<Props, State> {
 
             <div className={'flex flex-1 flex-col space-y-2 p-2 overflow-hidden'}>
               <div className='flex flex-row space-x-2'>
-                <div className='flex-80'>
+                <div className='flex-80 min-w-0'>
                   <SearchBar value={this.state.queue.filter} onChange={debounce(this.filterQueue, 300)} />
                 </div>
                 <div
