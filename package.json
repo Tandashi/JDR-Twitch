@@ -15,7 +15,7 @@
     "bundle-extension": "rm -rf dist && mini=true yarn build && cd dist/rollup && zip extension.zip *",
     "watch": "yarn build -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "server-static": "mkdir -p dist/rollup && cd dist/rollup && python3 -m http.server 8080"
+    "serve-static": "mkdir -p dist/rollup && node static-serve.js"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.4",
@@ -31,6 +31,7 @@
     "@types/tailwindcss": "^2.2.1",
     "@types/twitch-ext": "^1.24.2",
     "autoprefixer": "^10.3.1",
+    "express": "^4.17.2",
     "postcss": "^8.3.6",
     "rollup": "^2.53.3",
     "rollup-plugin-copy": "^3.4.0",
@@ -43,6 +44,7 @@
     "tailwindcss": "^2.2.7",
     "tslib": "^2.3.0",
     "tslint": "^6.1.3",
+    "twitchextensioncsp": "^1.1.0",
     "typescript": "^4.3.5"
   },
   "dependencies": {
