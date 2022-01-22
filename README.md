@@ -74,7 +74,7 @@ SERVER=prod yarn watch
 Hosting assets statically on `localhost`
 
 ```bash
-yarn server-static
+yarn serve-static
 ```
 
 ### Technical Problems / Common Issues
