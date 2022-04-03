@@ -315,6 +315,29 @@ export default class ChatIntegrationConfigurationPage extends React.Component<Pr
               </Section>
             </Accordion>
 
+            <Accordion title='Toggle Queue Command' isOpen={false}>
+              <Section isSubSection={true}>
+                <SectionHeader>
+                  <p>
+                    Enable to give <b>moderators</b> access to the{' '}
+                    <a className={'text-xs bg-gray-700 p-1 rounded font-mono'}>!oq / !openQueue</a> and{' '}
+                    <a className={'text-xs bg-gray-700 p-1 rounded font-mono'}>!cq / !closeQueue</a> commands
+                  </p>
+                  <p>Using this command moderators can open the queue via chat</p>
+                </SectionHeader>
+                <SectionContent>
+                  <div className={'flex flex-1 flex-row items-center space-x-4'}>
+                    <p className={'text-xs md:text-base text-white'}>Enable</p>
+                    <ToggleButton
+                      id={'chat-integration-toggle'}
+                      checked={this.state.configuration.commands.toggleQueue.enabled}
+                      onToggle={this.handleEnabledToggle('commands.toggleQueue', ['enabled'])}
+                    />
+                  </div>
+                </SectionContent>
+              </Section>
+            </Accordion>
+
             <Accordion title='Banlist Command' isOpen={false}>
               <Section isSubSection={true}>
                 <SectionHeader>

@@ -5,10 +5,7 @@ import ESBService, { ESBApiResponse } from '@services/esb-api-service';
 import IStreamerData from '@models/streamerdata';
 import ISongData from '@models/songdata';
 import { Result } from '@models/result';
-import {
-  IUpdateProfile,
-  IUpdateStreamerConfiguration,
-} from '@models/streamer-configuration';
+import { IUpdateProfile, IUpdateStreamerConfiguration } from '@models/streamer-configuration';
 
 import TabBar from '@components/form/tab-bar';
 import LoadingIndicator from '@components/form/loading-indicator';
@@ -92,6 +89,9 @@ export default class ConfigurationPage extends React.Component<Props, State> {
               enabled: false,
             },
             leave: {
+              enabled: false,
+            },
+            toggleQueue: {
               enabled: false,
             },
             banlist: {
